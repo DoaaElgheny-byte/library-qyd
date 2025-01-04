@@ -1,6 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormModelComponent } from '../shared/form-model/form-model.component'; // Adjust the path as necessary
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { Component,  ViewChild } from '@angular/core';
+import { FormModelComponent } from '../shared/form-model/form-model.component';
+import {  FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',

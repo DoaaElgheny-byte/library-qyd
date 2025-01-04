@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input,Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import * as bootstrap from 'bootstrap';
 import { FormGroup } from '@angular/forms';
