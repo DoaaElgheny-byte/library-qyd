@@ -1,5 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import * as bootstrap from 'bootstrap';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-form-model',
@@ -8,11 +10,31 @@ import { CommonModule } from '@angular/common';
   templateUrl: './form-model.component.html',
   styleUrls: ['./form-model.component.scss']
 })
-export class FormModelComponent implements OnInit {
+export class FormModelComponent  {
 
-  constructor() { }
+  @Input() form!: FormGroup; // from
+  @Input() title = 'Form Model'; //  title
+  @Output() formSubmit = new EventEmitter<any>();
 
-  ngOnInit(): void {
+  openModal(): void {
+    if (this.form) {
+      const modalElement = document.getElementById('exampleModal');
+      if (modalElement) {
+        const modal = new bootstrap.Modal(modalElement as HTMLElement);
+        modal.show();
+      }
+    } else {
+      console.error('Form is undefined in open');
+    }
   }
+  saveModal(): void {
+    if (this.form.valid) {
+      this.formSubmit.emit(this.form.value);
+    } else {
+      this.form.markAllAsTouched();
+    }
+  }
+
+
 
 }

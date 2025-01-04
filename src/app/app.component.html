@@ -1,1 +1,18 @@
-app
+<button type="button" class="btn btn-primary" (click)="openSharedModal()">
+  Launch Modal
+</button>
+<app-form-model [title]="'login form'" (formSubmit)="handleFormData($event)" [form]="form">
+  <form [formGroup]="form">
+    <div>
+      <label for="name">Name:</label>
+      <input id="name" formControlName="name" type="text" />
+      <div *ngIf="form.get('name')?.invalid && form.get('name')?.touched" class="text-danger">
+        <div *ngIf="form.get('name')?.hasError('required')">Name is required.</div>
+      </div>
+    </div>
+    <div>
+      <label for="email">Email:</label>
+      <input id="email" formControlName="email" type="email" />
+    </div>
+  </form>
+</app-form-model>

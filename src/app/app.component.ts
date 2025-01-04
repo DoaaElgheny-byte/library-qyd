@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { FormModelComponent } from '../shared/form-model/form-model.component'; // Adjust the path as necessary
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +9,26 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'library-qyd';
+  @ViewChild(FormModelComponent) FormModelComponent!: FormModelComponent;
+  formData: any;
+  form = this.fb.group({
+      name: ['',Validators.required],
+      email: ['']
+  });
+  constructor(private fb: FormBuilder) {
+
+  }
+
+  openSharedModal(): void {
+      if (this.form) {
+        this.FormModelComponent.openModal();
+      } else {
+        console.error('Form is not initialized');
+      }
+
+  }
+  handleFormData(data: any): void {
+    this.formData = data;
+    console.log('Form data', this.formData);
+  }
 }
