@@ -1,6 +1,7 @@
 import { Component,  ViewChild } from '@angular/core';
 import { FormModelComponent } from '../shared/form-model/form-model.component';
-import {  FormBuilder, Validators } from '@angular/forms';
+import {  FormBuilder, FormGroup, Validators } from '@angular/forms';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-root',
@@ -8,27 +9,33 @@ import {  FormBuilder, Validators } from '@angular/forms';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'library-qyd';
-  @ViewChild(FormModelComponent) FormModelComponent!: FormModelComponent;
-  formData: any;
-  form = this.fb.group({
-      name: ['',Validators.required],
-      email: ['']
-  });
+  form: FormGroup;
+  form2: FormGroup;
+
   constructor(private fb: FormBuilder) {
+    this.form = this.fb.group({
+      name: ['', Validators.required],
+      email:[''],
+    });
 
+    this.form2 = this.fb.group({
+      name2: ['', Validators.required],
+      email:[''],
+      phone:[null]
+    });
   }
 
-  openSharedModal(): void {
-      if (this.form) {
-        this.FormModelComponent.openModal();
-      } else {
-        console.error('Form is not initialized');
-      }
-
+  openModal(modalId: string): void {
+    const modalElement = document.getElementById(modalId);
+    if (modalElement) {
+      const modal = new bootstrap.Modal(modalElement as HTMLElement);
+      modal.show();
+    } else {
+      console.error('Modal not found:', modalId);
+    }
   }
-  handleFormData(data: any): void {
-    this.formData = data;
-    console.log('Form data', this.formData);
+
+  handleFormSubmit(data: any): void {
+    console.log('Form Submitted:', data);
   }
 }
