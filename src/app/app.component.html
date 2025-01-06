@@ -84,5 +84,22 @@
   <!--Table -->
   <app-table-model [tableData]="tableData"
     [tableHeaders]="tableHeaders" [displayedColumns]="displayedColumns"
-    [tableAction]="tableAction" (functionSubmit)="functionAction($event)"></app-table-model>
+    [tableAction]="tableAction" (functionSubmit)="functionAction($event)"
+    [customTemplates]="{ imagePath: imageTemplate, status: statusTemplate }"
+    >
+  </app-table-model>
+  <!-- image template -->
+  <ng-template #imageTemplate  let-row="row">
+    <div class="d-flex flex-row align-items-center">
+
+      <img [src]="row.imagePath" alt="Image" class="rounded-circle" width="30" height="30">
+      <div class="mx-2">{{ row.name }}</div>
+    </div>
+  </ng-template>
+  <!-- status template-->
+<ng-template #statusTemplate let-row="row">
+  <span [ngClass]="{'badge bg-success': row.status === 'Active', 'badge bg-danger': row.status !== 'Active'}">
+    {{ row.status }}
+  </span>
+</ng-template>
 </div>

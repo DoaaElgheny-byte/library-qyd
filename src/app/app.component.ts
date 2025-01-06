@@ -17,6 +17,7 @@ export class AppComponent {
         iconPath: "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTkiIHZpZXdCb3g9IjAgMCAxNiAxOSIgZmlsbD0ibm9uZSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj4KPHBhdGggZD0iTTguNjI1MDkgMC4yOTY4NzVMMTMuNzY4NyA2LjIzNDM4QzE0LjAxODcgNi40OTQxNCAxNC4wNTQ0IDYuOTAyMzQgMTMuOTExNiA3LjE5OTIyQzEzLjgwNDQgNy41MzMyIDEzLjQ4MjkgNy43MTg3NSAxMy4xNjE0IDcuNzE4NzVIMTIuNzMyOEwxNC45NDc0IDEwLjQyNzdDMTUuMTYxNyAxMC42ODc1IDE1LjE5NzQgMTEuMDU4NiAxNS4wNTQ2IDExLjM1NTVDMTQuOTExNyAxMS42ODk1IDE0LjYyNTkgMTEuODc1IDE0LjMwNDUgMTEuODc1SDEzLjQ0NzJMMTUuODQwNCAxNS4yMTQ4QzE2LjAxOSAxNS40NzQ2IDE2LjA1NDcgMTUuODQ1NyAxNS45MTE4IDE2LjE0MjZDMTUuNzY5IDE2LjQzOTUgMTUuNDgzMiAxNi42MjUgMTUuMTYxNyAxNi42MjVIOC44NzUxMlYxOC4xMDk0QzguODc1MTIgMTguNjI4OSA4LjQ4MjIxIDE5IDguMDE3ODYgMTlDNy41MTc3OSAxOSA3LjE2MDU5IDE4LjYyODkgNy4xNjA1OSAxOC4xMDk0VjE2LjYyNUgwLjg3Mzk4OEMwLjUxNjc5NCAxNi42MjUgMC4yMzEwMzkgMTYuNDM5NSAwLjA4ODE2MTggMTYuMTQyNkMtMC4wNTQ3MTU3IDE1Ljg0NTcgLTAuMDE4OTk2MyAxNS40NzQ2IDAuMTU5NiAxNS4yMTQ4TDIuNTg4NTIgMTEuODc1SDEuNzMxMjVDMS4zNzQwNiAxMS44NzUgMS4wODgzIDExLjY4OTUgMC45NDU0MjYgMTEuMzU1NUMwLjgwMjU0OSAxMS4wNTg2IDAuODM4MjY4IDEwLjY4NzUgMS4wNTI1OCAxMC40Mjc3TDMuMjY3MTggNy43MTg3NUgyLjg3NDI3QzIuNTE3MDggNy43MTg3NSAyLjE5NTYgNy41MzMyIDIuMDg4NDUgNy4xOTkyMkMxLjk0NTU3IDYuOTAyMzQgMS45ODEyOSA2LjQ5NDE0IDIuMjMxMzIgNi4yMzQzOEw3LjM3NDkxIDAuMjk2ODc1QzcuNTE3NzkgMC4xMTEzMjggNy43Njc4MiAwIDguMDE3ODYgMEM4LjIzMjE4IDAgOC40ODIyMSAwLjExMTMyOCA4LjYyNTA5IDAuMjk2ODc1Wk04Ljg3NTEyIDE0Ljg0MzhIMTMuNDQ3MkwxMS4wMTgzIDExLjU0MUMxMC44Mzk3IDExLjI4MTIgMTAuODA0IDEwLjkxMDIgMTAuOTQ2OCAxMC42MTMzQzExLjA4OTcgMTAuMzE2NCAxMS4zNzU1IDEwLjA5MzggMTEuNzMyNyAxMC4wOTM4SDEyLjQxMTNMMTAuMTk2NyA3LjQyMTg4QzkuOTgyNDIgNy4xNjIxMSA5Ljk0NjcgNi43OTEwMiAxMC4wODk2IDYuNDU3MDNDMTAuMjMyNSA2LjE2MDE2IDEwLjUxODIgNS45Mzc1IDEwLjg3NTQgNS45Mzc1SDExLjIzMjZMOC4wMTc4NiAyLjIyNjU2TDQuNzY3NCA1LjkzNzVINS4xNjAzMUM1LjQ4MTc4IDUuOTM3NSA1Ljc2NzU0IDYuMTYwMTYgNS45MTA0MiA2LjQ1NzAzQzYuMDUzMjkgNi43OTEwMiA2LjAxNzU4IDcuMTYyMTEgNS44MDMyNiA3LjQyMTg4TDMuNTg4NjYgMTAuMDkzOEg0LjMwMzA1QzQuNjI0NTIgMTAuMDkzOCA0LjkxMDI4IDEwLjMxNjQgNS4wNTMxNSAxMC42MTMzQzUuMTk2MDMgMTAuOTEwMiA1LjE2MDMxIDExLjI4MTIgNC45ODE3MSAxMS41NDFMMi41ODg1MiAxNC44NDM4SDcuMTYwNTlWOC4wMTU2MkM3LjE2MDU5IDcuNTMzMiA3LjUxNzc5IDcuMTI1IDguMDE3ODYgNy4xMjVDOC40ODIyMSA3LjEyNSA4Ljg3NTEyIDcuNTMzMiA4Ljg3NTEyIDguMDE1NjJWMTQuODQzOFoiIGZpbGw9IiMxMjI0NjYiLz4KPC9zdmc+Cg==",
         imagePath: "https://api-hayyak.hyyak.com/api/app/experience-types/download/500166ca-46e6-4f96-9284-133033ac552b",
         description: "أماكن وأجواء متنوعة في بلد واحد!",
+        status:'Active',
         id: 1
     },
     {
@@ -26,6 +27,7 @@ export class AppComponent {
         imageName: "3059e098-5557-48ed-8f16-09e5a41b0bee",
         imagePath: "https://api-hayyak.hyyak.com/api/app/experience-types/download/3059e098-5557-48ed-8f16-09e5a41b0bee",
         description: "لتتعرف على شعب، ابدأ بثقافته",
+        status:'Active',
         id: 2
     },
     {
@@ -35,6 +37,7 @@ export class AppComponent {
         imageName: "1baf8b4a-89ac-4a34-9df6-4b081aa6caa5",
         imagePath: "https://api-hayyak.hyyak.com/api/app/experience-types/download/1baf8b4a-89ac-4a34-9df6-4b081aa6caa5",
         description: "ارفع الأدرينالين واستعد للتحديات!",
+        status:'InActive',
         id: 3
     },
     {
@@ -44,6 +47,7 @@ export class AppComponent {
         imageName: "fa700e01-bcc4-402b-ae45-4c51e00e91ea",
         imagePath: "https://api-hayyak.hyyak.com/api/app/experience-types/download/fa700e01-bcc4-402b-ae45-4c51e00e91ea",
         description: "جولات ممتعة في البحار والصحاري والجبال.",
+        status:'Active',
         id: 4
     },
     {
@@ -53,6 +57,7 @@ export class AppComponent {
         imageName: "b82068ab-7882-4d3b-bce6-cddeab91bed1",
         imagePath: "https://api-hayyak.hyyak.com/api/app/experience-types/download/b82068ab-7882-4d3b-bce6-cddeab91bed1",
         description: "تضاريس تناسب رياضتك المفضلة.",
+        status:'InActive',
         id: 16
     },
     {
@@ -62,13 +67,15 @@ export class AppComponent {
         imageName: "1289d8fa-7eb0-4391-a9f8-a9be900c800f",
         imagePath: "https://api-hayyak.hyyak.com/api/app/experience-types/download/1289d8fa-7eb0-4391-a9f8-a9be900c800f",
         description: "املأ وقتك بالمرح\u00A0واستمتع بهواياتك.",
+        status:'Active',
         id: 17
     }
 ]
-tableHeaders: string[] = ['Name', 'Description', 'Image',''];
-displayedColumns: string[] = ['name', 'description', 'imagePath','action'];
-tableAction =[{name:'edit',icon:'edit'},{name:'view',icon:'view'},{name:'delete',icon:'delete',color:'#EF4444'}]
-  constructor(private fb: FormBuilder) {
+tableHeaders: string[] = ['Name', 'Description','status', 'Image',''];
+displayedColumns: string[] = ['name', 'description','status', 'imagePath','action'];
+tableAction =[{name:'edit',icon:'edit'},{name:'view',icon:'view'},{name:'delete',icon:'delete',color:'#EF4444~'}]
+
+constructor(private fb: FormBuilder) {
     this.form = this.fb.group({
       name: ['', Validators.required],
       email:[''],

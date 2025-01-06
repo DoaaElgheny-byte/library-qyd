@@ -8,9 +8,14 @@
     <tbody>
       <tr *ngFor="let row of tableData">
         <td *ngFor="let column of displayedColumns">
-          <ng-container *ngIf="column === 'imagePath'">
-            <img [src]="row[column]" alt="Image" width="50" height="50">
+          <!--Template section-->
+          <ng-container *ngIf="customTemplates[column]; else defaultContent">
+            <ng-container
+              *ngTemplateOutlet="customTemplates[column]; context: { $implicit: row[column], row: row }">
+            </ng-container>
           </ng-container>
+          <ng-template #defaultContent>{{ row[column] }}</ng-template>
+          <!--Action Section-->
           <ng-container *ngIf="column === 'action'">
             <div class="dropdown">
               <button class="btn btn-link dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -30,9 +35,7 @@
               </ul>
             </div>
           </ng-container>
-          <ng-container *ngIf="column !== 'imagePath' && column !== 'action' ">
-            {{ row[column] }}
-          </ng-container>
+
         </td>
       </tr>
     </tbody>

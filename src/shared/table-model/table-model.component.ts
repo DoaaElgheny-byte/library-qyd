@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
@@ -14,6 +14,8 @@ export class TableModelComponent implements OnInit {
   @Input() displayedColumns:string[]=[]
   @Input() tableAction:any
    @Output() functionSubmit = new EventEmitter<any>();
+   @Input() customTemplates: { [key: string]: TemplateRef<any> } = {};
+
   constructor() { }
 
   ngOnInit(): void {
