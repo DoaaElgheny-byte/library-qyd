@@ -13,6 +13,14 @@ export class TableModelComponent implements OnInit {
   @Input() tableHeaders:string[]=[]
   @Input() displayedColumns:string[]=[]
   @Input() tableAction:any
+  @Input() striped:boolean=false
+  @Input() dark:boolean=false
+  @Input() border:boolean=false
+  @Input() normalStyle: { [key: string]: string } = {
+    color: 'black',
+    'background-color': 'darkblue',
+    border: '1px solid darkblue',
+  };
    @Output() functionSubmit = new EventEmitter<any>();
    @Input() customTemplates: { [key: string]: TemplateRef<any> } = {};
 

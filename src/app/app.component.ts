@@ -110,4 +110,10 @@ constructor(private fb: FormBuilder) {
       alert('delete')
     }
   }
+
+  actionButton(event:boolean){
+    if(true){
+      alert('button clicked !')
+    }
+  }
 }

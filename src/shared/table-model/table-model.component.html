@@ -1,5 +1,9 @@
-<div class="table-responsive">
-  <table class="table ">
+<div class="table-responsive" >
+  <table class="table" [ngClass]="striped?'table-striped':''"
+  [ngClass]="dark ? 'table-dark' : ''"
+  [ngClass]="border ? 'table-bordered':''"
+  [ngStyle]="normalStyle"
+  >
     <thead>
       <tr>
         <th *ngFor="let header of tableHeaders">{{ header }}</th>

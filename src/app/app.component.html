@@ -80,12 +80,32 @@
       </select>
     </div>
   </app-form-model>
+  <!--button -->
+<app-button-model [type]="'button'" [size]="'lg'" [title]="'save'"
+(outputEvent)="actionButton($event)"
+[hoverStyle]="{
+  color: 'var(--text-color)',
+  'background-color': 'var(--secondary-color)',
+  border: '1px solid var(--secondary-color)'
+}"
+ [normalStyle]="{
+  color: 'var(--text-color)',
+  'background-color': 'var(--primary-color)',
+  border: '1px solid var(--primary-color)'
+}"
+></app-button-model>
+
 
   <!--Table -->
-  <app-table-model [tableData]="tableData"
+  <app-table-model [tableData]="tableData" [striped]="true" [dark]="true" [border]="true"
     [tableHeaders]="tableHeaders" [displayedColumns]="displayedColumns"
     [tableAction]="tableAction" (functionSubmit)="functionAction($event)"
     [customTemplates]="{ imagePath: imageTemplate, status: statusTemplate }"
+    [normalStyle]="{
+      color: 'var(--text-color)',
+      'background-color': 'var(--primary-color)',
+      border: '1px solid var(--primary-color)'
+    }"
     >
   </app-table-model>
   <!-- image template -->
