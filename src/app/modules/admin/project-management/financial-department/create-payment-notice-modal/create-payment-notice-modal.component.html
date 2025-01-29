@@ -1,0 +1,170 @@
+<div class="container my-10">
+
+
+    <form class="form w-100 my-5 row " [formGroup]="infoForm" novalidate="novalidate" id="kt_login_signin_form">
+        <!-- Basic Information -->
+        <div class="card ">
+
+            <div class="card-body">
+                <h2 class="mb-4">{{ 'projectManagement.create_payment_notice' | translate }}</h2>
+
+                <div class="row">
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">{{ 'projectManagement.client_name' | translate }}</label>
+                        <input formControlName="clientName" type="text" class="form-control" disabled />
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">{{ 'projectManagement.project_name' | translate }}</label>
+                        <input formControlName="projectName" type="text" class="form-control" disabled />
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">{{ 'projectManagement.tax_number' | translate }}</label>
+                        <input formControlName="taxNumberForAgent" type="text" class="form-control" disabled />
+                    </div>
+                    <div class="col-md-3 mb-3">
+                        <label class="form-label">{{ 'projectManagement.offer_serial' | translate }}</label>
+                        <input formControlName="serialNumber" type="text" class="form-control" disabled />
+                    </div>
+                    <!-- <div class="col-md-6 mb-3">
+                        <label class="form-label">{{ 'projectManagement.issue_date' | translate }}</label>
+                        <div class="d-flex align-items-center gap-3">
+                            <input type="date" class="form-control" />
+                            <div class="d-flex align-items-center gap-3">
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="dateType" id="gregorian"
+                                        value="gregorian" checked />
+                                    <label class="form-check-label" for="gregorian">{{ 'projectManagement.gregorian' |
+                                        translate }}</label>
+                                </div>
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="dateType" id="hijri"
+                                        value="hijri" />
+                                    <label class="form-check-label" for="hijri">{{ 'projectManagement.hijri' | translate
+                                        }}</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div> -->
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label">{{ 'projectManagement.amount' | translate }}</label>
+                        <span class="text-danger mx-2 fs-2">*</span>
+                        <input formControlName="price" type="number" class="form-control" [maxlength]="8"
+                            placeholder="{{ 'projectManagement.amount' | translate }}" />
+                        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                                                                    validation: 'required',
+                                                                                    message: 'projectManagement.FileRequired' | translate,
+                                                                                    control: infoForm.controls['price']
+                                                                                  }"></ng-container>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="x">هل توجد دفعات متبقية</label>
+                        <span class="text-danger mx-2 fs-2">*</span>
+                        <select class="form-select" formControlName="isHasPayment" [(ngModel)]="selectedOption"
+                            (onChange)="onSelectionChange()" name="" id="x" class="form-select">
+                            <option value="true">نعم</option>
+                            <option value="false">لا</option>
+                        </select>
+
+                        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                           validation: 'required',
+                           message: 'projectManagement.FileRequired' | translate,
+                            control: infoForm.controls['isHasPayment']
+                        }"></ng-container>
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <label class="form-label">{{ 'projectManagement.description' | translate }}</label>
+                    <span class="text-danger mx-2 fs-2">*</span>
+                    <textarea formControlName="description" class="form-control" rows="3" [maxlength]="200"
+                        placeholder="{{ 'projectManagement.example_description' | translate }}"></textarea>
+                    <ng-container [ngTemplateOutlet]="formError"
+                        [ngTemplateOutletContext]="{
+                                                                                                            validation: 'required',
+                                                                                                            message: 'projectManagement.FileRequired' | translate,
+                                                                                                            control: infoForm.controls['description']
+                                                                                                          }"></ng-container>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bank Information -->
+        <div class="card">
+
+            <div class="card-body">
+                <h2>{{ 'projectManagement.establishment_banking_info' | translate }}</h2>
+
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">{{ 'projectManagement.bank_name' | translate }}</label>
+                        <span class="text-danger mx-2 fs-2">*</span>
+
+                        <input formControlName="bankName" type="text" class="form-control"
+                            placeholder="{{ 'projectManagement.bank_name' | translate }}" />
+
+                        <ng-container [ngTemplateOutlet]="formError"
+                            [ngTemplateOutletContext]="{
+                                                                                                                                        validation: 'required',
+                                                                                                                                        message: 'projectManagement.FileRequired' | translate,
+                                                                                                                                        control: infoForm.controls['bankName']
+                                                                                                                                      }"></ng-container>
+                    </div>
+
+
+
+
+
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">{{ 'projectManagement.iban_number' | translate }}</label>
+                        <span class="text-danger mx-2 fs-2">*</span>
+
+                        <input formControlName="iban" type="text" class="form-control"
+                            placeholder="{{ 'projectManagement.iban_number' | translate }}" />
+                        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                    validation: 'required',
+                                    message: 'loginPage.thisFieldIsRequired' | translate,
+                                    control: infoForm.controls['iban']
+                                  }"></ng-container>
+                        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                  validation: 'pattern',
+                                  message: 'package.inEnglish' | translate,
+                                  control: infoForm.controls['iban']
+                                }"></ng-container>
+                    </div>
+                    <div class="col-md-4 mb-3">
+                        <label class="form-label">{{ 'projectManagement.account_holder_name' | translate }}</label>
+                        <span class="text-danger mx-2 fs-2">*</span>
+
+                        <input formControlName="accountName" type="text" class="form-control"
+                            placeholder="{{ 'projectManagement.account_holder_name' | translate }}" />
+                        <ng-container [ngTemplateOutlet]="formError"
+                            [ngTemplateOutletContext]="{
+                                                                                                                                        validation: 'required',
+                                                                                                                                        message: 'projectManagement.FileRequired' | translate,
+                                                                                                                                        control: infoForm.controls['accountName']
+                                                                                                                                      }"></ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Buttons -->
+        <div class="d-flex justify-content-end mt-4 gap-4">
+            <button (click)="close()" type="button" class="closeBtn me-2 px-10">{{ 'projectManagement.cancel' |
+                translate }}</button>
+            <button (click)="submit()" type="button" class="addBtn px-10">{{ 'projectManagement.submit' | translate
+                }}</button>
+        </div>
+    </form>
+
+</div>
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+    <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+        <div class="fv-plugins-message-container">
+            <div class="fv-help-block">
+                <span role="alert">
+                    {{ message }}
+                </span>
+            </div>
+        </div>
+    </ng-container>
+</ng-template>

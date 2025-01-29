@@ -3,11 +3,14 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "library-qyd": {
+    "Ceveez": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
+        },
+        "@schematics/angular:application": {
+          "strict": true
         }
       },
       "root": "",
@@ -17,37 +20,48 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/library-qyd",
+            "outputPath": "dist/Qyd",
+            "allowedCommonJsDependencies": [
+              "object-path",
+              "apexcharts",
+              "clipboard.js",
+              "prismjs",
+              "lodash"
+            ],
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
+              "src/robots.txt",
+              "src/sitemap.xml",
               "src/favicon.ico",
+              "src/firebase-messaging-sw.js",
+              "src/manifest.json",
               "src/assets"
             ],
             "styles": [
-              "node_modules/bootstrap/dist/css/bootstrap.min.css",
-              "src/styles.scss"
+              "node_modules/ngx-spinner/animations/ball-atom.css",
+              "src/styles.scss",
+              "src/styles-rtl.scss"
             ],
-            "scripts": [
-              "node_modules/bootstrap/dist/js/bootstrap.min.js",
-              "node_modules/@popperjs/core/dist/umd/popper.min.js"
-            ]
+            "scripts": ["node_modules/bootstrap/dist/js/bootstrap.min.js",
+            "node_modules/@popperjs/core/dist/umd/popper.min.js"],
+            "webWorkerTsConfig": "tsconfig.worker.json"
           },
           "configurations": {
             "production": {
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "35mb",
+                  "maximumError": "35mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "35mb",
+                  "maximumError": "35mb"
                 }
               ],
               "fileReplacements": [
@@ -73,10 +87,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "library-qyd:build:production"
+              "browserTarget": "Ceveez:build:production"
             },
             "development": {
-              "browserTarget": "library-qyd:build:development"
+              "browserTarget": "Ceveez:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -84,7 +98,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "library-qyd:build"
+            "browserTarget": "Ceveez:build"
           }
         },
         "test": {
@@ -97,23 +111,34 @@
             "inlineStyleLanguage": "scss",
             "assets": [
               "src/favicon.ico",
+              "src/firebase-messaging-sw.js",
+              "src/manifest.json",
               "src/assets"
             ],
             "styles": [
-               "node_modules/bootstrap/dist/css/bootstrap.min.css",
-               "node_modules/@fortawesome/fontawesome-free/css/all.min.css",
-              "src/styles.scss"
+              "node_modules/ngx-spinner/animations/ball-atom.css",
+              "src/styles.scss",
+              "src/styles-rtl.scss"
             ],
             "scripts": [
               "node_modules/bootstrap/dist/js/bootstrap.min.js",
               "node_modules/@popperjs/core/dist/umd/popper.min.js"
-            ]
+            ],
+            "webWorkerTsConfig": "tsconfig.worker.json"
+          }
+        },
+        "lint": {
+          "builder": "@angular-eslint/builder:lint",
+          "options": {
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }
     }
   },
+  "defaultProject": "Ceveez",
   "cli": {
-    "analytics": "468bc2cf-884d-4322-ac85-3050b02ba77a"
+    "defaultCollection": "@angular-eslint/schematics",
+    "analytics": "3ba3471d-1bac-4cc9-bc84-ac4fdaa885ce"
   }
 }

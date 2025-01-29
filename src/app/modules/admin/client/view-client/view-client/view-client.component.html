@@ -1,0 +1,173 @@
+<section class="main">
+  <h3>
+    {{ "client.clientDetails" | translate }}
+  </h3>
+  <app-breadcrumb></app-breadcrumb>
+  <div class="content">
+    <div class="col-md-12 mb-4 mt-8">
+      <div class="card mt-4">
+        <div class="card-header">
+          <span> {{ "client.clientInfo" | translate }} </span>
+        </div>
+        <div class="card-body">
+          <div class="row">
+
+            <div class="col-md-4 col-12 col-sm-6 details">
+              <div class="title">{{ "client.clientName" | translate }}</div>
+              <div class="data">{{ clientDetails?.name }}</div>
+            </div>
+
+            <div *ngIf="!isIdNoVisible" class="col-md-4 col-12 col-sm-6 details">
+              <label for=""> {{ "client.representativeName" | translate }} </label>
+              <div class="data">{{ clientDetails?.representativeName }}</div>
+            </div>
+
+            <div class="col-md-4 col-12 col-sm-6 details">
+              <label *ngIf="isIdNoVisible">{{ 'addClient.idNo' | translate }}</label>
+              <label *ngIf="!isIdNoVisible">{{ 'client.RepresentativeId' | translate }}</label>
+              <div class="data">{{ clientDetails?.nationalId }}</div>
+            </div>
+
+            <div class="col-md-4 col-12 col-sm-6 details">
+              <label *ngIf="isIdNoVisible">{{ "addClient.IDType" | translate }}</label>
+              <label *ngIf="!isIdNoVisible">{{ "client.TypeRepresentative" | translate }}</label>
+              <div class="data">{{ nationalTypeName | translate }}</div>
+            </div>
+
+
+            <div *ngIf="isOtherType" class="col-md-4 col-12 col-sm-6 details">
+              <label for=""> {{ "addClient.Other" | translate }} </label>
+              <div class="data">{{ clientDetails?.otherNational }}</div>
+            </div>
+
+
+            <div class="col-md-4 col-12 col-sm-6 details">
+              <div class="title">{{ "addClient.birthDay" | translate }}</div>
+              <div class="data">
+                {{ format(startAuthorizationDate) }}</div>
+            </div>
+
+            <div class="col-md-4 col-12 col-sm-6 details">
+              <div class="title">{{ "client.clientEmail" | translate }}</div>
+              <div class="data">{{ clientDetails?.email ?? '-' }}</div>
+            </div>
+            <div class="col-md-4 col-12 col-sm-6 details">
+              <div class="title">{{ "client.clientPhone" | translate }}</div>
+              <div class="data">
+                {{ clientDetails?.countryCode
+                }}{{ clientDetails?.mobileNumber }}
+              </div>
+            </div>
+            <div class="col-md-4 col-12 col-sm-6 details">
+              <div class="title">{{ "branches.name" | translate }}</div>
+              <div class="data">{{ clientDetails?.branch}}</div>
+            </div>
+            <div class="col-md-4 col-12 col-sm-6 details" *ngIf="clientDetails?.type !== clientType.Individual">
+              <div class="title">
+                {{ "addClient.commericalName" | translate }}
+              </div>
+              <div class="data">{{ clientDetails?.commercialName }}</div>
+            </div>
+            <div class="col-md-4 col-12 col-sm-6 details" *ngIf="clientDetails?.type !== clientType.Individual">
+              <div class="title">
+                {{ "addClient.commericalNumber" | translate }}
+              </div>
+              <div class="data">
+                {{ clientDetails?.commercialRegistrationNo }}
+              </div>
+            </div>
+            <div class="col-md-4 col-12 col-sm-6 details">
+              <div class="title">{{ "client.clientType" | translate }}</div>
+              <div class="data">
+                <span *ngIf="clientDetails?.type === clientType.Individual">
+                  {{ "client.Individual" | translate }}
+                </span>
+                <span *ngIf="clientDetails?.type === clientType.Special">
+                  {{ "client.Special" | translate }}
+                </span>
+              </div>
+            </div>
+
+
+            <!-- <div class="col-md-4 col-12 col-sm-6 details">
+              <div class="title">{{ "client.clientStatus" | translate }}</div>
+              <div class="data">
+                <span
+                  *ngIf="clientDetails?.state === clientState.Active"
+                  class="badge badge-light-success fs-7 fw-bold"
+                >
+                  {{ "client.Active" | translate }}
+                </span>
+                <span
+                  *ngIf="clientDetails?.state === clientState.NotActive"
+                  class="badge badge-light-danger fs-7 fw-bold"
+                >
+                  {{ "client.NotActive" | translate }}
+                </span>
+              </div>
+            </div> -->
+            <div class="col-md-12 col-12 col-sm-6 details">
+              <div class="title">{{ "addClient.address" | translate }}</div>
+              <div class="address border rounded">
+                <span>{{clientDetails.nationalAddress ??'-'}}</span>
+              </div>
+            </div>
+
+          </div>
+        </div>
+        <div class="col-md-12 mb-4 mt-8">
+          <div class="card mt-4">
+            <div class="card-header">
+              <span> {{ "issue.attachments" | translate }} </span>
+            </div>
+            <div class="card-body table-responsive">
+              <table class="table align-middle" *ngIf="clientDetails?.files">
+                <thead>
+                  <tr class="text-center">
+                    <th scope="col">{{ "addClient.classification" | translate }}</th>
+                    <th scope="col">{{ "addIssue.Document" | translate }}</th>
+                    <th scope="col">{{ "addClient.attachment" | translate }}</th>
+                    <th scope="col">{{ "issue.download" | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="text-center" *ngFor="let File of clientDetails?.files">
+                    <td>{{ File.clientClassificationAttachment }}</td>
+                    <td>{{ File.others }}</td>
+                    <td>{{ File.imageName }}</td>
+                    <td>
+                      <a [href]="File.imageURL" target="_blank">
+                        <img src="assets/imgs/qyd/download.svg">
+                        {{"addClient.download" | translate}}
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div *ngIf="!clientDetails?.files">{{"contract.NotFound" | translate}}</div>
+            </div>
+          </div>
+        </div>
+        <div class="button-view">
+          <div class="form-action-btn justify-content-between d-flex">
+            <button (click)="Back()" id="kt_sign_in_submit" class="general-outline-button">
+              <ng-container>
+                <span class="indicator-label">
+                  {{ "client.Back" | translate }}
+                </span>
+              </ng-container>
+            </button>
+            <button type="submit" (click)="submit()" id="kt_sign_in_submit"
+              [ngClass]="{ end: lang === 'en', 'end-arabic': lang === 'ar' }" class="genral-button next">
+              <ng-container class="d-flex">
+                <span class="indicator-label">
+                  {{ "client.editbtton" | translate }}
+                </span>
+              </ng-container>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

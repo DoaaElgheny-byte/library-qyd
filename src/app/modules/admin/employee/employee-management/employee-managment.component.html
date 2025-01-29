@@ -1,0 +1,407 @@
+<section class="main">
+  <div class="d-md-flex d-sm-block justify-content-between align-items-center">
+    <h3>
+      {{ "employeeManagement.management" | translate }}
+      {{ "employeeManagement.employee" | translate }}
+    </h3>
+  </div>
+  <app-breadcrumb></app-breadcrumb>
+  <!-- Search -->
+  <div class="search">
+    <h3>{{ "contract.search" | translate }}</h3>
+
+    <!-- end::Header -->
+
+    <div class="row">
+      <div class="col-lg-4 mb-3">
+        <label>{{ "employeeManagement.playerName" | translate }}</label>
+
+        <div class="input-img">
+          <!-- <img src="/assets/imgs/search.svg" alt="" srcset="" /> -->
+          <button *ngIf="searchText !== ''" (click)="searchText = ''; getAllUsersData()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <input style="width: 100%" class="form-control" type="text"
+            (keyup)="page = 1; fromSearchInput = true; getAllUsersData()"
+            [placeholder]="'employeeManagement.search' | translate" [(ngModel)]="searchText" />
+        </div>
+      </div>
+      <div class="col-lg col-md-4 mb-3">
+        <label>{{ "branches.name" | translate }}</label>
+
+        <div class="input-img">
+          <select class="form-select" [(ngModel)]="BranchId" aria-label="Default select example"
+            (change)="page = 1; fromSearchInput = true; getAllUsersData()">
+            <option selected disabled value="">
+              {{ "branches.name" | translate }}
+            </option>
+            <option *ngFor="let branch of branches" [value]="branch.id">
+              {{ branch.name }}
+            </option>
+          </select>
+          <button *ngIf="BranchId !== ''" (click)="BranchId = ''; getAllUsersData()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+      <!-- no -->
+      <div class="col-lg col-md-4 mb-3">
+        <label>{{ "employeeManagement.mobileNumber" | translate }}</label>
+        <div class="input-img">
+          <!-- <img src="/assets/imgs/search.svg" alt="" srcset="" /> -->
+          <button *ngIf="MobileNumber !== ''" (click)="MobileNumber = ''; getAllUsersData()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <input style="width: 100%" class="form-control" type="text"
+            (keyup)="page = 1; fromSearchInput = true; getAllUsersData()" (keypress)="keyPressNumbers($event)"
+            [placeholder]="'employeeManagement.phonesearch' | translate" [(ngModel)]="MobileNumber" />
+        </div>
+      </div>
+      <!-- block atatus -->
+      <!-- ده بتاع البلوك -->
+      <div class="col-lg col-md-4 mb-3">
+        <label>{{ "employeeManagement.accountStatus" | translate }}</label>
+
+        <div class="input-img">
+          <select class="form-select" [(ngModel)]="State" aria-label="Default select example"
+            (change)="page = 1; fromSearchInput = true; getAllUsersData()">
+            <option selected disabled value="">
+              {{ "employeeManagement.accountStatus" | translate }}
+            </option>
+            <option [value]="userAccountState.All">
+              {{ "employeeManagement.All" | translate }}
+            </option>
+            <option [value]="userAccountState.Active">
+              {{ "employeeManagement.active" | translate }}
+            </option>
+            <option [value]="userAccountState.Inactive">
+              {{ "employeeManagement.inActive" | translate }}
+            </option>
+          </select>
+          <button *ngIf="State !== ''" (click)="State = ''; getAllUsersData()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+      <!-- email Status  -->
+
+      <div class="col-lg col-md-4 mb-3">
+        <label>{{ "employeeManagement.emailStatus" | translate }}</label>
+
+        <div class="input-img">
+          <select class="form-select" [(ngModel)]="emailStatus" aria-label="Default select example"
+            (change)="page = 1; fromSearchInput = true; getAllUsersData()">
+            <option selected disabled value="">
+              {{ "employeeManagement.emailStatus" | translate }}
+            </option>
+            <option [value]="theEmailState.All">
+              {{ "employeeManagement.All" | translate }}
+            </option>
+            <option [value]="theEmailState.Confirmed">
+              {{ "employeeManagement.Confirmed" | translate }}
+            </option>
+            <option [value]="theEmailState.NotConfirmed">
+              {{ "employeeManagement.NotConfirmed" | translate }}
+            </option>
+          </select>
+          <button *ngIf="emailStatus !== ''" (click)="emailStatus = ''; getAllUsersData()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+    </div>
+    <!--account Status  -->
+  </div>
+  <!-- begin::card -->
+  <div class="d-flex justify-content-between align-items-center title">
+    <h3>{{ "employeeManagement.employeeList" | translate }}</h3>
+    <div class="d-flex gap-2 ">
+      <button [disabled]="EmployeeManagment?.updateValue === 0 && isExpired" (click)="createTeam()"
+        class="general-outline-button d-flex align-items-center text-nowrap  justify-content-center">
+        <span class="m-0">{{ "employeeManagement.createTeam" | translate }}</span>
+        <i class="fa-solid fa-plus px-2"></i>
+      </button>
+
+      <!-- <button [disabled]="EmployeeManagment?.updateValue === 0 && isExpired" (click)="addNew()"
+        class="general-outline-button d-flex align-items-center text-nowrap  justify-content-center">
+        {{ "employeeManagement.addNew" | translate }}
+        <i class="fa-solid fa-plus px-2"></i>
+      </button> -->
+
+    </div>
+  </div>
+  <!-- {{ "shared.noOfEmployee" | translate }}{{ residual }} /
+  {{maxEmployees }} -->
+  <!-- begin::card -->
+  <div class="card members-page mt-4">
+    <!-- begin::Body -->
+    <div class="d-flex justify-content-between">
+      <div class="d-flex">
+        <div style=" width: fit-content;background-color: #F1F1F1;" class="d-flex  p-2">
+          <button (click)="teamOrIndividual(false)" [ngClass]="{'bg-white': !isTeam}"
+            class=" border-0 p-3 text-nowrap">{{
+            "employeeManagement.employee1" |
+            translate }}</button>
+          <button (click)="teamOrIndividual(true)" [ngClass]="{'bg-white': isTeam}" class=" border-0 p-3 mx-2">{{
+            "employeeManagement.team" | translate
+            }}</button>
+        </div>
+        <div class="d-flex align-items-center mx-5" *ngIf="isTeam">
+          <label for="selectTeam">{{ "employeeManagement.selectTeam" | translate }}</label>
+          <select class="form-select mx-3" style=" width: fit-content;" [(ngModel)]="selectedServiceId"
+            (change)="onServiceChange()">
+            <option [ngValue]="null"> {{ "emplyeeEditAdd.SelectOption" | translate }}</option>
+            <option *ngFor="let service of servicesForSearch" [ngValue]="service.id">
+              {{ service.name }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div *ngIf="isShowEditButtonTeam">
+        <button (click)="editTeam()" class="general-outline-button">{{'employeeManagement.editTeam'|translate}}</button>
+      </div>
+    </div>
+    <div class="card-body py-3" *ngIf="!isTeam">
+      <div *ngIf="allUsers.length === 0">
+        <img style="
+            text-align: center;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 250px;
+          " src="assets/imgs/qyd/no-results.svg" />
+
+        <h1 style="text-align: center; padding-top: 15px">
+          {{ "employeeManagement.NotFound" | translate }}
+        </h1>
+      </div>
+      <!-- begin::Table container -->
+      <div class="table-responsive">
+        <!-- begin::Table -->
+        <table class="table align-middle gs-0 gy-4" *ngIf="allUsers.length !== 0">
+          <!-- begin::Table head -->
+          <thead>
+            <tr class="text-center bg-light">
+              <!-- <th class="">#</th> -->
+              <th class="min-w-125px">
+                {{ "employeeManagement.playerName" | translate }}
+              </th>
+              <th class="min-w-125px">
+                {{ "emplyeeEditAdd.JobTitle" | translate }}
+              </th>
+              <th class="min-w-125px">
+                {{ "employeeManagement.Email" | translate }}
+              </th>
+              <th class="min-w-95px">
+                {{ "employeeManagement.mobileNumber" | translate }}
+              </th>
+              <th class="min-w-95px">
+                {{ "employeeManagement.branch" | translate }}
+              </th>
+
+              <th class="min-w-125px">
+                {{ "employeeManagement.emailStatus" | translate }}
+              </th>
+              <th class="min-w-125px">
+                {{ "employeeManagement.accountStatus" | translate }}
+              </th>
+
+              <th class="min-w-125px">
+                {{ "employeeManagement.Details" | translate }}
+              </th>
+
+            </tr>
+          </thead>
+          <!-- end::Table head -->
+          <!-- begin::Table body -->
+
+          <tbody>
+            <tr class="text-center" *ngFor="let player of allUsers">
+
+              <td class="fw-bold">{{ player.name }}</td>
+              <td class="fw-bold">{{ player.jobTitle ?? '_'}}</td>
+
+              <td>{{ player.email }}</td>
+
+              <td>{{player.countryCode }}{{ player.mobileNumber ?? '_' }}</td>
+              <td>
+                {{ player.branch }}
+                <div>
+                  <a role="button" class="text-primary" (click)="viewMore(player.id)">{{ "employeeManagement.more" |
+                    translate }}</a>
+                </div>
+              </td>
+              <td>
+                <span *ngIf="player?.emailState === theEmailState.Confirmed"
+                  class="badge new-badge-light-green fs-7 fw-bold">
+                  <!-- Approved -->
+                  {{ "employeeManagement.Confirmed" | translate }}
+                </span>
+                <span *ngIf="player?.emailState === theEmailState.NotConfirmed"
+                  class="badge new-badge-light-red fs-7 fw-bold">
+                  {{ "employeeManagement.NotConfirmed" | translate }}
+                </span>
+              </td>
+
+              <!-- <td> -->
+              <td class="">
+                <div class="form-check form-switch">
+                  <label class="switch form-check-label" [for]="player.id">
+                    <input  [disabled]="player.type === customerType.SuperAdministrator"  (change)="changAccountState(player)" class="form-check-input" type="checkbox"
+                      [checked]="player.state === userAccountState.Active" [id]="player.id" />
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </td>
+              <!-- </td> -->
+              <td class="overflow-hidden">
+                <div ngbDropdown container="body">
+                  <button [disabled]="player.type === customerType.SuperAdministrator"  type="button" class="btn btn-outline-primary btn-sm" ngbDropdownToggle>
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                  </button>
+                  <div ngbDropdownMenu>
+                    <button ngbDropdownItem class="px-3" (click)="getDetails(player.id)">
+                      <i class="fa-regular fa-eye mx-1"></i>
+                      {{ "employeeManagement.Details" | translate }}
+                    </button>
+                    <button ngbDropdownItem class="px-3" (click)="edit(player.id)">
+                      <i class="fa-regular fa-pen-to-square mx-1"></i>
+                      {{ "employeeManagement.edit" | translate }}
+                    </button>
+
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>{{ "employeeManagement.total" | translate }}:{{ totalCount }}</p>
+        <ngb-pagination [collectionSize]="totalCount" [(page)]="page" [pageSize]="pageSize"
+          (pageChange)="getAllUsersData()" class="pagination p-0 my-4 d-flex justify-content-center">
+        </ngb-pagination>
+        <!-- end::Table -->
+      </div>
+      <!-- end::Table container -->
+      <!-- begin::Body -->
+    </div>
+
+    <div class="card-body py-3" *ngIf="isTeam">
+      <div *ngIf="allUsers.length === 0">
+        <img style="
+            text-align: center;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 250px;
+          " src="assets/imgs/qyd/no-results.svg" />
+
+        <h1 style="text-align: center; padding-top: 15px">
+          {{ "employeeManagement.NotFound" | translate }}
+        </h1>
+      </div>
+      <!-- begin::Table container -->
+      <div class="table-responsive">
+        <!-- begin::Table -->
+        <table class="table align-middle gs-0 gy-4" *ngIf="allUsers.length !== 0">
+          <!-- begin::Table head -->
+          <thead>
+            <tr class="text-center bg-light">
+              <!-- <th class="">#</th> -->
+              <th class="min-w-125px">
+                {{ "employeeManagement.teamMember" | translate }}
+              </th>
+              <th class="min-w-125px">
+                {{ "emplyeeEditAdd.JobTitle" | translate }}
+              </th>
+              <th class="min-w-125px">
+                {{ "employeeManagement.Email" | translate }}
+              </th>
+              <th class="min-w-95px">
+                {{ "employeeManagement.mobileNumber" | translate }}
+              </th>
+              <!-- <th class="min-w-95px">
+                {{ "employeeManagement.branch" | translate }}
+              </th> -->
+
+              <th class="min-w-125px">
+                {{ "employeeManagement.emailStatus" | translate }}
+              </th>
+              <th class="min-w-125px">
+                {{ "employeeManagement.accountStatus" | translate }}
+              </th>
+
+              <th class="min-w-125px">
+                {{ "employeeManagement.actions" | translate }}
+              </th>
+
+            </tr>
+          </thead>
+          <!-- end::Table head -->
+          <!-- begin::Table body -->
+
+          <tbody>
+            <tr class="text-center" *ngFor="let player of allTeamEmployees">
+
+              <td class="fw-bold">{{ player.name }}</td>
+              <td class="fw-bold">{{ player.jobTitle ?? '_'}}</td>
+
+              <td>{{ player.email }}</td>
+
+              <td>{{player.countryCode }}{{ player.mobileNumber ?? '_' }}</td>
+              <td>
+                <span *ngIf="player?.emailState === theEmailState.Confirmed"
+                  class="badge new-badge-light-green fs-7 fw-bold">
+                  <!-- Approved -->
+                  {{ "employeeManagement.Confirmed" | translate }}
+                </span>
+                <span *ngIf="player?.emailState === theEmailState.NotConfirmed"
+                  class="badge new-badge-light-red fs-7 fw-bold">
+                  {{ "employeeManagement.NotConfirmed" | translate }}
+                </span>
+              </td>
+
+              <!-- <td> -->
+              <td class="">
+                <div class="form-check form-switch">
+                  <label class="switch form-check-label" [for]="player.id">
+                    <input (change)="changAccountState(player)" class="form-check-input" type="checkbox"
+                      [checked]="player.state === userAccountState.Active" [id]="player.id" />
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </td>
+              <!-- </td> -->
+              <td class="overflow-hidden">
+                <div ngbDropdown container="body">
+                  <button type="button" class="btn btn-outline-primary btn-sm" ngbDropdownToggle>
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                  </button>
+                  <div ngbDropdownMenu>
+                    <button ngbDropdownItem class="px-3" (click)="getDetails(player.id)">
+                      <i class="fa-regular fa-eye mx-1"></i>
+                      {{ "employeeManagement.Details" | translate }}
+                    </button>
+                    <button ngbDropdownItem class="px-3" (click)="deleteEmployeeFromTeam(player.id)">
+                      <i class="fa-regular fa-eye mx-1"></i>
+                      {{ "employeeManagement.delete" | translate }}
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>{{ "employeeManagement.total" | translate }}:{{ totalCountForTeam }}</p>
+        <ngb-pagination [collectionSize]="totalCountForTeam" [(page)]="pageForTeam" [pageSize]="pageSizeForTeam"
+          (pageChange)="getEmployeesTeam()" class="pagination p-0 my-4 d-flex justify-content-center">
+        </ngb-pagination>
+        <!-- end::Table -->
+      </div>
+      <!-- end::Table container -->
+      <!-- begin::Body -->
+    </div>
+  </div>
+</section>

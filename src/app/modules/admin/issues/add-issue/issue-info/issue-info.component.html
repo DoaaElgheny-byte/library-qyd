@@ -1,0 +1,581 @@
+<div *ngIf="!isAuth">
+  <img style="
+      text-align: center;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 250px;
+    " src="assets/imgs/qyd/no-results.svg" />
+
+  <h1 style="text-align: center; padding-top: 15px">
+    {{ "contract.NotAuth" | translate }}
+  </h1>
+</div>
+<div class="container mb-5">
+  <button class="genral-button" *ngIf="isAddNewCaseFromProject=='true'"
+    (click)="backToProject()">{{'projectManagement.backToProjectDetails'|translate}}</button>
+</div>
+<div class="body-size position-relative" *ngIf="isAuth">
+  <form class="form w-100 my-5 row " [formGroup]="infoForm" novalidate="novalidate" id="kt_login_signin_form"
+    (ngSubmit)="submit()">
+    <!-- begin::Alert error-->
+    <ng-container *ngIf="hasError">
+      <div class="mb-lg-15 alert alert-danger">
+        <div class="alert-text font-weight-bold">
+          The login details are incorrect
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Entity Type -->
+    <div class="col-md-6 col-sm-6   mb-4 position-relative">
+      <label>{{ "addIssue.courtType" | translate }}</label>
+      <span class="text-danger mx-2 fs-2 position-absolute">*</span>
+      <select formControlName="courtType" class="form-select" aria-label="Default select example"
+        (change)="selectEntity($any($event).target.value,false)">
+        <option disabled selected value="null">
+          {{ "addIssue.select2" | translate }}
+        </option>
+        <option *ngFor="let class of entityList" [value]="class.id">
+          {{ class.name | translate}}
+        </option>
+      </select>
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['courtType']
+        }"></ng-container>
+    </div>
+
+    <!-- other CourtType -->
+
+    <div class="col-md-6 col-sm-6  mb-4 position-relative" *ngIf="otherCourtType">
+      <label for="">{{ "addIssue.otherCourtType" | translate }}</label>
+      <span class="text-danger mx-2 fs-2 position-absolute">*</span>
+      <input class="form-control bg-transparent" type="text" [placeholder]="'addIssue.otherCourtType' | translate"
+        name="text" formControlName="otherCourtType" autocomplete="off" [ngClass]="{
+          'is-invalid':
+            infoForm.controls['otherCourtType'].invalid &&
+            infoForm.controls['otherCourtType'].touched,
+          'is-valid': infoForm.controls['otherCourtType'].valid
+        }" />
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['otherCourtType']
+        }"></ng-container>
+    </div>
+    <!-- Prisons -->
+    <div class="col-md-6 col-sm-6  mb-4 position-relative" *ngIf="subDistrict">
+      <label for="">{{ EntityChoosen | translate }}</label>
+      <span class="text-danger mx-2 fs-2 position-absolute">*</span>
+      <input class="form-control bg-transparent" type="text" [placeholder]="'addIssue.writeHere' | translate"
+        name="text" formControlName="subDistrict" autocomplete="off" [ngClass]="{
+          'is-invalid':
+            infoForm.controls['subDistrict'].invalid &&
+            infoForm.controls['subDistrict'].touched,
+          'is-valid': infoForm.controls['subDistrict'].valid
+        }" />
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['subDistrict']
+        }"></ng-container>
+    </div>
+
+
+
+    <!-- communitte -->
+    <div class="col-md-6 col-sm-6  mb-4 position-relative" *ngIf="committee">
+      <label>{{ "addIssue.Committee" | translate }}</label>
+      <span class="text-danger mx-2 fs-2 position-absolute">*</span>
+
+      <select formControlName="committeeId" class="form-select" aria-label="Default select example"
+        (change)="changeCommunitte($any($event).target.value)">
+        <option disabled selected hidden value="null">
+          {{ "addIssue.choose" | translate }}
+        </option>
+        <option *ngFor="let item of committeeList" [value]="item?.id">
+          {{ lang === "ar" ? item?.nameAr : item?.nameEn }}
+        </option>
+      </select>
+
+
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['committeeId']
+        }"></ng-container>
+    </div>
+
+    <!-- other committee -->
+    <div class="col-md-6 col-sm-6  mb-4 position-relative" *ngIf="otherCommittee">
+      <label for="">{{ "addIssue.otherCommittee" | translate }}</label>
+      <span class="text-danger mx-2 fs-2 position-absolute">*</span>
+      <input class="form-control bg-transparent" type="text" [placeholder]="'addIssue.otherCommittee' | translate"
+        name="text" formControlName="otherCommittee" autocomplete="off" [ngClass]="{
+          'is-invalid':
+            infoForm.controls['otherCommittee'].invalid &&
+            infoForm.controls['otherCommittee'].touched,
+          'is-valid': infoForm.controls['otherCommittee'].valid
+        }" />
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['otherCommittee']
+        }"></ng-container>
+    </div>
+
+    <!-- main court -->
+    <div class="col-md-6 col-sm-6 col-12 mb-4 position-relative" *ngIf="court">
+      <label>{{ "addIssue.mainCourt" | translate }}</label>
+      <span class="text-danger mx-2 fs-2 position-absolute">*</span>
+
+      <select formControlName="courtId" (change)="changeMainCourt($any($event).target.value,false)" class="form-select"
+        aria-label="Default select example">
+        <option disabled selected value="null">
+          {{ "addIssue.choose" | translate }}
+        </option>
+        <option *ngFor="let item of courtList" [value]="item?.id">
+          {{ lang === "ar" ? item?.nameAr : item?.nameEn }}
+        </option>
+      </select>
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['courtId']
+        }"></ng-container>
+    </div>
+
+    <!--otherCourt-->
+    <div class="col-md-6 col-sm-6 col-12 mb-4 position-relative" *ngIf="otherCourt">
+      <label for="">{{ "addIssue.otherCourt" | translate }}</label>
+      <span class="text-danger mx-2 fs-2 position-absolute">*</span>
+      <input class="form-control bg-transparent" type="text" [placeholder]="'addIssue.otherCourt' | translate"
+        name="text" formControlName="otherCourt" autocomplete="off" [ngClass]="{
+          'is-invalid':
+            infoForm.controls['otherCourt'].invalid &&
+            infoForm.controls['otherCourt'].touched,
+          'is-valid': infoForm.controls['otherCourt'].valid
+        }" />
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['otherCourt']
+        }"></ng-container>
+    </div>
+    <!-- sub court -->
+    <div class="col-md-6 col-sm-6 col-12 mb-4" *ngIf="subCourt">
+      <label>{{ "addIssue.subCourt" | translate }}</label>
+      <!-- <span class="text-danger mx-2 fs-2 position-absolute">*</span> -->
+
+      <select formControlName="subCourtId" (change)="changeSubCourt($any($event).target.value,false)"
+        class="form-select" aria-label="Default select example">
+        <option disabled selected value="null">
+          {{ "addIssue.subCourt" | translate }}
+        </option>
+        <option *ngFor="let item of subCourtList" [value]="item?.id">
+          {{ lang === "ar" ? item?.nameAr : item?.nameEn }}
+        </option>
+      </select>
+      <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['subCourtId']
+        }"></ng-container> -->
+    </div>
+
+    <!--otherCourt-->
+    <div class="col-md-6 col-sm-6 col-12 mb-4" *ngIf="otherSubCourt">
+      <label for="">{{ "addIssue.otherSubCourt" | translate }}</label>
+      <span class="text-danger mx-2 fs-2 position-absolute">*</span>
+      <input class="form-control bg-transparent" type="text" [placeholder]="'addIssue.otherSubCourt' | translate"
+        name="text" formControlName="otherSubCourt" autocomplete="off" [ngClass]="{
+          'is-invalid':
+            infoForm.controls['otherSubCourt'].invalid &&
+            infoForm.controls['otherSubCourt'].touched,
+          'is-valid': infoForm.controls['otherSubCourt'].valid
+        }" />
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['otherSubCourt']
+        }"></ng-container>
+    </div>
+
+    <div class="row">
+      <!--branch in Add-->
+      <div class="col-md-6 col-sm-6 col-12 mb-4" *ngIf="!(isEmployee && issueDetails.isManager)">
+        <label>{{ "addIssue.BranchName2" | translate }}</label>
+        <span class="text-danger mx-2 fs-2 position-absolute">*</span>
+
+        <select formControlName="branchId" class="form-select" (change)="changeBranch($any($event).target.value)">
+          <option selected value="null" disabled>{{ "addIssue.BranchName3"| translate }}</option>
+          <option *ngFor="let branch of branches" [value]="branch.id">
+            {{branch.name}}
+          </option>
+        </select>
+
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'addClient.branchIdRequired' | translate,
+            control: infoForm.controls['branchId']
+          }"></ng-container>
+      </div>
+
+      <!--branch in Edit-->
+      <div class="col-md-6 col-sm-6 col-12 mb-4" *ngIf="(isEmployee && issueDetails.isManager)">
+        <label>{{"branches.name" | translate }}</label>
+        <!-- <span class="text-danger mx-2 fs-2 position-absolute">*</span> -->
+        <input class="form-control bg-transparent" readonly type="text" formControlName="branch"
+          style="background-color: #e4e6ef  !important; ">
+      </div>
+
+      <!--Client-->
+      <div class="col-md-6 col-sm-6 col-12 mb-4">
+        <label> {{ "addIssue.Client" | translate }} </label>
+        <span class="text-danger mx-2 fs-2 position-absolute">*</span>
+        <ng-select [items]="clientList" #select (change)="changeClient($any($event))" [compareWith]="compareType"
+          bindLabel="name" bindValue="id" groupBy="type" formControlName="clientId"
+          placeholder="{{ 'addIssue.chooseClient' | translate }}">
+
+          >
+
+          <ng-template ng-header-tmp>
+            <input style="width: 100%; line-height: 24px" class="form-control bg-transparent" type="text"
+              [placeholder]="'contract.search' | translate" (input)="select.filter($any($event).target.value)" />
+          </ng-template>
+          <ng-template ng-optgroup-tmp let-item="item">
+            {{ (item.type === clientType.Individual ? 'addClient.Individual' : 'addClient.business') | translate}}
+          </ng-template>
+        </ng-select>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['clientId']
+        }"></ng-container>
+      </div>
+    </div>
+
+    <!-- Client Type -->
+    <div class="col-md-4 col-sm-6 col-12 mb-4">
+      <label> {{ "addIssue.ClientType" | translate }} </label>
+      <span class="text-danger mx-2 fs-2 position-absolute">*</span>
+      <div class="d-flex mt-4">
+        <div class="form-check" style="width: 90%;">
+          <input formControlName="clientStaus" [value]="clientStaus.Plaintiff" class="form-check-input" type="radio"
+            name="clientStaus" id="flexRadioDefault1" />
+          <label class="form-check-label" for="flexRadioDefault1">
+            {{ "addIssue.Plaintiff" | translate }}
+          </label>
+        </div>
+        <div class="form-check">
+          <input formControlName="clientStaus" [value]="clientStaus.Defendant" class="form-check-input" type="radio"
+            name="clientStaus" id="flexRadioDefault2" checked />
+          <label class="form-check-label" for="flexRadioDefault2">
+            {{ "addIssue.Defendant" | translate }}
+          </label>
+        </div>
+
+      </div>
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['clientStaus']
+        }"></ng-container>
+    </div>
+
+    <!-- Issue Type -->
+    <div class="col-md-4 col-sm-6 col-12 mb-4">
+      <label>{{ "addIssue.issueType" | translate }}</label>
+      <!-- <span class="text-danger mx-2 fs-2 position-absolute">*</span> -->
+      <select formControlName="lawsuitType" class="form-select" aria-label="Default select example">
+        <option disabled selected value="null">
+          {{ "addIssue.chooseIssueType" | translate }}
+        </option>
+        <option [value]="lawsuitType.Workers">
+          {{ "addIssue.Workers" | translate }}
+        </option>
+        <option [value]="lawsuitType.Criminal">
+          {{ "addIssue.Criminal" | translate }}
+        </option>
+        <option [value]="lawsuitType.PersonalConditions">
+          {{ "addIssue.PersonalConditions" | translate }}
+        </option>
+        <option [value]="lawsuitType.Civilian">
+          {{ "addIssue.Civilian" | translate }}
+        </option>
+        <option [value]="lawsuitType.Administrative">
+          {{ "addIssue.Administrative" | translate }}
+        </option>
+        <option [value]="lawsuitType.Commercial">
+          {{ "addIssue.Commercial" | translate }}
+        </option>
+        <option [value]="lawsuitType.Other">
+          {{ "addIssue.Other" | translate }}
+        </option>
+      </select>
+      <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['lawsuitType']
+        }"></ng-container> -->
+    </div>
+
+    <!--Sub Issue Type -->
+    <div class="col-md-4 col-sm-6 col-12 mb-4">
+      <label for="" class="my-1">{{ "addIssue.subIssueType" | translate }}</label>
+      <input class="form-control bg-transparent" type="text" [placeholder]="'addIssue.chooseSubIssueType' | translate"
+        name="text" formControlName="subLawsuitType" autocomplete="off" />
+    </div>
+
+    <!-- Issue Status -->
+    <div class="col-md-6 col-sm-6 col-12 mb-4">
+      <label>{{ "addIssue.appStatus" | translate }} </label>
+      <!-- <span class="text-danger mx-2 fs-2 position-absolute">*</span> -->
+      <select formControlName="lawsuitStatus" class="form-select" aria-label="Default select example">
+        <option [value]="null" disabled selected>
+          {{ "addIssue.chooseAppStatus" | translate }}
+        </option>
+
+        <option [value]="lawsuitStatus.Inprogress">
+          {{ "addIssue.Inprogress" | translate }}
+        </option>
+        <option [value]="lawsuitStatus.Finished">
+          {{ "addIssue.Finished" | translate }}
+        </option>
+        <option [value]="lawsuitStatus.Pending">
+          {{ "addIssue.Pending" | translate }}
+        </option>
+        <option [value]="lawsuitStatus.Approval">
+          {{ "addIssue.Approval" | translate }}
+        </option>
+        <option [value]="lawsuitStatus.Canceled">
+          {{ "addIssue.Canceled" | translate }}
+        </option>
+        <option [value]="lawsuitStatus.UnderReview">
+          {{ "addIssue.UnderReview" | translate }}
+        </option>
+
+      </select>
+      <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['lawsuitStatus']
+        }"></ng-container> -->
+    </div>
+
+    <!-- Issue No -->
+    <div class="col-md-6 col-sm-6 col-12 mb-4">
+      <label for="">{{ "issue.issueNo" | translate }}</label>
+
+      <input class="form-control bg-transparent" type="text" [placeholder]="'issue.issueNo' | translate" name="number"
+        formControlName="number" autocomplete="off">
+      <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['number']
+        }"></ng-container> -->
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'pattern',
+          message: 'addIssue.onlyNumber' | translate,
+          control: infoForm.controls['number']
+        }"></ng-container>
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'maxlength',
+          message: 'addIssue.NoMaxLength' | translate,
+          control: infoForm.controls['number']
+        }"></ng-container>
+    </div>
+
+    <!-- Issue Date -->
+    <div class="col-md-6 col-sm-12 col-12 mb-4">
+      <label>{{ "addIssue.issueDate" | translate }}</label>
+      <!-- <span class="text-danger mx-2 fs-2 position-absolute">*</span> -->
+      <div class="iput-sec">
+        <!-- <input onfocus="(this.type='date') "  class="form-control date" ngbDatepicker #d="ngbDatepicker" aria-label=""
+          id="date1" [(ngModel)]="dateText" (change)="setValueOfDate()" data-toggle="tooltip" data-placement="bottom"
+          title=" enter the start date "  [placeholder]="'addIssue.issueDate' | translate" [ngModelOptions]="{ standalone: true }" /> -->
+        <hijri-gregorian-datepicker style="direction: ltr" [label]="'expirationDate'" [(selectedDate)]="expirationDate"
+          [readonly]="true" [isRequired]="false" [GregLabel]="'shared.Greg' | translate"
+          [hijriLabel]="'shared.Hijri' | translate" [placeHolder]="'shared.place' | translate" [showLabel]="false"
+          [minHijri]="minDateH" [minGreg]="minDateG" [selectedDateType]="selectedDateType"
+          (selectedDateChange)="selectedDateChange($event)" #expirationDatePicker>
+        </hijri-gregorian-datepicker>
+      </div>
+      <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['date']
+        }"></ng-container> -->
+      <div *ngIf="!endAfterStart" _ngcontent-ebq-c229="" class="fv-plugins-message-container ng-star-inserted">
+        <div _ngcontent-ebq-c229="" class="fv-help-block">
+          <span _ngcontent-ebq-c229="" role="alert">
+            {{ "AddEditcontract.endAfterStart" | translate }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- End Date -->
+    <div class="col-md-6 col-sm-12 col-12 mb-4">
+      <label class="my-1">{{ "addIssue.issueEndDate" | translate }}</label>
+      <!-- <span class="text-danger mx-2 fs-2 position-absolute">*</span> -->
+      <div class="iput-sec">
+        <hijri-gregorian-datepicker style="direction: ltr" [label]="'EndDate'" [(selectedDate)]="EndDate"
+          [readonly]="true" [isRequired]="true" [GregLabel]="'shared.Greg' | translate"
+          [hijriLabel]="'shared.Hijri' | translate" [placeHolder]="'shared.place' | translate" [showLabel]="false"
+          [minHijri]="minDateH" [minGreg]="minDateG" [selectedDateType]="selectedEndDateType"
+          (selectedDateChange)="selectedDateChangeEnd($event)" #EndDatePicker>
+        </hijri-gregorian-datepicker>
+        <!-- <input onfocus="(this.type='date') "  class="form-control date" ngbDatepicker #d="ngbDatepicker" aria-label=""
+          id="date2" [(ngModel)]="dateEndText" (change)="setValueOfEndDate()" data-toggle="tooltip" data-placement="bottom"
+          title=" enter the end date "  [placeholder]="'addIssue.issueEndDate' | translate" [ngModelOptions]="{ standalone: true }" />
+      -->
+      </div>
+      <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['expirationDate']
+        }"></ng-container> -->
+      <div *ngIf="!endAfterStart" _ngcontent-ebq-c229="" class="fv-plugins-message-container ng-star-inserted">
+        <div _ngcontent-ebq-c229="" class="fv-help-block">
+          <span _ngcontent-ebq-c229="" role="alert">
+            {{ "AddEditcontract.endAfterStart" | translate }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!--issue Subject-->
+    <div class="col-md-12 mb-4">
+      <label> {{ "addIssue.issueSubject" | translate }} </label>
+      <div class="card mt-4">
+        <div class="card-header">
+          <span class="header-content" role="button" (click)="getSubjectValue('subject')">
+            <img src="assets/imgs/qyd/rotate-right.svg" />
+            {{ "addIssue.returnText" | translate }}
+          </span>
+          <span class="header-content" role="button" (click)="editText(myTextarea)">
+            <img src="assets/imgs/qyd/edit.svg" />
+            {{ "addIssue.editText" | translate }}
+          </span>
+        </div>
+        <div class="card-body">
+          <textarea formControlName="subject" class="card-text" #myTextarea> </textarea>
+        </div>
+      </div>
+    </div>
+
+    <!--Plaintiff Requests-->
+    <div class="col-md-6 mb-4">
+      <label> {{ "issue.PlaintiffRequests" | translate }} </label>
+      <div class="card mt-4">
+        <div class="card-header">
+          <span class="header-content" role="button" (click)="getSubjectValue('plaintiffRequests')">
+            <img src="assets/imgs/qyd/rotate-right.svg" />
+            {{ "addIssue.returnText" | translate }}
+          </span>
+          <span class="header-content" role="button" (click)="editText(myTextarea2)">
+            <img src="assets/imgs/qyd/edit.svg" />
+            {{ "addIssue.editText" | translate }}
+          </span>
+        </div>
+        <div class="card-body">
+          <textarea formControlName="plaintiffRequests" class="card-text" #myTextarea2> </textarea>
+        </div>
+      </div>
+    </div>
+
+    <!--Plaintiff Evidence-->
+    <div class="col-md-6 mb-4">
+      <label> {{ "issue.PlaintiffEvidence" | translate }} </label>
+      <div class="card mt-4">
+        <div class="card-header">
+          <span class="header-content" role="button" (click)="getSubjectValue('plaintiffGrounds')">
+            <img src="assets/imgs/qyd/rotate-right.svg" />
+            {{ "addIssue.returnText" | translate }}
+          </span>
+          <span class="header-content" role="button" (click)="editText(myTextarea3)">
+            <img src="assets/imgs/qyd/edit.svg" />
+            {{ "addIssue.editText" | translate }}
+          </span>
+        </div>
+        <div class="card-body">
+          <textarea formControlName="plaintiffGrounds" class="card-text" #myTextarea3> </textarea>
+        </div>
+      </div>
+    </div>
+
+    <!--defendant Requests-->
+    <div class="col-md-6 mb-4">
+      <label> {{ "issue.defendantRequests" | translate }} </label>
+      <div class="card mt-4">
+        <div class="card-header">
+          <span class="header-content" role="button" (click)="getSubjectValue('defendantRequests')">
+            <img src="assets/imgs/qyd/rotate-right.svg" />
+            {{ "addIssue.returnText" | translate }}
+          </span>
+          <span class="header-content" role="button" (click)="editText(myTextarea4)">
+            <img src="assets/imgs/qyd/edit.svg" />
+            {{ "addIssue.editText" | translate }}
+          </span>
+        </div>
+        <div class="card-body">
+          <textarea formControlName="defendantRequests" class="card-text" #myTextarea4> </textarea>
+        </div>
+      </div>
+    </div>
+
+    <!--defendant Evidence-->
+    <div class="col-md-6 mb-4">
+      <label> {{ "issue.defendantEvidence" | translate }} </label>
+      <div class="card mt-4">
+        <div class="card-header">
+          <span class="header-content" role="button" (click)="getSubjectValue('defendantGrounds')">
+            <img src="assets/imgs/qyd/rotate-right.svg" />
+            {{ "addIssue.returnText" | translate }}
+          </span>
+          <span class="header-content" role="button" (click)="editText(myTextarea5)">
+            <img src="assets/imgs/qyd/edit.svg" />
+            {{ "addIssue.editText" | translate }}
+          </span>
+        </div>
+        <div class="card-body">
+          <textarea formControlName="defendantGrounds" class="card-text" #myTextarea5> </textarea>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  <!--end::Form-->
+  <div class="d-flex button-end">
+
+    <div class="form-action-btn" [ngClass]="{ end: lang === 'en', 'end-arabic': lang === 'ar' }">
+      <!-- <button class="genral-button" *ngIf="isAddNewCaseFromProject=='true'"
+        (click)="backToProject()">{{'projectManagement.backToProjectDetails'|translate}}</button> -->
+      <button type="submit" (click)="submit()" id="kt_sign_in_submit" class="genral-button">
+        <ng-container class="d-flex">
+          <span class="indicator-label">
+            {{ "addIssue.SaveAndContinue" | translate }}
+          </span>
+
+          <img src="assets/imgs/qyd/Left-icon.svg" />
+        </ng-container>
+      </button>
+
+    </div>
+
+  </div>
+</div>
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert">
+          {{ message }}
+        </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

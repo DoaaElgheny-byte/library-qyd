@@ -1,0 +1,572 @@
+<div class="container my-15">
+    <h3 class="my-5"># {{ 'projectManagement.header' | translate }}</h3>
+
+    <form class="form w-100 my-5 row " [formGroup]="infoForm" novalidate="novalidate" id="kt_login_signin_form">
+        <!-- Tax Number -->
+        <div class="row">
+            <div class="col-lg-5">
+                <div class="mb-3">
+                    <label for="taxNumber" class="form-label">{{ 'projectManagement.taxNumber' | translate }}</label>
+                    <input formControlName="taxNumberForAgent" type="text" class="form-control" id="taxNumber"
+                        placeholder="{{ 'projectManagement.taxNumberPlaceholder' | translate }}" />
+                </div>
+            </div>
+        </div>
+
+        <!-- Offer Start and End Dates -->
+        <div class="row mb-3">
+            <!-- Start Date-->
+            <div class="col-md-6 mb-4">
+                <label class="form-label">{{ 'projectManagement.offerStartDate' | translate }}</label>
+                <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+                <div class="iput-sec">
+                    <hijri-gregorian-datepicker style="direction: ltr" [label]="'expirationDate'"
+                        [(selectedDate)]="expirationDate" [readonly]="true" [isRequired]="false"
+                        [GregLabel]="'shared.Greg' | translate" [hijriLabel]="'shared.Hijri' | translate"
+                        [placeHolder]="'shared.place' | translate" [showLabel]="false" [minHijri]="minDateH"
+                        [minGreg]="minDateG" [selectedDateType]="selectedDateType"
+                        (selectedDateChange)="selectedDateChange($event)" #expirationDatePicker>
+                    </hijri-gregorian-datepicker>
+                </div>
+                <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'required',
+                        message: 'loginPage.thisFieldIsRequired' | translate,
+                        control: form.controls['startAuthorizationDate']
+                      }"></ng-container> -->
+            </div>
+            <!-- End Date-->
+            <div class="col-md-6 mb-4">
+                <label class="form-label">{{ 'projectManagement.offerEndDate' | translate }}</label>
+
+                <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+                <div class="iput-sec">
+                    <hijri-gregorian-datepicker style="direction: ltr" [label]="'EndDate'" [(selectedDate)]="EndDate"
+                        [readonly]="true" [isRequired]="true" [GregLabel]="'shared.Greg' | translate"
+                        [hijriLabel]="'shared.Hijri' | translate" [placeHolder]="'shared.place' | translate"
+                        [showLabel]="false" [minHijri]="minDateH" [minGreg]="minDateG"
+                        [selectedDateType]="selectedEndDateType" (selectedDateChange)="selectedDateChangeEnd($event)"
+                        #EndDatePicker>
+                    </hijri-gregorian-datepicker>
+                </div>
+                <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'required',
+                    message: 'loginPage.thisFieldIsRequired' | translate,
+                    control: form.controls['endAuthorizationDate']
+                    }"></ng-container> -->
+                <div *ngIf="!endAfterStart" _ngcontent-ebq-c229=""
+                    class="fv-plugins-message-container ng-star-inserted">
+                    <div _ngcontent-ebq-c229="" class="fv-help-block">
+                        <span _ngcontent-ebq-c229="" role="alert">
+                            {{ "AddEditcontract.endAfterStart" | translate }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Client Information -->
+        <div class="row">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label for="clientName" class="form-label">{{ 'projectManagement.clientName' | translate
+                        }}</label>
+                    <input formControlName="clientName" type="text" class="form-control" id="clientName" readonly />
+                </div>
+            </div>
+            <div *ngIf="isClientSpecial" class="col-md-6">
+                <div class="mb-3">
+                    <label for="clientTaxNumber" class="form-label">{{ 'projectManagement.clientTaxNumber' |
+                        translate }}</label>
+                    <input formControlName="taxNumberForClient" type="text" class="form-control" id="clientTaxNumber"
+                        placeholder="{{ 'projectManagement.clientTaxNumberPlaceholder' | translate }}" />
+                </div>
+            </div>
+        </div>
+
+        <!-- National Address -->
+        <h5 class="mt-4">{{ 'projectManagement.clientNationalAddress' | translate }}</h5>
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <label>{{ "register.region" | translate }}</label>
+                <span class="text-danger mx-2 fs-2">*</span>
+
+                <select formControlName="regionClientId" class="form-select" aria-label="Default select example"
+                    (change)="getCity($any($event).target.value)">
+                    <option value="" disabled selected>{{'projectManagement.select'|translate}}</option>
+                    <option *ngFor="let region of regions" [value]="region.id">
+                        {{
+                        region?.nameAr
+                        }}
+                    </option>
+
+                </select>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'required',
+                        message: 'register.regionIdRequired' | translate,
+                        control: infoForm.controls['regionClientId']
+                      }"></ng-container>
+            </div>
+            <div class="col-md-4 mb-4">
+                <label>{{ "register.city" | translate }}</label>
+                <span class="text-danger mx-2 fs-2">*</span>
+                <select formControlName="cityClientId" class="form-select" aria-label="Default select example">
+                    <option value="" disabled selected>{{'projectManagement.select'|translate}}</option>
+
+                    <option *ngFor="let cit of city" [value]="cit.id">
+                        {{ cit?.nameAr}}
+                    </option>
+
+                </select>
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'register.cityIdRequired' | translate,
+            control: infoForm.controls['cityClientId']
+          }"></ng-container>
+            </div>
+
+            <!-- <div class="col-md-4">
+                <label for="city" class="form-label">{{ 'projectManagement.city' | translate }}</label>
+                <select formControlName="cityClientId" class="form-select" id="city">
+                    <option>الرياض</option>
+                </select>
+            </div> -->
+            <div class="col-md-4">
+                <label for="district" class="form-label">{{ 'projectManagement.district' | translate
+                    }}</label>
+                <span class="text-danger mx-2 fs-2">*</span>
+                <input formControlName="district" type="text" class="form-control" id="district" />
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                validation: 'required',
+                                message: 'projectManagement.FileRequired' | translate,
+                                control: infoForm.controls['district']
+                              }"></ng-container>
+            </div>
+        </div>
+
+        <div class="row my-15">
+            <div class="col-md-6">
+                <label for="street" class="form-label">{{ 'projectManagement.street' | translate }}</label>
+                <span class="text-danger mx-2 fs-2">*</span>
+                <input formControlName="street" type="text" class="form-control" id="street" />
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                                validation: 'required',
+                                                message: 'projectManagement.FileRequired' | translate,
+                                                control: infoForm.controls['street']
+                                              }"></ng-container>
+            </div>
+            <div class="col-md-6">
+                <div class="row">
+                    <div class="col-md-4">
+                        <label for="buildingNumber" class="form-label">{{ 'projectManagement.buildingNumber' |
+                            translate }}</label>
+                        <span class="text-danger mx-2 fs-2">*</span>
+
+                        <input formControlName="buildingNumber" type="number" class="form-control"
+                            id="buildingNumber" />
+                        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                                        validation: 'required',
+                                                        message: 'projectManagement.FileRequired' | translate,
+                                                        control: infoForm.controls['buildingNumber']
+                                                      }"></ng-container>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="subNumber" class="form-label">{{ 'projectManagement.subNumber' | translate
+                            }}</label>
+                        <span class="text-danger mx-2 fs-2">*</span>
+
+                        <input formControlName="subNumber" type="number" class="form-control" id="subNumber" />
+                        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                                        validation: 'required',
+                                                        message: 'projectManagement.FileRequired' | translate,
+                                                        control: infoForm.controls['subNumber']
+                                                      }"></ng-container>
+                    </div>
+                    <div class="col-md-4">
+                        <label for="postalCode" class="form-label">{{ 'projectManagement.postalCode' | translate
+                            }}</label>
+                        <span class="text-danger mx-2 fs-2">*</span>
+
+                        <input formControlName="zipCode" type="number" class="form-control" id="postalCode" />
+                        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                                        validation: 'required',
+                                                        message: 'projectManagement.FileRequired' | translate,
+                                                        control: infoForm.controls['district']
+                                                      }"></ng-container>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- </form> -->
+
+
+        <hr>
+        <div class="container my-15">
+            <h3 class="mb-4"># {{ 'projectManagement.financialHeader' | translate }}</h3>
+
+            <!-- <form> -->
+            <!-- Price Measurement Unit and Unit Count -->
+            <div class="row mb-3 gy-4">
+                <div class="col-md-6">
+                    <label for="priceUnit" class="form-label">{{ 'projectManagement.priceUnit' | translate }}</label>
+                    <select formControlName="unitMeasure" class="form-select" id="priceUnit">
+                        <option value="" disabled selected>{{'projectManagement.select'|translate}}</option>
+                        <option *ngFor="let unit of unitMeasureType" [value]="unit.id">
+                            {{ unit.name | translate }}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label for="unitCount" class="form-label">{{ 'projectManagement.unitCount' | translate }}</label>
+                    <input (change)="calculatePrice()" formControlName="numberUnits" type="number" class="form-control"
+                        id="unitCount" />
+                </div>
+
+
+                <!-- Unit Price and Tax Amount -->
+
+                <div class="col-md-6">
+                    <label for="unitPrice" class="form-label">{{ 'projectManagement.unitPrice' | translate }}</label>
+                    <span class="text-danger mx-2 fs-2">*</span>
+                    <input (change)="calculatePrice()" formControlName="unitPrice" type="number" class="form-control"
+                        id="unitPrice" />
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                                                                    validation: 'required',
+                                                                                    message: 'projectManagement.FileRequired' | translate,
+                                                                                    control: infoForm.controls['unitPrice']
+                                                                                  }"></ng-container>
+                </div>
+                <div class="col-md-6">
+                    <label for="taxAmount" class="form-label">{{ 'projectManagement.taxAmount' | translate }}</label>
+                    <input formControlName="taxAmount" type="text" class="form-control" id="taxAmount" value="1000"
+                        readonly />
+                </div>
+            </div>
+
+
+
+            <!-- Tax Rate and Total Amount with Tax -->
+
+            <div class="row">
+                <div class="col-md-4">
+                    <label for="taxRate" class="form-label">{{ 'projectManagement.taxRate' | translate }}</label>
+                    <input value="15%" type="text" class="form-control" id="taxRate" value="15%" readonly />
+                </div>
+                <!-- VAT Amount -->
+                <div class="col-md-4">
+                    <label for="totalAmountWithTax" class="form-label">{{ 'projectManagement.totalAmountWithTax' |
+                        translate
+                        }}</label>
+                    <input formControlName="totalTax" type="text" class="form-control" id="totalAmountWithTax"
+                        value="1150" readonly />
+                </div>
+                <div class="col-md-4">
+                    <label for="vatAmount" class="form-label">{{ 'projectManagement.vatAmount' | translate }}</label>
+                    <input formControlName="vat" type="text" class="form-control" id="vatAmount" value="150" readonly />
+                </div>
+            </div>
+            <!-- </form> -->
+        </div>
+        <hr>
+
+        <div class="container my-15">
+            <h3 class="mb-4">{{ 'projectManagement.addressHeader' | translate }}</h3>
+
+            <!-- <form> -->
+            <!-- City, District, Street -->
+            <div class="row mb-3">
+                <div class="col-md-4 mb-4">
+                    <label>{{ "register.region" | translate }}</label>
+                    <span class="text-danger mx-2 fs-2">*</span>
+                    <select formControlName="regionAgentId" class="form-select" aria-label="Default select example"
+                        (change)="getCityForAgent($any($event).target.value)">
+                        <option value="" disabled selected>{{'projectManagement.select'|translate}}</option>
+
+                        <option *ngFor="let region of regions" [value]="region.id">
+                            {{
+                            region?.nameAr
+                            }}
+                        </option>
+
+                    </select>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'required',
+                        message: 'projectManagement.FileRequired' | translate,
+                        control: infoForm.controls['regionAgentId']
+                      }"></ng-container>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <label>{{ "register.city" | translate }}</label>
+                    <span class="text-danger mx-2 fs-2">*</span>
+                    <select formControlName="cityAgentId" class="form-select" aria-label="Default select example">
+                        <option value="" disabled selected>{{'projectManagement.select'|translate}}</option>
+
+                        <option *ngFor="let cit of cityForAgent" [value]="cit.id">
+                            {{ cit?.nameAr}}
+                        </option>
+
+                    </select>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'projectManagement.FileRequired' | translate,
+            control: infoForm.controls['cityAgentId']
+          }"></ng-container>
+                </div>
+
+                <div class="col-md-4 mb-4">
+                    <label for="district" class="form-label">{{ 'projectManagement.district' | translate }}</label>
+                    <span class="text-danger mx-2 fs-2">*</span>
+                    <input formControlName="agentDistrict" type="text" class="form-control" id="district" />
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                            validation: 'required',
+                                            message: 'projectManagement.FileRequired' | translate,
+                                            control: infoForm.controls['agentDistrict']
+                                          }"></ng-container>
+                </div>
+            </div>
+
+            <!-- Postal Code, Building Number, Sub Number -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label for="street" class="form-label">{{ 'projectManagement.street' | translate }}</label>
+                    <span class="text-danger mx-2 fs-2">*</span>
+                    <input formControlName="agentStreet" type="text" class="form-control" id="street" />
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                                                    validation: 'required',
+                                                                    message: 'projectManagement.FileRequired' | translate,
+                                                                    control: infoForm.controls['agentStreet']
+                                                                  }"></ng-container>
+                </div>
+                <div class="col-md-6">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label for="postalCode" class="form-label">{{ 'projectManagement.postalCode' | translate
+                                }}</label>
+                            <span class="text-danger mx-2 fs-2">*</span>
+                            <input formControlName="agentZipCoder" type="number" class="form-control" id="postalCode" />
+                            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                                                            validation: 'required',
+                                                                            message: 'projectManagement.FileRequired' | translate,
+                                                                            control: infoForm.controls['agentZipCoder']
+                                                                          }"></ng-container>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="buildingNumber" class="form-label">{{ 'projectManagement.buildingNumber' |
+                                translate
+                                }}</label>
+                            <span class="text-danger mx-2 fs-2">*</span>
+                            <input formControlName="agentBuildingNumber" type="number" class="form-control"
+                                id="buildingNumber" />
+                            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                                                            validation: 'required',
+                                                                            message: 'projectManagement.FileRequired' | translate,
+                                                                            control: infoForm.controls['agentBuildingNumber']
+                                                                          }"></ng-container>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="subNumber" class="form-label">{{ 'projectManagement.subNumber' | translate
+                                }}</label>
+                            <span class="text-danger mx-2 fs-2">*</span>
+                            <input formControlName="agentSubNumber" type="number" class="form-control" id="subNumber" />
+                            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                                                            validation: 'required',
+                                                                            message: 'projectManagement.FileRequired' | translate,
+                                                                            control: infoForm.controls['agentSubNumber']
+                                                                          }"></ng-container>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Phone Number -->
+            <div class="row mb-3">
+                <div class="col-md-4 mb-4 ">
+                    <label for="">{{ "register.phoneNumber" | translate }}</label>
+                    <span class="text-danger mx-2 fs-2">*</span>
+                    <div class="input-group" style="direction: ltr;">
+                        <span class="input-group-text" id="basic-addon1">+966</span>
+                        <input class="form-control bg-transparent design" type="text" [maxlength]="9"
+                            [placeholder]="'register.enterphoneNumber' | translate" name="mobileNumber"
+                            formControlName="mobileNumber" autocomplete="off" [ngClass]="{
+                              'is-invalid': infoForm.controls['mobileNumber'].invalid && infoForm.controls['mobileNumber'].touched,
+                              'is-valid': infoForm.controls['mobileNumber'].valid
+                          }" />
+                    </div>
+
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                          validation: 'required',
+                          message: 'Validation.MobileNumberIsRequired' | translate,
+                          control: infoForm.controls['mobileNumber']
+                        }"></ng-container>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                          validation: 'pattern',
+                          message: 'Validation.MobileNumberIsRequired' | translate,
+                          control: infoForm.controls['mobileNumber']
+                        }"></ng-container>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                          validation: 'maxlength',
+                          message: 'Validation.MobileNumberLength' | translate,
+                          control: infoForm.controls['mobileNumber']
+                        }"></ng-container>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                          validation: 'minlength',
+                          message: 'Validation.MobileNumberLength' | translate,
+                          control: infoForm.controls['mobileNumber']
+                        }"></ng-container>
+                </div>
+                <!--phone-->
+                <!-- <div class="col-md-4 mb-4">
+                    <label for="">{{ "register.phoneNumber" | translate }}</label>
+                    <span class="text-danger mx-2 fs-2">*</span>
+
+                    <div class="phone form-control" style="
+            direction: ltr;
+            height: 41px;
+            display: flex;
+height:44px;
+align-items: center;
+            background-color: transparent !important;
+            padding: 0px;
+          ">
+                        <intl-telephone-input [preferredCountries]="[
+              CountryISO.SaudiArabia,
+              CountryISO.SaudiArabia
+            ]" [enablePlaceholder]="true" [searchCountryFlag]="true" [separateDialCode]="false"
+                            [enableAutoCountrySelect]="true" [searchCountryField]="SearchCountryField.All"
+                            [phoneValidation]="true" [numberFormat]="PhoneNumberFormat.International"
+                            [inputId]="'phoneNumber'" [customPlaceholder]="mobileNumber"
+                            [selectedCountryISO]="CountryISO[selectedCountryIso]" (onChange)="onInputChange($event)">
+                        </intl-telephone-input>
+                    </div>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'loginPage.thisFieldIsRequired' | translate,
+            control: infoForm.controls['mobileNumber']
+          }"></ng-container>
+                </div> -->
+                <div class="col-md-4 mb-4 ">
+                    <label for="">{{ "projectManagement.phoneNumber2" | translate }}</label>
+                    <span class="text-danger mx-2 fs-2">*</span>
+                    <div class="input-group" style="direction: ltr;">
+
+                        <input class="form-control bg-transparent design" type="text"
+                            [placeholder]="'register.enterphoneNumber' | translate" name="phone" formControlName="phone"
+                            autocomplete="off" [ngClass]="{
+                  'is-invalid': infoForm.controls['phone'].invalid && infoForm.controls['phone'].touched,
+                  'is-valid': infoForm.controls['phone'].valid
+              }" />
+                    </div>
+
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'Validation.MobileNumberIsRequired' | translate,
+              control: infoForm.controls['phone']
+            }"></ng-container>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'Validation.MobileNumberIsRequired' | translate,
+              control: infoForm.controls['phone']
+            }"></ng-container>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'maxlength',
+              message: 'Validation.MobileNumberLength' | translate,
+              control: infoForm.controls['phone']
+            }"></ng-container>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'minlength',
+              message: 'Validation.MobileNumberLength' | translate,
+              control: infoForm.controls['phone']
+            }"></ng-container>
+                </div>
+            </div>
+
+            <!-- Logo and Stamp Upload -->
+            <h5 class="mt-4">{{ 'projectManagement.logoUpload' | translate }}</h5>
+            <div class="row mb-3 align-items-center">
+                <!-- Change Logo Button -->
+                <div class="col-md-4 d-flex align-items-end">
+                    <div class="mx-5 border  p-2 " style="width: 200px; height: 70px;">
+                        <img [src]="logo?logo:'./assets/imgs/qyd/logo-blue.svg'" alt="Logo Icon"
+                            class="me-2 w-100 h-100" />
+                    </div>
+                    <app-upload-file [acceptedExtensions]="['png', 'gif', 'jpg', 'jpeg']" [flag]="4"
+                        [isMultiple]="false" (bindValue)="uploadImg($event,1)" [labelUploaded]="logoImageName"
+                        [delName]="false">
+                    </app-upload-file>
+                    <span class="text-danger mx-2 fs-2">*</span>
+                    <!-- <input type="file" id="file1" hidden> -->
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                                        validation: 'required',
+                                                        message: 'loginPage.thisFieldIsRequired' | translate,
+                                                        control: infoForm.controls['logoImageName']
+                                                    }"></ng-container>
+                    <div *ngIf="fieldRequired" _ngcontent-ebq-c229=""
+                        class="fv-plugins-message-container ng-star-inserted m-t-15">
+                        <div _ngcontent-ebq-c229="" class="fv-help-block">
+                            <span _ngcontent-ebq-c229="" role="alert">
+                                {{ "addClient.attachmentRequired" | translate }}
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Upload Stamp Button -->
+                <div class="col-md-4 d-flex align-items-end">
+                    <div class="mx-5 border p-2  " style="width: 200px;height: 70px;">
+                        <img [src]="logoStamp?logoStamp:'./assets/imgs/qyd/logo-blue.svg'" alt="Logo Icon"
+                            class="me-2 w-100 h-100" />
+                    </div>
+                    <app-upload-file [acceptedExtensions]="['png', 'gif', 'jpg', 'jpeg']" [flag]="4"
+                        [isMultiple]="false" (bindValue)="uploadImg($event,2)" [labelUploaded]="logoStampImage"
+                        [delName]="false">
+                    </app-upload-file>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                                                            validation: 'required',
+                                                                            message: 'loginPage.thisFieldIsRequired' | translate,
+                                                                            control: infoForm.controls['logoStampImage']
+                                                                        }"></ng-container>
+                    <div *ngIf="fieldRequired" _ngcontent-ebq-c229=""
+                        class="fv-plugins-message-container ng-star-inserted m-t-15">
+                        <div _ngcontent-ebq-c229="" class="fv-help-block">
+                            <span _ngcontent-ebq-c229="" role="alert">
+                                {{ "addClient.attachmentRequired" | translate }}
+                            </span>
+                        </div>
+                    </div>
+                    <span class="text-danger mx-2 fs-2">*</span>
+                    <!-- <input type="file" id="file2" hidden> -->
+                </div>
+            </div>
+            <!-- Note -->
+            <p class="text-primary">{{ 'projectManagement.note' | translate }}</p>
+        </div>
+    </form>
+</div>
+<!-- Navigation Buttons -->
+<div class="container d-flex justify-content-between mt-20">
+    <button class="back-btn" (click)="triggerPrevStep()">
+        {{ 'projectManagement.back' | translate }}
+    </button>
+    <div class="d-flex gap-5">
+        <button (click)="submitLater()" class="save-btn">
+            {{ 'projectManagement.saveLater' | translate }}
+            <i class="fa fa-clock"></i>
+        </button>
+        <button class="next-btn" (click)="submit()">
+            {{ 'projectManagement.next' | translate }}
+            <i class="fa fa-arrow-left text-white"></i>
+        </button>
+    </div>
+</div>
+
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+    <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+        <div class="fv-plugins-message-container">
+            <div class="fv-help-block">
+                <span role="alert">
+                    {{ message }}
+                </span>
+            </div>
+        </div>
+    </ng-container>
+</ng-template>

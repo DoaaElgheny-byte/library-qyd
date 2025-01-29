@@ -1,0 +1,94 @@
+<h5>{{"editProfile.email" |translate}}</h5>
+<form class="form w-100" [formGroup]="newEmailForm" novalidate="novalidate" id="kt_login_signin_form2"
+    (ngSubmit)="save()">
+    <!--begin::Action-->
+
+    <!--begin::Form group-->
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="input-group d-block mb-5">
+                <label for="">{{ 'editProfile.email' | translate}}</label>
+                <span class="text-danger mx-2 fs-2">*</span>
+                <div class="pass-sec">
+                    <input class="form-control bg-transparent" [placeholder]="'editProfile.email' | translate"
+                        [type]=" 'email' " name="email" autocomplete="off" formControlName="email" [ngClass]="{
+                        'is-invalid': newEmailForm.controls['email'].invalid && newEmailForm.controls['email'].touched,
+                        'is-valid': newEmailForm.controls['email'].valid
+                    }" />
+                </div>
+            </div>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'Validation.emailRequired' | translate,
+                control: newEmailForm.controls['email']
+            }"></ng-container>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'pattern',
+                message: 'Validation.emailRequired' | translate,
+                control: newEmailForm.controls['email']
+            }"></ng-container>
+        </div>
+
+        <div class="col-md-4 mb-4">
+            <label for="">{{"editProfile.ConfirmEmail" | translate}}</label>
+            <span class="text-danger mx-2 fs-2">*</span>
+
+            <div class="input-group mb-5 pass-sec">
+                <input class="form-control bg-transparent" [type]=" 'email' " formControlName="emailConfirm"
+                    [placeholder]="'editProfile.ConfirmEmail' | translate" autocomplete="off" />
+
+            </div>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'Validation.emailRequired' | translate,
+                control: newEmailForm.controls['emailConfirm']
+            }"></ng-container>
+            <!-- <ng-container
+            [ngTemplateOutlet]="formError"
+            [ngTemplateOutletContext]="{
+                validation: 'maxlength',
+                message: 'Validation.PasswordMaxLength' | translate,
+                control: newEmailForm.controls['passwordConfirm']
+            }"
+            ></ng-container> -->
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'pattern',
+                message: 'Validation.emailRequired' | translate,
+                control: newEmailForm.controls['emailConfirm']
+            }"></ng-container>
+            <ng-container *ngIf="
+                newEmailForm.controls['emailConfirm'].errors &&
+                newEmailForm.controls['emailConfirm'].errors
+                .emailConfirm
+            ">
+                <div class="fv-plugins-message-container">
+                    <div class="fv-help-block">
+                        {{ "Validation.EmailMatch" | translate }}
+                    </div>
+                </div>
+            </ng-container>
+        </div>
+
+    </div>
+    <div class="d-flex justify-content-end">
+        <div class="form-action-btn">
+            <button type="button" id="kt_sign_in_submit2" class="general-outline-button" (click)="save()">
+                <ng-container>
+                    <span class="indicator-label">{{ "register.save" | translate }}
+                    </span>
+                </ng-container>
+            </button>
+        </div>
+    </div>
+</form>
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+    <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+        <div class="fv-plugins-message-container">
+            <div class="fv-help-block">
+                <span role="alert">
+                    {{ message }}
+                </span>
+            </div>
+        </div>
+    </ng-container>
+</ng-template>

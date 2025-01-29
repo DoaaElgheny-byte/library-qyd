@@ -1,0 +1,522 @@
+<div class="body-size position-relative">
+  <h5>{{ "addIssue.reviewTitle" | translate }}</h5>
+  <span class="sub-title">{{ "addIssue.reviewSubTitle" | translate }}</span>
+
+
+  <div class="col-md-12 mb-4 mt-8">
+    <div class="card mt-4">
+      <div class="body-size position-relative">
+        <div class="col-md-12 mb-4 mt-8">
+          <div class="card mt-4">
+            <div class="card-header">
+              <span> {{ "issue.issueInfo" | translate }} </span>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <!--Court Type-->
+                <div class="col-md-4 col-sm-6 col-12 details"
+                  *ngIf="issueDetails?.courtType && !issueDetails?.otherCourtType">
+                  <div>{{ "addIssue.courtType" | translate }}</div>
+                  <div *ngFor="let entity of entityList">
+                    <span *ngIf="entity.id == issueDetails?.courtType">{{entity.name | translate}}</span>
+                  </div>
+                </div>
+                <!--othrt Court type-->
+                <div class="col-md-4 col-sm-6 col-12 details" *ngIf="issueDetails?.otherCourtType ">
+                  <div>{{ "addIssue.otherCourtType" | translate }}</div>
+                  <div>{{ issueDetails?.otherCourtType }}</div>
+                </div>
+                <!--prison-->
+                <div class="col-md-4 col-sm-6 col-12 details" *ngIf="issueDetails?.subDistrict ">
+                  <div>{{ EntityChoosen | translate }}</div>
+                  <div>{{ issueDetails?.subDistrict }}</div>
+                </div>
+                <!--Committee-->
+                <div class="col-md-4 col-sm-6 col-12 details"
+                  *ngIf="issueDetails?.committee && !issueDetails?.otherCommittee">
+                  <div>{{ "addIssue.Committee" | translate }}</div>
+                  <div>{{ issueDetails?.committee }}</div>
+                </div>
+                <!--other Committee-->
+                <div class="col-md-4 col-sm-6 col-12 details" *ngIf="issueDetails?.otherCommittee ">
+                  <div>{{ "addIssue.otherCommittee" | translate }}</div>
+                  <div>{{ issueDetails?.otherCommittee }}</div>
+                </div>
+                <!--Court -->
+                <div class="col-md-4 col-sm-6 col-12 details" *ngIf="issueDetails?.court && !issueDetails?.otherCourt">
+                  <div>{{ "addIssue.mainCourt" | translate }}</div>
+                  <div>{{ issueDetails?.court }}</div>
+                </div>
+                <!--other Court -->
+                <div class="col-md-4 col-sm-6 col-12 details" *ngIf="issueDetails?.otherCourt ">
+                  <div>{{ "addIssue.otherCourt" | translate }}</div>
+                  <div>{{ issueDetails?.otherCourt }}</div>
+                </div>
+                <!--sub Court -->
+                <div class="col-md-4 col-sm-6 col-12 details"
+                  *ngIf="issueDetails?.subCourt && !issueDetails?.otherSubCourt">
+                  <div>{{ "addIssue.subCourt" | translate }}</div>
+                  <div>{{ issueDetails?.subCourt }}</div>
+                </div>
+                <!--other sub Court -->
+                <div class="col-md-4 col-sm-6 col-12 details" *ngIf="issueDetails?.otherSubCourt ">
+                  <div>{{ "addIssue.otherSubCourt" | translate }}</div>
+                  <div>{{ issueDetails?.otherSubCourt }}</div>
+                </div>
+
+                <!-- issue type -->
+                <div class="col-md-4 col-sm-6 col-12 details">
+                  <div>{{ "issue.issueType" | translate }}</div>
+                  <div>
+                    <span *ngIf="
+                        issueDetails?.lawsuitType === issueTypes.Workers
+                      " class="details">
+                      {{ "addIssue.Workers" | translate }}
+                    </span>
+                    <span *ngIf="issueDetails?.lawsuitType === issueTypes.Criminal" class="details">
+                      {{ "addIssue.Criminal" | translate }}
+                    </span>
+                    <span *ngIf="
+                        issueDetails?.lawsuitType === issueTypes.PersonalConditions
+                      " class="details">
+                      {{ "addIssue.PersonalConditions" | translate }}
+                    </span>
+                    <span *ngIf="
+                    issueDetails?.lawsuitType === issueTypes.Civilian
+                    " class="details">
+                      {{ "addIssue.Civilian" | translate }}
+                    </span>
+                    <span *ngIf="
+                    issueDetails?.lawsuitType === issueTypes.Administrative
+                    " class="details">
+                      {{ "addIssue.Administrative" | translate }}
+                    </span>
+                    <span *ngIf="
+                    issueDetails?.lawsuitType === issueTypes.Commercial
+                    " class="details">
+                      {{ "addIssue.Commercial" | translate }}
+                    </span>
+                    <span *ngIf="
+                    issueDetails?.lawsuitType === issueTypes.Other
+                    " class="details">
+                      {{ "addIssue.Other" | translate }}
+                    </span>
+                  </div>
+                </div>
+                <!-- sub issue type -->
+                <div class="col-md-4 col-sm-6 col-12 details">
+                  <div>{{ "addIssue.subIssueType" | translate }}</div>
+                  <div>
+                    {{issueDetails?.subLawsuitType}}
+                  </div>
+                </div>
+                <!-- Start Date -->
+                <div class="col-md-4 col-sm-6 col-12 details">
+                  <div>{{ "issue.issueDate" | translate }}</div>
+                  <div>{{ format(startDate) }}</div>
+                </div>
+                <!-- End Date -->
+                <div class="col-md-4 col-sm-6 col-12 details">
+                  <div>{{ "addIssue.issueEndDate" | translate }}</div>
+                  <div>{{ format(endDate) }}</div>
+                </div>
+                <!-- issue No -->
+                <div class="col-md-4 col-sm-6 col-12 details">
+                  <div>{{ "issue.issueNo" | translate }}</div>
+                  <div>{{ issueDetails?.number }}</div>
+                </div>
+                <!-- issue status -->
+                <div class="col-md-4 col-sm-6 col-12 details">
+                  <div>{{ "issue.appStatus" | translate }}</div>
+                  <div>
+                    <span *ngIf="
+                    issueDetails?.lawsuitStatus === lawsuitStatus.Inprogress
+                  " class="badge new-badge-light-green  fs-7 fw-bold">
+                      {{ "addIssue.Inprogress" | translate }}
+                    </span>
+                    <span *ngIf="
+                    issueDetails?.lawsuitStatus === lawsuitStatus.Finished
+                  " class="badge new-badge-light-red fs-7 fw-bold">
+                      {{ "addIssue.Finished" | translate }}
+                    </span>
+                    <span *ngIf="
+                issueDetails?.lawsuitStatus === lawsuitStatus.Pending
+                " class="badge new-badge-light-yellow fs-7 fw-bold">
+                      {{ "addIssue.Pending" | translate }}
+                    </span>
+                    <span *ngIf="
+                issueDetails?.lawsuitStatus === lawsuitStatus.Approval
+                " class="badge new-badge-light-purple fs-7 fw-bold">
+                      {{ "addIssue.Approval" | translate }}
+                    </span>
+                    <span *ngIf="
+                issueDetails?.lawsuitStatus === lawsuitStatus.Canceled
+                " class="badge new-badge-light-pink fs-7 fw-bold">
+                      {{ "addIssue.Canceled" | translate }}
+                    </span>
+                    <span *ngIf="
+                issueDetails?.lawsuitStatus === lawsuitStatus.UnderReview
+                " class="badge new-badge-light-blue fs-7 fw-bold">
+                      {{ "addIssue.UnderReview" | translate }}
+                    </span>
+
+
+                  </div>
+                </div>
+                <!-- branch name -->
+                <div class="col-md-4 col-sm-6 col-12 details">
+                  <div>{{ "branches.name" | translate }}</div>
+                  <div>{{ issueDetails?.branch }}</div>
+                </div>
+                <!-- Client -->
+                <div class="col-md-4 col-sm-6 col-12 details">
+                  <div>{{ "addIssue.Client" | translate }}</div>
+                  <div>{{ issueDetails?.clientResponseDto?.name }}</div>
+                </div>
+                <!-- Client Type -->
+                <div class="col-md-4 col-sm-6 col-12 details">
+                  <div>{{ "addIssue.ClientType" | translate }}</div>
+                  <div>
+                    <span *ngIf="issueDetails?.clientResponseDto?.type =='2'" class="details">
+                      {{ "addClient.Individual" | translate }}
+                    </span>
+
+                    <span *ngIf="issueDetails?.clientResponseDto?.type =='3'" class="details">
+                      {{ "addClient.business" | translate }}
+                    </span>
+
+                    <span *ngIf="issueDetails?.clientStaus === clientStaus.Other" class="details">
+                      {{ "addIssue.Other" | translate }}
+                    </span>
+                  </div>
+                </div>
+                <!-- Client Type -->
+                <div class="col-md-4 col-sm-6 col-12 details">
+                  <div>{{ "addIssue.ClientType" | translate }}</div>
+                  <div>
+                    <span *ngIf="
+                        issueDetails?.clientStaus === clientStaus.Plaintiff
+                      " class="details">
+                      {{ "addIssue.Plaintiff" | translate }}
+                    </span>
+
+                    <span *ngIf="
+                        issueDetails?.clientStaus === clientStaus.Defendant
+                      " class="details">
+                      {{ "addIssue.Defendant" | translate }}
+                    </span>
+
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Subject -->
+        <div class="col-md-12 mb-4 mt-8">
+          <div class="card mt-4">
+            <div class="card-header">
+              <span> {{ "issue.issueSubject" | translate }} </span>
+            </div>
+            <div class="card-body border">
+              <p class="card-text">
+                {{ issueDetails?.subject }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- issue Team-->
+        <div class="col-md-12 mb-4 mt-8" *ngIf="issueDetails?.employees">
+          <div class="card mt-4">
+            <div class="card-header">
+              <span> {{ "issue.issueTeam" | translate }} </span>
+            </div>
+            <div class="card-body table-responsive">
+              <table class="table align-middle">
+                <thead>
+                  <tr class="text-center">
+                    <th scope="col">{{ "issue.branchName" | translate }}</th>
+                    <th scope="col">{{ "issue.assignedName" | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="text-center" *ngFor="let employee of issueDetails?.employees">
+                    <td>{{ employee.branch }}</td>
+                    <td>{{ employee.name }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- Plaintiff Tables-->
+        <div class="col-md-12 mb-4 mt-8">
+          <div class="card mt-4">
+            <div class="card-header">
+              <span> {{ "issue.Applicant" | translate }} </span>
+            </div>
+            <div class="card-body table-responsive">
+              <table class="table align-middle">
+                <thead>
+                  <tr class="text-center">
+                    <th scope="col">{{ "addClient.clientName" | translate }}</th>
+                    <th scope="col">{{ "addClient.idNo" | translate }}</th>
+                    <th scope="col">{{ "addClient.clientEmail" | translate }}</th>
+                    <th scope="col">{{ "addClient.clientPhoneNumber" | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+
+                  <tr *ngIf="issueDetails?.clientStaus===clientStaus.Plaintiff">
+                    <td>{{ issueDetails?.clientResponseDto?.name }}</td>
+                    <td>{{ issueDetails?.clientResponseDto?.nationalId ? issueDetails?.clientResponseDto?.nationalId :
+                      "-" }}</td>
+                    <td>{{ issueDetails?.clientResponseDto?.email}}</td>
+                    <td>{{ issueDetails?.clientResponseDto?.mobileNumber }}</td>
+                    <td>
+
+                    </td>
+                  </tr>
+                  <tr class="text-center" *ngFor="let plaintiff of issueDetails?.plaintiffs">
+                    <td>{{ plaintiff.name }}</td>
+                    <td>{{ plaintiff.nationalId }} </td>
+                    <td>{{ plaintiff.email}}</td>
+                    <td>{{plaintiff.mobileNumber}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 mb-4 mt-2" *ngIf="issueDetails?.clientStaus===clientStaus.Plaintiff">
+          <div class="card mt-4">
+            <div class="head">
+              {{ "attorny.attornies" | translate }}
+            </div>
+            <div class="card-body table-responsive">
+              <table class="table align-middle">
+                <thead>
+                  <tr class="text-center">
+                    <th scope="col">{{ "attorny.attornyNumber" | translate }}</th>
+                    <th scope="col">{{ "attorny.endDate" | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngIf="issueDetails?.clientResponseDto?.agencies.length > 0">
+                    <tr *ngFor="let attorny of issueDetails?.clientResponseDto?.agencies" class="text-center">
+                      <td>{{ attorny.number}}</td>
+                      <td>{{ attorny.date | date }}</td>
+                      <td>
+
+                      </td>
+                    </tr>
+                  </ng-container>
+
+                  <tr class="text-center" *ngIf="issueDetails?.clientResponseDto?.agencies.length === 0">
+                    {{"attorny.NotFound" | translate}}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- Plaintiff Requests -->
+        <div class="col-md-12 mb-4 mt-8">
+          <div class="card mt-4">
+            <div class="card-header">
+              <span> {{ "issue.PlaintiffRequests" | translate }} </span>
+            </div>
+            <div class="card-body border">
+              <p class="card-text">
+                {{ issueDetails?.plaintiffRequests }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Plaintiff Evidence -->
+        <div class="col-md-12 mb-4 mt-8">
+          <div class="card mt-4">
+            <div class="card-header">
+              <span> {{ "issue.PlaintiffEvidence" | translate }} </span>
+            </div>
+            <div class="card-body border">
+              <p class="card-text">
+                {{ issueDetails?.plaintiffGrounds }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Defendent table -->
+        <div class="col-md-12 mb-4 mt-8">
+          <div class="card mt-4">
+            <div class="card-header">
+              <span> {{ "issue.Defendant" | translate }} </span>
+            </div>
+            <div class="card-body table-responsive">
+              <table class="table align-middle">
+                <thead>
+
+                  <tr class="text-center">
+                    <th scope="col">{{ "addClient.clientName" | translate }}</th>
+                    <th scope="col">{{ "addClient.idNo" | translate }}</th>
+                    <th scope="col">{{ "addClient.clientEmail" | translate }}</th>
+                    <th scope="col">{{ "addClient.clientPhoneNumber" | translate }}</th>
+                  </tr>
+
+                </thead>
+                <tbody>
+                  <tr *ngIf="issueDetails?.clientStaus===clientStaus.Defendant">
+                    <td>{{ issueDetails?.clientResponseDto?.name }}</td>
+                    <td>{{ issueDetails?.clientResponseDto?.nationalId ? issueDetails?.clientResponseDto?.nationalId :
+                      "-" }}</td>
+
+                    <td>{{ issueDetails?.clientResponseDto?.email}}</td>
+                    <td>{{ issueDetails?.clientResponseDto?.mobileNumber }}</td>
+                    <td>
+
+                    </td>
+                  </tr>
+                  <tr class="text-center" *ngFor="let defendant of issueDetails?.defendants">
+                    <td>{{defendant.name }}</td>
+                    <td>{{defendant.nationalId }} </td>
+                    <td>{{defendant.email}}</td>
+                    <td>{{defendant.mobileNumber}}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 mb-4 mt-2" *ngIf="issueDetails?.clientStaus===clientStaus.Defendant">
+          <div class="card mt-4">
+            <div class="head">
+              {{ "attorny.attornies" | translate }}
+            </div>
+            <div class="card-body table-responsive">
+              <table class="table align-middle">
+                <thead>
+                  <tr class="text-center">
+                    <th scope="col">{{ "attorny.attornyNumber" | translate }}</th>
+                    <th scope="col">{{ "attorny.endDate" | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <ng-container *ngIf="issueDetails?.clientResponseDto?.agencies.length > 0">
+                    <tr *ngFor="let attorny of issueDetails?.clientResponseDto?.agencies" class="text-center">
+                      <td>{{ attorny.number}}</td>
+                      <td>{{ attorny.date | date }}</td>
+                      <td>
+
+                      </td>
+                    </tr>
+                  </ng-container>
+
+                  <tr class="text-center" *ngIf="issueDetails?.clientResponseDto?.agencies.length === 0">
+                    {{"attorny.NotFound" | translate}}
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <!-- Defendent Requests -->
+        <div class="col-md-12 mb-4 mt-8">
+          <div class="card mt-4">
+            <div class="card-header">
+              <span> {{ "issue.defendantRequests" | translate }} </span>
+            </div>
+            <div class="card-body border">
+              <p class="card-text">
+                {{ issueDetails?.defendantRequests }}
+              </p>
+            </div>
+          </div>
+        </div>
+        <!-- Defendent Evidence -->
+        <div class="col-md-12 mb-4 mt-8">
+          <div class="card mt-4">
+            <div class="card-header">
+              <span> {{ "issue.defendantEvidence" | translate }} </span>
+            </div>
+            <div class="card-body border">
+              <p class="card-text">
+                {{ issueDetails?.defendantGrounds }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!--attachments-->
+        <div class="col-md-12 mb-4 mt-8">
+          <div class="card mt-4">
+            <div class="card-header">
+              <span> {{ "issue.attachments" | translate }} </span>
+            </div>
+            <div class="card-body table-responsive">
+              <table class="table align-middle">
+                <thead>
+                  <tr class="text-center">
+                    <th scope="col">{{ "addIssue.Category" | translate }}</th>
+                    <th scope="col">{{ "issue.attachments" | translate }}</th>
+                    <th scope="col">{{ "issue.uploadDate" | translate }}</th>
+                    <th scope="col">{{ "issue.download" | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="text-center" *ngFor="let lawsuitFile of issueDetails?.lawsuitFiles">
+                    <td>{{ lawsuitFile.classificationName }}</td>
+
+                    <td>{{ lawsuitFile.imageName }}</td>
+                    <td>{{ lawsuitFile.date | date }}</td>
+                    <td>
+                      <a [href]="lawsuitFile.imageStorageFileURL" target="_blank">
+                        <i class="fa-solid fa-file-arrow-down fs-1"></i>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--end::Form-->
+  <div class="d-flex button-end">
+    <div class="form-action-btn">
+      <button (click)="Back()" id="kt_sign_in_submit" class="general-outline-button">
+        <ng-container>
+          <span class="indicator-label">
+            {{ "addIssue.Back" | translate }}
+          </span>
+        </ng-container>
+      </button>
+      <!-- <button class="genral-button" *ngIf="isAddNewCaseFromProject=='true'"
+        (click)="backToProject()">{{'projectManagement.backToProjectDetails'|translate}}</button> -->
+      <button (click)="submit()" type="submit" id="kt_sign_in_submit" class="genral-button"
+        [ngClass]="{ end: lang === 'en', 'end-arabic': lang === 'ar' }">
+        <ng-container class="d-flex">
+          <span class="indicator-label">
+            {{ "addIssue.save" | translate }}
+          </span>
+          <img src="assets/imgs/qyd/Left-icon.svg" class="btn-img" />
+        </ng-container>
+      </button>
+    </div>
+  </div>
+</div>
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert">
+          {{ message }}
+        </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

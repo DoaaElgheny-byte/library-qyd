@@ -1,0 +1,27 @@
+.modal-header svg:hover {
+    cursor: pointer;
+}
+
+.addMember {
+    border-radius: 6px;
+    background: #048081;
+    padding: 8px 16px;
+    border: none;
+    color: #fff;
+}
+
+.addMember:hover {
+
+    background: #026262;
+
+}
+
+ul li {
+    border-radius: 8px;
+    border: #D0D5DD !important;
+    background: #d0d5dd6a !important;
+    font-weight: 700;
+    padding: 10px 14px;
+
+    box-shadow: 0px 1px 2px 0px rgba(149, 149, 149, 0.05) !important;
+}

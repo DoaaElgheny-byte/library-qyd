@@ -1,0 +1,43 @@
+.main {
+    padding-top: 60px !important;
+    font-family: Tajawal;
+
+    .card {
+        border-radius: 8px;
+        border: 1px solid #d3d7db !important;
+        background: #FDFDFD;
+        box-shadow: 0px 8px 24px 0px rgba(69, 69, 80, 0.10);
+        // padding: 24px 12px 20px 12px;
+        font-size: 19px;
+
+        h2 {
+            color: #01150C;
+            font-style: normal;
+            font-weight: 700;
+            line-height: 40px;
+
+        }
+
+        .card-body {
+            color: var(--Gray-02, #525256);
+            font-size: 17px;
+            font-weight: 500;
+            line-height: 24px;
+
+        }
+
+        .card-footer {
+            font-size: 17px;
+
+            h3 {
+                color: #01150C;
+                font-weight: 700;
+                line-height: 40px;
+            }
+
+            padding-bottom: 0;
+            padding-top: 10px;
+        }
+    }
+
+}

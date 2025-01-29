@@ -1,0 +1,690 @@
+<section class="admin-dashboard main">
+  <!-- Start Statics Section -->
+  <section *ngIf="show === true">
+    <div class="title">
+      <h3>
+        {{ "Dashboard.hello" | translate }}
+        <span class="name">{{ name }} </span>
+      </h3>
+      <div class="desc">{{ "Dashboard.dashboardSubTitle" | translate }}</div>
+    </div>
+  </section>
+  <!-- End Statics Section -->
+  <!-- Search -->
+  <div class="search">
+    <h3>{{ "contract.search" | translate }}</h3>
+    <div class="row">
+      <div class="col-lg-3 col-md-4 mb-5 mt-2">
+        <label>{{ "Dashboard.startDate" | translate }}</label>
+
+        <div class="iput-sec">
+          <input
+            onfocus="(this.type='date') "
+            class="form-control date"
+            ngbDatepicker
+            #d="ngbDatepicker"
+            aria-label=""
+            id="date1"
+            [(ngModel)]="StartDate"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title=" enter the start date "
+            [placeholder]="'Dashboard.startDate' | translate"
+            [ngModelOptions]="{ standalone: true }"
+            (ngModelChange)="fromSearchInput = true; getAllData()"
+          />
+          <!-- <img src="assets/imgs/qyd/date.svg" /> -->
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-4 mb-5 mt-2">
+        <label>{{ "Dashboard.endDate" | translate }}</label>
+
+        <div class="iput-sec">
+          <input
+            onfocus="(this.type='date') "
+            class="form-control date"
+            ngbDatepicker
+            #d="ngbDatepicker"
+            aria-label=""
+            id="date2"
+            [(ngModel)]="endDate"
+            data-toggle="tooltip"
+            data-placement="bottom"
+            title=" enter the start date "
+            [placeholder]="'Dashboard.endDate' | translate"
+            [ngModelOptions]="{ standalone: true }"
+            (ngModelChange)="fromSearchInput = true; getAllData()"
+          />
+          <!-- <img src="assets/imgs/qyd/date.svg" /> -->
+        </div>
+      </div>
+
+      <!-- Branch-->
+      <div class="col-lg-3 col-md-4 mb-5 mt-2" *ngIf="!isEmployee">
+        <label>{{ "branches.name" | translate }}</label>
+
+        <div class="input-img">
+          <select
+            class="form-select"
+            [(ngModel)]="BranchId"
+            aria-label="Default select example"
+            (change)="
+              fromSearchInput = true;
+              getAllData();
+              getClientList($any($event).target.value)
+            "
+          >
+            <option selected disabled value="">
+              {{ "branches.name" | translate }}
+            </option>
+            <option *ngFor="let branch of branches" [value]="branch.id">
+              {{ branch.name }}
+            </option>
+          </select>
+          <button
+            class="select"
+            *ngIf="BranchId !== ''"
+            (click)="BranchId = ''; ClientId = ''; getAllData()"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-4 mb-3 mt-2" *ngIf="BranchId !== ''">
+        <label> {{ "addIssue.Client" | translate }} </label>
+        <div class="input-img">
+          <select
+            class="form-select"
+            [(ngModel)]="ClientId"
+            aria-label="Default select example"
+            (change)="fromSearchInput = true; getAllData()"
+          >
+            <option selected disabled value="">
+              {{ "addIssue.Client" | translate }}
+            </option>
+            <option *ngFor="let item of clientList" [value]="item?.id">
+              {{ item?.name }}
+            </option>
+          </select>
+          <button
+            class="select"
+            *ngIf="ClientId !== ''"
+            (click)="ClientId = ''; getAllData()"
+          >
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <hr />
+  </div>
+  <!-- Start Charts Section -->
+  <section class="charts">
+    <div class="statics-content mt-7 row">
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="static-card bg1">
+          <div class="d-flex" style="justify-content: space-between">
+            <h2>{{ "Dashboard.lawsuits" | translate }}</h2>
+            <div
+              role="button"
+              (click)="
+                lawisute?.lawsuits.totalNo !== 0 ? export('issue') : null
+              "
+              data-toggle="tooltip"
+              data-placement="right"
+              [attr.title]="
+                lawisute?.lawsuits.totalNo !== 0
+                  ? null
+                  : ('Dashboard.NoData' | translate)
+              "
+            >
+              <svg
+                *ngIf="lawisute?.lawsuits.totalNo === 0"
+                width="25"
+                height="20"
+                viewBox="0 0 25 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M13.9242 17.1869V0H12.3251C8.21762 0.643973 4.12164 1.23959 0 1.85746V18.1141C4.0553 18.7359 8.1619 19.3568 12.2437 20.0008H13.9101V17.1869H13.9242ZM7.88418 13.6194C7.37282 12.6702 6.92454 11.6964 6.54155 10.7027C6.17007 11.646 5.65708 12.5348 5.2396 13.459C4.6532 13.459 4.06769 13.4298 3.48128 13.4106C4.16763 12.2416 4.83186 11.0634 5.54032 9.90445C4.93977 8.70707 4.27465 7.53502 3.65552 6.34685L5.42889 6.26013C5.82601 7.16814 6.26383 8.06616 6.59374 8.9972C6.96521 8.0086 7.4729 7.06528 7.92575 6.12503C8.53191 6.0887 9.13924 6.05647 9.74776 6.02833C9.03487 7.29887 8.31639 8.57274 7.5923 9.84994C8.33437 11.1379 9.07644 12.442 9.81852 13.7422C9.17285 13.6969 8.53072 13.6654 7.88506 13.6201L7.88418 13.6194Z"
+                  fill="#CFCFCF"
+                />
+                <path
+                  d="M14.5986 2.22852V3.46196H17.4369V5.28106H14.5986V6.27886H17.4369V8.09796H14.5986V9.09577H17.4369V10.9118H14.5986V11.9096H17.4369V13.7126H14.5986V14.7687H17.4369V16.5302H14.5986V17.7637H24.4003V2.22852H14.5986ZM22.2378 16.5433H18.11V14.7825H22.2352L22.2378 16.5433ZM22.2378 13.7264H18.11V11.9073H22.2352L22.2378 13.7264ZM22.2378 10.9095H18.11V9.09347H22.2352L22.2378 10.9095ZM22.2378 8.09258H18.11V6.27657H22.2352L22.2378 8.09258ZM22.2378 5.27568H18.11V3.46273H22.2352L22.2378 5.27568Z"
+                  fill="#CFCFCF"
+                />
+              </svg>
+
+              <svg
+                *ngIf="lawisute?.lawsuits.totalNo !== 0"
+                width="25"
+                height="20"
+                viewBox="0 0 25 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g clip-path="url(#clip0_75_14748)">
+                  <path
+                    d="M13.9242 17.1869V0H12.3251C8.21762 0.643973 4.12164 1.23959 0 1.85746V18.1141C4.0553 18.7359 8.1619 19.3568 12.2437 20.0008H13.9101V17.1869H13.9242ZM7.88418 13.6194C7.37282 12.6702 6.92454 11.6964 6.54155 10.7027C6.17007 11.646 5.65708 12.5348 5.2396 13.459C4.6532 13.459 4.06769 13.4298 3.48128 13.4106C4.16763 12.2416 4.83186 11.0634 5.54032 9.90445C4.93977 8.70707 4.27465 7.53502 3.65552 6.34685L5.42889 6.26013C5.82601 7.16814 6.26383 8.06616 6.59374 8.9972C6.96521 8.0086 7.4729 7.06528 7.92575 6.12503C8.53191 6.0887 9.13924 6.05647 9.74776 6.02833C9.03487 7.29887 8.31639 8.57274 7.5923 9.84994C8.33437 11.1379 9.07644 12.442 9.81852 13.7422C9.17285 13.6969 8.53072 13.6654 7.88506 13.6201L7.88418 13.6194Z"
+                    fill="#207245"
+                  />
+                  <path
+                    d="M14.5991 2.22852V3.46196H17.4374V5.28106H14.5991V6.27886H17.4374V8.09796H14.5991V9.09577H17.4374V10.9118H14.5991V11.9096H17.4374V13.7126H14.5991V14.7687H17.4374V16.5302H14.5991V17.7637H24.4008V2.22852H14.5991ZM22.2383 16.5433H18.1105V14.7825H22.2356L22.2383 16.5433ZM22.2383 13.7264H18.1105V11.9073H22.2356L22.2383 13.7264ZM22.2383 10.9095H18.1105V9.09347H22.2356L22.2383 10.9095ZM22.2383 8.09258H18.1105V6.27657H22.2356L22.2383 8.09258ZM22.2383 5.27568H18.1105V3.46273H22.2356L22.2383 5.27568Z"
+                    fill="#207245"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_75_14748">
+                    <rect width="24.4008" height="20" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+          </div>
+
+          <div>
+            <p>
+              {{ lawisute?.lawsuits.totalNo }}
+              {{ "Dashboard.totalLawsuit" | translate }}
+            </p>
+          </div>
+          <div class="d-flex prog" style="justify-content: space-between">
+            <p>
+              {{ lawisute?.lawsuits.totalCompleted }}
+              {{ "Dashboard.lawsuitCompleted" | translate }}
+            </p>
+            <p>{{ precentage(lawisute?.lawsuits.percentage) }} %</p>
+          </div>
+          <div class="progress-bar">
+            <div
+              class="progress"
+              [style.width.%]="lawisute?.lawsuits.percentage"
+            ></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="static-card bg2">
+          <div class="d-flex" style="justify-content: space-between">
+            <h2>{{ "Dashboard.contract" | translate }}</h2>
+            <div
+              role="button"
+              (click)="contracts?.totalNo !== 0 ? export('contract') : null"
+              data-toggle="tooltip"
+              data-placement="right"
+              [attr.title]="
+                contracts?.totalNo !== 0
+                  ? null
+                  : ('Dashboard.NoData' | translate)
+              "
+            >
+              <svg
+                *ngIf="contracts?.totalNo === 0"
+                width="25"
+                height="20"
+                viewBox="0 0 25 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M13.9242 17.1869V0H12.3251C8.21762 0.643973 4.12164 1.23959 0 1.85746V18.1141C4.0553 18.7359 8.1619 19.3568 12.2437 20.0008H13.9101V17.1869H13.9242ZM7.88418 13.6194C7.37282 12.6702 6.92454 11.6964 6.54155 10.7027C6.17007 11.646 5.65708 12.5348 5.2396 13.459C4.6532 13.459 4.06769 13.4298 3.48128 13.4106C4.16763 12.2416 4.83186 11.0634 5.54032 9.90445C4.93977 8.70707 4.27465 7.53502 3.65552 6.34685L5.42889 6.26013C5.82601 7.16814 6.26383 8.06616 6.59374 8.9972C6.96521 8.0086 7.4729 7.06528 7.92575 6.12503C8.53191 6.0887 9.13924 6.05647 9.74776 6.02833C9.03487 7.29887 8.31639 8.57274 7.5923 9.84994C8.33437 11.1379 9.07644 12.442 9.81852 13.7422C9.17285 13.6969 8.53072 13.6654 7.88506 13.6201L7.88418 13.6194Z"
+                  fill="#CFCFCF"
+                />
+                <path
+                  d="M14.5986 2.22852V3.46196H17.4369V5.28106H14.5986V6.27886H17.4369V8.09796H14.5986V9.09577H17.4369V10.9118H14.5986V11.9096H17.4369V13.7126H14.5986V14.7687H17.4369V16.5302H14.5986V17.7637H24.4003V2.22852H14.5986ZM22.2378 16.5433H18.11V14.7825H22.2352L22.2378 16.5433ZM22.2378 13.7264H18.11V11.9073H22.2352L22.2378 13.7264ZM22.2378 10.9095H18.11V9.09347H22.2352L22.2378 10.9095ZM22.2378 8.09258H18.11V6.27657H22.2352L22.2378 8.09258ZM22.2378 5.27568H18.11V3.46273H22.2352L22.2378 5.27568Z"
+                  fill="#CFCFCF"
+                />
+              </svg>
+              <svg
+                *ngIf="contracts?.totalNo !== 0"
+                width="25"
+                height="20"
+                viewBox="0 0 25 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g clip-path="url(#clip0_75_14748)">
+                  <path
+                    d="M13.9242 17.1869V0H12.3251C8.21762 0.643973 4.12164 1.23959 0 1.85746V18.1141C4.0553 18.7359 8.1619 19.3568 12.2437 20.0008H13.9101V17.1869H13.9242ZM7.88418 13.6194C7.37282 12.6702 6.92454 11.6964 6.54155 10.7027C6.17007 11.646 5.65708 12.5348 5.2396 13.459C4.6532 13.459 4.06769 13.4298 3.48128 13.4106C4.16763 12.2416 4.83186 11.0634 5.54032 9.90445C4.93977 8.70707 4.27465 7.53502 3.65552 6.34685L5.42889 6.26013C5.82601 7.16814 6.26383 8.06616 6.59374 8.9972C6.96521 8.0086 7.4729 7.06528 7.92575 6.12503C8.53191 6.0887 9.13924 6.05647 9.74776 6.02833C9.03487 7.29887 8.31639 8.57274 7.5923 9.84994C8.33437 11.1379 9.07644 12.442 9.81852 13.7422C9.17285 13.6969 8.53072 13.6654 7.88506 13.6201L7.88418 13.6194Z"
+                    fill="#207245"
+                  />
+                  <path
+                    d="M14.5991 2.22852V3.46196H17.4374V5.28106H14.5991V6.27886H17.4374V8.09796H14.5991V9.09577H17.4374V10.9118H14.5991V11.9096H17.4374V13.7126H14.5991V14.7687H17.4374V16.5302H14.5991V17.7637H24.4008V2.22852H14.5991ZM22.2383 16.5433H18.1105V14.7825H22.2356L22.2383 16.5433ZM22.2383 13.7264H18.1105V11.9073H22.2356L22.2383 13.7264ZM22.2383 10.9095H18.1105V9.09347H22.2356L22.2383 10.9095ZM22.2383 8.09258H18.1105V6.27657H22.2356L22.2383 8.09258ZM22.2383 5.27568H18.1105V3.46273H22.2356L22.2383 5.27568Z"
+                    fill="#207245"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_75_14748">
+                    <rect width="24.4008" height="20" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+          </div>
+
+          <div>
+            <p>
+              {{ contracts?.totalNo }}
+              {{ "Dashboard.totalContract" | translate }}
+            </p>
+          </div>
+          <div class="d-flex prog" style="justify-content: space-between">
+            <p>
+              {{ contracts?.totalCompleted }}
+              {{ "Dashboard.contractCompleted" | translate }}
+            </p>
+            <p>{{ precentage(contracts?.percentage) }}%</p>
+          </div>
+          <div class="progress-bar2">
+            <div
+              class="progress2"
+              [style.width.%]="contracts?.percentage"
+            ></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="static-card bg3">
+          <div class="d-flex" style="justify-content: space-between">
+            <h2>{{ "Dashboard.sittings" | translate }}</h2>
+            <div
+              role="button"
+              (click)="sitting?.totalNo !== 0 ? export('sitting') : null"
+              data-toggle="tooltip"
+              data-placement="right"
+              [attr.title]="
+                sitting?.totalNo !== 0 ? null : ('Dashboard.NoData' | translate)
+              "
+            >
+              <svg
+                *ngIf="sitting?.totalNo === 0"
+                width="25"
+                height="20"
+                viewBox="0 0 25 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M13.9242 17.1869V0H12.3251C8.21762 0.643973 4.12164 1.23959 0 1.85746V18.1141C4.0553 18.7359 8.1619 19.3568 12.2437 20.0008H13.9101V17.1869H13.9242ZM7.88418 13.6194C7.37282 12.6702 6.92454 11.6964 6.54155 10.7027C6.17007 11.646 5.65708 12.5348 5.2396 13.459C4.6532 13.459 4.06769 13.4298 3.48128 13.4106C4.16763 12.2416 4.83186 11.0634 5.54032 9.90445C4.93977 8.70707 4.27465 7.53502 3.65552 6.34685L5.42889 6.26013C5.82601 7.16814 6.26383 8.06616 6.59374 8.9972C6.96521 8.0086 7.4729 7.06528 7.92575 6.12503C8.53191 6.0887 9.13924 6.05647 9.74776 6.02833C9.03487 7.29887 8.31639 8.57274 7.5923 9.84994C8.33437 11.1379 9.07644 12.442 9.81852 13.7422C9.17285 13.6969 8.53072 13.6654 7.88506 13.6201L7.88418 13.6194Z"
+                  fill="#CFCFCF"
+                />
+                <path
+                  d="M14.5986 2.22852V3.46196H17.4369V5.28106H14.5986V6.27886H17.4369V8.09796H14.5986V9.09577H17.4369V10.9118H14.5986V11.9096H17.4369V13.7126H14.5986V14.7687H17.4369V16.5302H14.5986V17.7637H24.4003V2.22852H14.5986ZM22.2378 16.5433H18.11V14.7825H22.2352L22.2378 16.5433ZM22.2378 13.7264H18.11V11.9073H22.2352L22.2378 13.7264ZM22.2378 10.9095H18.11V9.09347H22.2352L22.2378 10.9095ZM22.2378 8.09258H18.11V6.27657H22.2352L22.2378 8.09258ZM22.2378 5.27568H18.11V3.46273H22.2352L22.2378 5.27568Z"
+                  fill="#CFCFCF"
+                />
+              </svg>
+              <svg
+                *ngIf="sitting?.totalNo !== 0"
+                width="25"
+                height="20"
+                viewBox="0 0 25 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g clip-path="url(#clip0_75_14748)">
+                  <path
+                    d="M13.9242 17.1869V0H12.3251C8.21762 0.643973 4.12164 1.23959 0 1.85746V18.1141C4.0553 18.7359 8.1619 19.3568 12.2437 20.0008H13.9101V17.1869H13.9242ZM7.88418 13.6194C7.37282 12.6702 6.92454 11.6964 6.54155 10.7027C6.17007 11.646 5.65708 12.5348 5.2396 13.459C4.6532 13.459 4.06769 13.4298 3.48128 13.4106C4.16763 12.2416 4.83186 11.0634 5.54032 9.90445C4.93977 8.70707 4.27465 7.53502 3.65552 6.34685L5.42889 6.26013C5.82601 7.16814 6.26383 8.06616 6.59374 8.9972C6.96521 8.0086 7.4729 7.06528 7.92575 6.12503C8.53191 6.0887 9.13924 6.05647 9.74776 6.02833C9.03487 7.29887 8.31639 8.57274 7.5923 9.84994C8.33437 11.1379 9.07644 12.442 9.81852 13.7422C9.17285 13.6969 8.53072 13.6654 7.88506 13.6201L7.88418 13.6194Z"
+                    fill="#207245"
+                  />
+                  <path
+                    d="M14.5991 2.22852V3.46196H17.4374V5.28106H14.5991V6.27886H17.4374V8.09796H14.5991V9.09577H17.4374V10.9118H14.5991V11.9096H17.4374V13.7126H14.5991V14.7687H17.4374V16.5302H14.5991V17.7637H24.4008V2.22852H14.5991ZM22.2383 16.5433H18.1105V14.7825H22.2356L22.2383 16.5433ZM22.2383 13.7264H18.1105V11.9073H22.2356L22.2383 13.7264ZM22.2383 10.9095H18.1105V9.09347H22.2356L22.2383 10.9095ZM22.2383 8.09258H18.1105V6.27657H22.2356L22.2383 8.09258ZM22.2383 5.27568H18.1105V3.46273H22.2356L22.2383 5.27568Z"
+                    fill="#207245"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_75_14748">
+                    <rect width="24.4008" height="20" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+          </div>
+
+          <div>
+            <p>
+              {{ sitting?.totalNo }}
+              {{ "Dashboard.totalSittings" | translate }}
+            </p>
+          </div>
+          <div></div>
+          <div class="d-flex prog" style="justify-content: space-between">
+            <p>
+              {{ sitting?.totalCompleted }}
+              {{ "Dashboard.sittingCompleted" | translate }}
+            </p>
+            <p>{{ precentage(sitting?.percentage) }}%</p>
+          </div>
+          <div class="progress-bar3">
+            <div class="progress3" [style.width.%]="sitting?.percentage"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 col-sm-6">
+        <div class="static-card bg4">
+          <div class="d-flex" style="justify-content: space-between">
+            <h2>{{ "Dashboard.duty" | translate }}</h2>
+            <div
+              role="button"
+              (click)="duty?.totalNo !== 0 ? export('duty') : null"
+              data-toggle="tooltip"
+              data-placement="right"
+              [attr.title]="
+                duty?.totalNo !== 0 ? null : ('Dashboard.NoData' | translate)
+              "
+            >
+              <svg
+                *ngIf="duty?.totalNo === 0"
+                width="25"
+                height="20"
+                viewBox="0 0 25 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M13.9242 17.1869V0H12.3251C8.21762 0.643973 4.12164 1.23959 0 1.85746V18.1141C4.0553 18.7359 8.1619 19.3568 12.2437 20.0008H13.9101V17.1869H13.9242ZM7.88418 13.6194C7.37282 12.6702 6.92454 11.6964 6.54155 10.7027C6.17007 11.646 5.65708 12.5348 5.2396 13.459C4.6532 13.459 4.06769 13.4298 3.48128 13.4106C4.16763 12.2416 4.83186 11.0634 5.54032 9.90445C4.93977 8.70707 4.27465 7.53502 3.65552 6.34685L5.42889 6.26013C5.82601 7.16814 6.26383 8.06616 6.59374 8.9972C6.96521 8.0086 7.4729 7.06528 7.92575 6.12503C8.53191 6.0887 9.13924 6.05647 9.74776 6.02833C9.03487 7.29887 8.31639 8.57274 7.5923 9.84994C8.33437 11.1379 9.07644 12.442 9.81852 13.7422C9.17285 13.6969 8.53072 13.6654 7.88506 13.6201L7.88418 13.6194Z"
+                  fill="#CFCFCF"
+                />
+                <path
+                  d="M14.5986 2.22852V3.46196H17.4369V5.28106H14.5986V6.27886H17.4369V8.09796H14.5986V9.09577H17.4369V10.9118H14.5986V11.9096H17.4369V13.7126H14.5986V14.7687H17.4369V16.5302H14.5986V17.7637H24.4003V2.22852H14.5986ZM22.2378 16.5433H18.11V14.7825H22.2352L22.2378 16.5433ZM22.2378 13.7264H18.11V11.9073H22.2352L22.2378 13.7264ZM22.2378 10.9095H18.11V9.09347H22.2352L22.2378 10.9095ZM22.2378 8.09258H18.11V6.27657H22.2352L22.2378 8.09258ZM22.2378 5.27568H18.11V3.46273H22.2352L22.2378 5.27568Z"
+                  fill="#CFCFCF"
+                />
+              </svg>
+              <svg
+                *ngIf="duty?.totalNo !== 0"
+                width="25"
+                height="20"
+                viewBox="0 0 25 20"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <g clip-path="url(#clip0_75_14748)">
+                  <path
+                    d="M13.9242 17.1869V0H12.3251C8.21762 0.643973 4.12164 1.23959 0 1.85746V18.1141C4.0553 18.7359 8.1619 19.3568 12.2437 20.0008H13.9101V17.1869H13.9242ZM7.88418 13.6194C7.37282 12.6702 6.92454 11.6964 6.54155 10.7027C6.17007 11.646 5.65708 12.5348 5.2396 13.459C4.6532 13.459 4.06769 13.4298 3.48128 13.4106C4.16763 12.2416 4.83186 11.0634 5.54032 9.90445C4.93977 8.70707 4.27465 7.53502 3.65552 6.34685L5.42889 6.26013C5.82601 7.16814 6.26383 8.06616 6.59374 8.9972C6.96521 8.0086 7.4729 7.06528 7.92575 6.12503C8.53191 6.0887 9.13924 6.05647 9.74776 6.02833C9.03487 7.29887 8.31639 8.57274 7.5923 9.84994C8.33437 11.1379 9.07644 12.442 9.81852 13.7422C9.17285 13.6969 8.53072 13.6654 7.88506 13.6201L7.88418 13.6194Z"
+                    fill="#207245"
+                  />
+                  <path
+                    d="M14.5991 2.22852V3.46196H17.4374V5.28106H14.5991V6.27886H17.4374V8.09796H14.5991V9.09577H17.4374V10.9118H14.5991V11.9096H17.4374V13.7126H14.5991V14.7687H17.4374V16.5302H14.5991V17.7637H24.4008V2.22852H14.5991ZM22.2383 16.5433H18.1105V14.7825H22.2356L22.2383 16.5433ZM22.2383 13.7264H18.1105V11.9073H22.2356L22.2383 13.7264ZM22.2383 10.9095H18.1105V9.09347H22.2356L22.2383 10.9095ZM22.2383 8.09258H18.1105V6.27657H22.2356L22.2383 8.09258ZM22.2383 5.27568H18.1105V3.46273H22.2356L22.2383 5.27568Z"
+                    fill="#207245"
+                  />
+                </g>
+                <defs>
+                  <clipPath id="clip0_75_14748">
+                    <rect width="24.4008" height="20" fill="white" />
+                  </clipPath>
+                </defs>
+              </svg>
+            </div>
+          </div>
+
+          <div>
+            <p>
+              {{ duty?.totalNo }}
+              {{ "Dashboard.totalTasks" | translate }}
+            </p>
+          </div>
+          <div></div>
+          <div class="d-flex prog" style="justify-content: space-between">
+            <p>
+              {{ duty?.totalCompleted }}
+              {{ "Dashboard.tasksCompleted" | translate }}
+            </p>
+            <p>{{ precentage(duty?.percentage) }}%</p>
+          </div>
+          <div class="progress-bar4">
+            <div class="progress4" [style.width.%]="duty?.percentage"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="charts">
+    <div class="row">
+      <div
+        class="col-lg-6 my-3"
+        *ngIf="
+          currentUser.roles[0] !== allRoles.employee &&
+          currentUser.roles[1] !== this.allRoles.employee &&
+          currentUser.roles[0] !== allRoles.qYDManager &&
+          currentUser.roles[1] !== allRoles.qYDManager
+        "
+      >
+        <div class="chart-sec">
+          <div class="title">
+            <div class="info d-flex bg3" style="justify-content: space-between">
+              <h2>{{ "Dashboard.branches" | translate }}</h2>
+              <div
+                role="button"
+                (click)="branch?.totalNo !== 0 ? export('branch') : null"
+                data-toggle="tooltip"
+                data-placement="right"
+                [attr.title]="
+                  branch?.totalNo !== 0
+                    ? null
+                    : ('Dashboard.NoData' | translate)
+                "
+              >
+                <svg
+                  *ngIf="branch?.totalNo === 0"
+                  width="25"
+                  height="20"
+                  viewBox="0 0 25 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M13.9242 17.1869V0H12.3251C8.21762 0.643973 4.12164 1.23959 0 1.85746V18.1141C4.0553 18.7359 8.1619 19.3568 12.2437 20.0008H13.9101V17.1869H13.9242ZM7.88418 13.6194C7.37282 12.6702 6.92454 11.6964 6.54155 10.7027C6.17007 11.646 5.65708 12.5348 5.2396 13.459C4.6532 13.459 4.06769 13.4298 3.48128 13.4106C4.16763 12.2416 4.83186 11.0634 5.54032 9.90445C4.93977 8.70707 4.27465 7.53502 3.65552 6.34685L5.42889 6.26013C5.82601 7.16814 6.26383 8.06616 6.59374 8.9972C6.96521 8.0086 7.4729 7.06528 7.92575 6.12503C8.53191 6.0887 9.13924 6.05647 9.74776 6.02833C9.03487 7.29887 8.31639 8.57274 7.5923 9.84994C8.33437 11.1379 9.07644 12.442 9.81852 13.7422C9.17285 13.6969 8.53072 13.6654 7.88506 13.6201L7.88418 13.6194Z"
+                    fill="#CFCFCF"
+                  />
+                  <path
+                    d="M14.5986 2.22852V3.46196H17.4369V5.28106H14.5986V6.27886H17.4369V8.09796H14.5986V9.09577H17.4369V10.9118H14.5986V11.9096H17.4369V13.7126H14.5986V14.7687H17.4369V16.5302H14.5986V17.7637H24.4003V2.22852H14.5986ZM22.2378 16.5433H18.11V14.7825H22.2352L22.2378 16.5433ZM22.2378 13.7264H18.11V11.9073H22.2352L22.2378 13.7264ZM22.2378 10.9095H18.11V9.09347H22.2352L22.2378 10.9095ZM22.2378 8.09258H18.11V6.27657H22.2352L22.2378 8.09258ZM22.2378 5.27568H18.11V3.46273H22.2352L22.2378 5.27568Z"
+                    fill="#CFCFCF"
+                  />
+                </svg>
+                <svg
+                  *ngIf="branch?.totalNo !== 0"
+                  width="25"
+                  height="20"
+                  viewBox="0 0 25 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clip-path="url(#clip0_75_14748)">
+                    <path
+                      d="M13.9242 17.1869V0H12.3251C8.21762 0.643973 4.12164 1.23959 0 1.85746V18.1141C4.0553 18.7359 8.1619 19.3568 12.2437 20.0008H13.9101V17.1869H13.9242ZM7.88418 13.6194C7.37282 12.6702 6.92454 11.6964 6.54155 10.7027C6.17007 11.646 5.65708 12.5348 5.2396 13.459C4.6532 13.459 4.06769 13.4298 3.48128 13.4106C4.16763 12.2416 4.83186 11.0634 5.54032 9.90445C4.93977 8.70707 4.27465 7.53502 3.65552 6.34685L5.42889 6.26013C5.82601 7.16814 6.26383 8.06616 6.59374 8.9972C6.96521 8.0086 7.4729 7.06528 7.92575 6.12503C8.53191 6.0887 9.13924 6.05647 9.74776 6.02833C9.03487 7.29887 8.31639 8.57274 7.5923 9.84994C8.33437 11.1379 9.07644 12.442 9.81852 13.7422C9.17285 13.6969 8.53072 13.6654 7.88506 13.6201L7.88418 13.6194Z"
+                      fill="#207245"
+                    />
+                    <path
+                      d="M14.5991 2.22852V3.46196H17.4374V5.28106H14.5991V6.27886H17.4374V8.09796H14.5991V9.09577H17.4374V10.9118H14.5991V11.9096H17.4374V13.7126H14.5991V14.7687H17.4374V16.5302H14.5991V17.7637H24.4008V2.22852H14.5991ZM22.2383 16.5433H18.1105V14.7825H22.2356L22.2383 16.5433ZM22.2383 13.7264H18.1105V11.9073H22.2356L22.2383 13.7264ZM22.2383 10.9095H18.1105V9.09347H22.2356L22.2383 10.9095ZM22.2383 8.09258H18.1105V6.27657H22.2356L22.2383 8.09258ZM22.2383 5.27568H18.1105V3.46273H22.2356L22.2383 5.27568Z"
+                      fill="#207245"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_75_14748">
+                      <rect width="24.4008" height="20" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <p>
+                {{ branch?.totalNo }}
+                {{ "Dashboard.totalBranches" | translate }}
+              </p>
+            </div>
+          </div>
+          <div class="view">
+            <canvas min-width="700" min-height="300" id="circlechart"></canvas>
+            <div class="chart-label">
+              <div>{{ branch?.totalNo }}</div>
+              <div class="labele">{{ "Dashboard.branch" | translate }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 my-3">
+        <div class="chart-sec">
+          <div class="title">
+            <div class="info d-flex bg1" style="justify-content: space-between">
+              <h2>{{ "Dashboard.agency" | translate }}</h2>
+              <div
+                role="button"
+                (click)="agency?.totalNo !== 0 ? export('agency') : null"
+                data-toggle="tooltip"
+                data-placement="right"
+                [attr.title]="
+                  agency?.totalNo !== 0
+                    ? null
+                    : ('Dashboard.NoData' | translate)
+                "
+              >
+                <svg
+                  *ngIf="agency?.totalNo === 0"
+                  width="25"
+                  height="20"
+                  viewBox="0 0 25 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M13.9242 17.1869V0H12.3251C8.21762 0.643973 4.12164 1.23959 0 1.85746V18.1141C4.0553 18.7359 8.1619 19.3568 12.2437 20.0008H13.9101V17.1869H13.9242ZM7.88418 13.6194C7.37282 12.6702 6.92454 11.6964 6.54155 10.7027C6.17007 11.646 5.65708 12.5348 5.2396 13.459C4.6532 13.459 4.06769 13.4298 3.48128 13.4106C4.16763 12.2416 4.83186 11.0634 5.54032 9.90445C4.93977 8.70707 4.27465 7.53502 3.65552 6.34685L5.42889 6.26013C5.82601 7.16814 6.26383 8.06616 6.59374 8.9972C6.96521 8.0086 7.4729 7.06528 7.92575 6.12503C8.53191 6.0887 9.13924 6.05647 9.74776 6.02833C9.03487 7.29887 8.31639 8.57274 7.5923 9.84994C8.33437 11.1379 9.07644 12.442 9.81852 13.7422C9.17285 13.6969 8.53072 13.6654 7.88506 13.6201L7.88418 13.6194Z"
+                    fill="#CFCFCF"
+                  />
+                  <path
+                    d="M14.5986 2.22852V3.46196H17.4369V5.28106H14.5986V6.27886H17.4369V8.09796H14.5986V9.09577H17.4369V10.9118H14.5986V11.9096H17.4369V13.7126H14.5986V14.7687H17.4369V16.5302H14.5986V17.7637H24.4003V2.22852H14.5986ZM22.2378 16.5433H18.11V14.7825H22.2352L22.2378 16.5433ZM22.2378 13.7264H18.11V11.9073H22.2352L22.2378 13.7264ZM22.2378 10.9095H18.11V9.09347H22.2352L22.2378 10.9095ZM22.2378 8.09258H18.11V6.27657H22.2352L22.2378 8.09258ZM22.2378 5.27568H18.11V3.46273H22.2352L22.2378 5.27568Z"
+                    fill="#CFCFCF"
+                  />
+                </svg>
+                <svg
+                  *ngIf="agency?.totalNo !== 0"
+                  width="25"
+                  height="20"
+                  viewBox="0 0 25 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clip-path="url(#clip0_75_14748)">
+                    <path
+                      d="M13.9242 17.1869V0H12.3251C8.21762 0.643973 4.12164 1.23959 0 1.85746V18.1141C4.0553 18.7359 8.1619 19.3568 12.2437 20.0008H13.9101V17.1869H13.9242ZM7.88418 13.6194C7.37282 12.6702 6.92454 11.6964 6.54155 10.7027C6.17007 11.646 5.65708 12.5348 5.2396 13.459C4.6532 13.459 4.06769 13.4298 3.48128 13.4106C4.16763 12.2416 4.83186 11.0634 5.54032 9.90445C4.93977 8.70707 4.27465 7.53502 3.65552 6.34685L5.42889 6.26013C5.82601 7.16814 6.26383 8.06616 6.59374 8.9972C6.96521 8.0086 7.4729 7.06528 7.92575 6.12503C8.53191 6.0887 9.13924 6.05647 9.74776 6.02833C9.03487 7.29887 8.31639 8.57274 7.5923 9.84994C8.33437 11.1379 9.07644 12.442 9.81852 13.7422C9.17285 13.6969 8.53072 13.6654 7.88506 13.6201L7.88418 13.6194Z"
+                      fill="#207245"
+                    />
+                    <path
+                      d="M14.5991 2.22852V3.46196H17.4374V5.28106H14.5991V6.27886H17.4374V8.09796H14.5991V9.09577H17.4374V10.9118H14.5991V11.9096H17.4374V13.7126H14.5991V14.7687H17.4374V16.5302H14.5991V17.7637H24.4008V2.22852H14.5991ZM22.2383 16.5433H18.1105V14.7825H22.2356L22.2383 16.5433ZM22.2383 13.7264H18.1105V11.9073H22.2356L22.2383 13.7264ZM22.2383 10.9095H18.1105V9.09347H22.2356L22.2383 10.9095ZM22.2383 8.09258H18.1105V6.27657H22.2356L22.2383 8.09258ZM22.2383 5.27568H18.1105V3.46273H22.2356L22.2383 5.27568Z"
+                      fill="#207245"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_75_14748">
+                      <rect width="24.4008" height="20" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <p>
+                {{ agency?.totalNo }}
+                {{ "Dashboard.totalAgency" | translate }}
+              </p>
+            </div>
+          </div>
+          <div class="view">
+            <canvas min-width="700" min-height="300" id="agencyChart"></canvas>
+            <div class="chart-label">
+              <div>{{ agency?.totalNo }}</div>
+              <div class="labele">{{ "Dashboard.oneAgency" | translate }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div
+        class="col-lg-3 my-3"
+        *ngIf="currentUser.roles[0] !== allRoles.employee"
+      >
+        <div class="chart-sec">
+          <div class="title">
+            <div class="info d-flex bg2" style="justify-content: space-between">
+              <h2>{{ "Dashboard.employee" | translate }}</h2>
+              <div
+                role="button"
+                (click)="employee?.totalNo !== 0 ? export('employee') : null"
+                data-toggle="tooltip"
+                data-placement="right"
+                [attr.title]="
+                  employee?.totalNo !== 0
+                    ? null
+                    : ('Dashboard.NoData' | translate)
+                "
+              >
+                <svg
+                  *ngIf="employee?.totalNo === 0"
+                  width="25"
+                  height="20"
+                  viewBox="0 0 25 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M13.9242 17.1869V0H12.3251C8.21762 0.643973 4.12164 1.23959 0 1.85746V18.1141C4.0553 18.7359 8.1619 19.3568 12.2437 20.0008H13.9101V17.1869H13.9242ZM7.88418 13.6194C7.37282 12.6702 6.92454 11.6964 6.54155 10.7027C6.17007 11.646 5.65708 12.5348 5.2396 13.459C4.6532 13.459 4.06769 13.4298 3.48128 13.4106C4.16763 12.2416 4.83186 11.0634 5.54032 9.90445C4.93977 8.70707 4.27465 7.53502 3.65552 6.34685L5.42889 6.26013C5.82601 7.16814 6.26383 8.06616 6.59374 8.9972C6.96521 8.0086 7.4729 7.06528 7.92575 6.12503C8.53191 6.0887 9.13924 6.05647 9.74776 6.02833C9.03487 7.29887 8.31639 8.57274 7.5923 9.84994C8.33437 11.1379 9.07644 12.442 9.81852 13.7422C9.17285 13.6969 8.53072 13.6654 7.88506 13.6201L7.88418 13.6194Z"
+                    fill="#CFCFCF"
+                  />
+                  <path
+                    d="M14.5986 2.22852V3.46196H17.4369V5.28106H14.5986V6.27886H17.4369V8.09796H14.5986V9.09577H17.4369V10.9118H14.5986V11.9096H17.4369V13.7126H14.5986V14.7687H17.4369V16.5302H14.5986V17.7637H24.4003V2.22852H14.5986ZM22.2378 16.5433H18.11V14.7825H22.2352L22.2378 16.5433ZM22.2378 13.7264H18.11V11.9073H22.2352L22.2378 13.7264ZM22.2378 10.9095H18.11V9.09347H22.2352L22.2378 10.9095ZM22.2378 8.09258H18.11V6.27657H22.2352L22.2378 8.09258ZM22.2378 5.27568H18.11V3.46273H22.2352L22.2378 5.27568Z"
+                    fill="#CFCFCF"
+                  />
+                </svg>
+                <svg
+                  *ngIf="employee?.totalNo !== 0"
+                  width="25"
+                  height="20"
+                  viewBox="0 0 25 20"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <g clip-path="url(#clip0_75_14748)">
+                    <path
+                      d="M13.9242 17.1869V0H12.3251C8.21762 0.643973 4.12164 1.23959 0 1.85746V18.1141C4.0553 18.7359 8.1619 19.3568 12.2437 20.0008H13.9101V17.1869H13.9242ZM7.88418 13.6194C7.37282 12.6702 6.92454 11.6964 6.54155 10.7027C6.17007 11.646 5.65708 12.5348 5.2396 13.459C4.6532 13.459 4.06769 13.4298 3.48128 13.4106C4.16763 12.2416 4.83186 11.0634 5.54032 9.90445C4.93977 8.70707 4.27465 7.53502 3.65552 6.34685L5.42889 6.26013C5.82601 7.16814 6.26383 8.06616 6.59374 8.9972C6.96521 8.0086 7.4729 7.06528 7.92575 6.12503C8.53191 6.0887 9.13924 6.05647 9.74776 6.02833C9.03487 7.29887 8.31639 8.57274 7.5923 9.84994C8.33437 11.1379 9.07644 12.442 9.81852 13.7422C9.17285 13.6969 8.53072 13.6654 7.88506 13.6201L7.88418 13.6194Z"
+                      fill="#207245"
+                    />
+                    <path
+                      d="M14.5991 2.22852V3.46196H17.4374V5.28106H14.5991V6.27886H17.4374V8.09796H14.5991V9.09577H17.4374V10.9118H14.5991V11.9096H17.4374V13.7126H14.5991V14.7687H17.4374V16.5302H14.5991V17.7637H24.4008V2.22852H14.5991ZM22.2383 16.5433H18.1105V14.7825H22.2356L22.2383 16.5433ZM22.2383 13.7264H18.1105V11.9073H22.2356L22.2383 13.7264ZM22.2383 10.9095H18.1105V9.09347H22.2356L22.2383 10.9095ZM22.2383 8.09258H18.1105V6.27657H22.2356L22.2383 8.09258ZM22.2383 5.27568H18.1105V3.46273H22.2356L22.2383 5.27568Z"
+                      fill="#207245"
+                    />
+                  </g>
+                  <defs>
+                    <clipPath id="clip0_75_14748">
+                      <rect width="24.4008" height="20" fill="white" />
+                    </clipPath>
+                  </defs>
+                </svg>
+              </div>
+            </div>
+            <div>
+              <p>
+                {{ employee?.totalNo }}
+                {{ "Dashboard.totalEmployee" | translate }}
+              </p>
+            </div>
+          </div>
+          <div class="view">
+            <canvas
+              min-width="700"
+              min-height="300"
+              id="employeeChart"
+            ></canvas>
+            <div class="chart-label">
+              <div>{{ employee?.totalNo }}</div>
+              <div class="labele">
+                {{ "Dashboard.oneEmployee" | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- End Charts Section -->
+</section>

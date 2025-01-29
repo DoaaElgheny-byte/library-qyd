@@ -1,0 +1,340 @@
+<div class="modal-header">
+    <button type="button" class="btn-close" (click)="activeModal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+    </button>
+</div>
+
+<div class="modal-body invoice-receipt p-0">
+
+    <section *ngIf="isShowInvoice" id="standard-invoice" dir="rtl" class="standard-invoice my-5 ">
+        <div class="container">
+            <div class="invoice-info">
+                <h1>فاتورة ضريبية </h1>
+                <div class="d-flex justify-content-between">
+                    <div>
+                        <div class="d-flex invoice-number mt-4">
+                            <div class="icon px-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="25" viewBox="0 0 12 13"
+                                    fill="none">
+                                    <path
+                                        d="M2 1.33789H10C10.2761 1.33789 10.5 1.56175 10.5 1.83789V10.8379C10.5 11.114 10.2761 11.3379 10 11.3379H2C1.72386 11.3379 1.5 11.114 1.5 10.8379V1.83789C1.5 1.56175 1.72386 1.33789 2 1.33789ZM2.5 2.33789V10.3379H9.5V2.33789H2.5ZM3.5 3.33789H8.5V5.33789H3.5V3.33789ZM3.5 6.33789H4.5V7.33789H3.5V6.33789ZM3.5 8.33789H4.5V9.33789H3.5V8.33789ZM5.5 6.33789H6.5V7.33789H5.5V6.33789ZM5.5 8.33789H6.5V9.33789H5.5V8.33789ZM7.5 6.33789H8.5V9.33789H7.5V6.33789Z"
+                                        fill="black" />
+                                </svg>
+                            </div>
+                            <div>
+                                <p class="m-0">الرقم التسلسلي:</p>
+                                <p>{{this.invoiceDetail?.serialNumber}}</p>
+                            </div>
+                        </div>
+                        <div class="d-flex invoice-number ">
+
+                            <div>
+                                <p class="m-0">التاريخ</p>
+                                <p>
+                                <p>{{this.invoiceDetail?.date | date}}</p>
+
+                            </div>
+                        </div>
+                    </div>
+                    <!-- QR Code -->
+                    <div>
+                        <div>
+                            <img width="200" height="200" viewBox="0 0 12 13" fill="none" *ngIf="qrImageUrl"
+                                [src]="qrImageUrl" alt="ZATCA QR Code">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="invoice-details mt-5">
+                <div class="row me-5">
+                    <h3>معلومات البائع</h3>
+                    <div class="col-md-6">
+                        <p class="m-0">اسم البائع</p>
+                        <p>{{this.invoiceDetail?.sellerName}}</p>
+                        <p class="m-0">عنوان البائع </p>
+                        <p>{{this.invoiceDetail?.sellerAddress}}</p>
+
+                    </div>
+                    <div class="col-md-6">
+                        <p class="m-0">رقم تسجيل ضريبة القيمة المضافة للبائع</p>
+                        <p>311846150900003</p>
+                        <p class="m-0">رقم التسجيل التجاري</p>
+                        <p>1010934676</p>
+
+                    </div>
+                </div>
+                <div class="row me-5 mt-2">
+                    <h3>معلومات المشتري</h3>
+                    <div class="col-md-6">
+                        <p class="m-0">اسم المشتري</p>
+                        <p>{{this.invoiceDetail?.buyerName}}</p>
+                        <p class="m-0">عنوان المشتري</p>
+                        <p>{{this.invoiceDetail?.buyerAddress}}</p>
+
+                    </div>
+                    <div class="col-md-6 ">
+                        <p class="m-0">رقم تسجيل ضريبة القيمة المضافة للمشتري</p>
+                        <p>{{this.invoiceDetail?.vatRegistrationNumber}}</p>
+                        <p class="m-0">رقم التسجيل التجاري</p>
+                        <p>{{this.invoiceDetail?.vatNumber}}</p>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="invoice-items mt-5 pe-2">
+                <table class="table">
+                    <thead>
+                        <th>المنتج</th>
+                        <th>سعر الوحدة</th>
+                        <th>الكمية</th>
+                        <th>المجموع الفرعي بدون ضريبة</th>
+                        <th>نسبة الضريبة</th>
+                        <th>قيمة الضريبة</th>
+                        <th>المجموع شامل قيمة الضريبة
+                            المضافة</th>
+
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{this.invoiceDetail?.packageName}} </td>
+                            <td>{{this.invoiceDetail?.pricePackage}} {{ "payments.sar" | translate }}</td>
+                            <td>{{this.invoiceDetail?.countOfCustomers}}</td>
+                            <td>{{this.invoiceDetail?.pricePackage}} {{ "payments.sar" | translate }}</td>
+                            <td>15%</td>
+                            <td>{{this.invoiceDetail?.valueAddedTax}} {{ "payments.sar" | translate }}</td>
+                            <td>{{this.invoiceDetail?.total}} {{ "payments.sar" | translate }}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="items-summary pe-2 ">
+                <div class="d-flex border-bottom mb-4 justify-content-between">
+                    <p>اجمالي المبلغ الخاضع للضريبة</p>
+                    <p class="fw-bolder ps-5">{{this.invoiceDetail?.pricePackage}} {{ "payments.sar" | translate }}</p>
+                </div>
+                <div class="d-flex mb-4 border-bottom justify-content-between">
+                    <p>ضريبة القيمة المضافة (15%)</p>
+                    <p class="fw-bolder ps-5">{{this.invoiceDetail?.valueAddedTax}} {{ "payments.sar" | translate }}</p>
+                </div>
+                <div class="d-flex mb-4 border-bottom justify-content-between">
+                    <p>المجموع مع الضريبة (15%)</p>
+                    <p class="fw-bolder ps-5">{{this.invoiceDetail?.total}} {{ "payments.sar" | translate }}</p>
+                </div>
+            </div>
+            <div class="invoice-footer">
+
+
+                <!-- QYD LOGO -->
+                <div class="logo mb-0 pe-3">
+                    <img width="130" src="../../../../../assets/imgs/qyd/logo-blue.svg">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section *ngIf="!isShowInvoice" id="simple-invoice" dir="rtl" class="simple-invoice my-5  mt-5">
+        <div class="container">
+            <div>
+                <h1>فاتورة ضريبية مبسطة</h1>
+            </div>
+            <div class="d-flex invoice-number mt-4">
+                <div class="icon px-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="20" height="25" viewBox="0 0 12 13" fill="none">
+                        <path
+                            d="M2 1.33789H10C10.2761 1.33789 10.5 1.56175 10.5 1.83789V10.8379C10.5 11.114 10.2761 11.3379 10 11.3379H2C1.72386 11.3379 1.5 11.114 1.5 10.8379V1.83789C1.5 1.56175 1.72386 1.33789 2 1.33789ZM2.5 2.33789V10.3379H9.5V2.33789H2.5ZM3.5 3.33789H8.5V5.33789H3.5V3.33789ZM3.5 6.33789H4.5V7.33789H3.5V6.33789ZM3.5 8.33789H4.5V9.33789H3.5V8.33789ZM5.5 6.33789H6.5V7.33789H5.5V6.33789ZM5.5 8.33789H6.5V9.33789H5.5V8.33789ZM7.5 6.33789H8.5V9.33789H7.5V6.33789Z"
+                            fill="black" />
+                    </svg>
+                </div>
+                <div>
+                    <p class="m-0">رقم الفاتورة:</p>
+                    <p>{{this.invoiceDetail?.serialNumber}}</p>
+                </div>
+            </div>
+
+            <div class="invoice-details mt-5">
+                <div class="row me-5">
+                    <div class="col-md-6">
+                        <p class="m-0">اسم المتجر</p>
+                        <p class="name">شركة قيد لتقنية المعلومات </p>
+                        <p class="m-0">عنوان المتجر</p>
+                        <p class="address">طريق الملك عبدالله - الرياض - حي المغرزات - 2148 </p>
+
+                    </div>
+                    <div class="col-md-6">
+                        <p class="m-0">التاريخ</p>
+                        <p>{{this.invoiceDetail?.date | date}}</p>
+                        <p class="m-0">رقم تسجيل ضريبة القيمة المضافة</p>
+                        <p>311846150900003</p>
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="invoice-items mt-5 pe-2">
+                <table class="table">
+                    <thead>
+                        <th>المنتج</th>
+                        <th>سعر الوحدة</th>
+                        <th>الكمية</th>
+                        <th>ضريبة القيمة المضافة</th>
+                        <th>السعر شامل ضريبة القيمة المضافة</th>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>{{this.invoiceDetail?.packageName}} </td>
+                            <td>{{this.invoiceDetail?.pricePackage}} {{ "payments.sar" | translate }}</td>
+                            <td>{{this.invoiceDetail?.countOfCustomers}}</td>
+                            <td>{{this.invoiceDetail?.valueAddedTax}} {{ "payments.sar" | translate }}</td>
+                            <td>{{this.invoiceDetail?.total}} {{ "payments.sar" | translate }}</td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="items-summary pe-2 ">
+                <div class="d-flex border-bottom mb-4 justify-content-between">
+                    <p>اجمالي المبلغ الخاضع للضريبة</p>
+                    <p class="fw-bolder ps-5">{{this.invoiceDetail?.pricePackage}} {{ "payments.sar" | translate }}</p>
+                </div>
+                <div class="d-flex mb-4 border-bottom justify-content-between">
+                    <p>ضريبة القيمة المضافة (15%)</p>
+                    <p class="fw-bolder ps-5">{{this.invoiceDetail?.valueAddedTax}} {{ "payments.sar" | translate }}</p>
+                </div>
+                <div class="d-flex mb-4 border-bottom justify-content-between">
+                    <p>المجموع مع الضريبة (15%)</p>
+                    <p class="fw-bolder ps-5">{{this.invoiceDetail?.total}} {{ "payments.sar" | translate }}</p>
+                </div>
+            </div>
+            <div class="invoice-footer">
+                <h4 class="text-center">اغلاق الفاتورة 01100</h4>
+                <!-- QR CODE -->
+                <div class="qr-code text-center mt-4">
+                    <img width="130" src="../../../../../assets/imgs/qyd/logo-blue.svg">
+
+                </div>
+
+                <!-- QYD LOGO -->
+                <div class="logo mb-18 pe-2">
+                    <div class="qr-container">
+                        <img viewBox="0 0 12 13" fill="none" *ngIf="qrImageUrl" [src]="qrImageUrl" alt="ZATCA QR Code">
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- <div class="d-flex justify-content-center align-item-center">
+        <img width="130" src="../../../../../assets/imgs/qyd/logo-blue.svg">
+    </div>
+    <div class="d-flex justify-content-between align-item-center flex-row">
+        <img src="assets/imgs/invoice/qr.svg" [hidden]="false">
+        <div class="d-flex justify-content-center flex-column align-item-center text-center">
+            <div class="tax">{{"upgradePackage.taxInvoice"| translate}}</div>
+            <div class="tax-number ">{{"payments.invoiceNo"| translate}}</div>
+            <div class="number">{{invoiceDetail.invoiceNo}}</div>
+        </div>
+        <img src="assets/imgs/invoice/red.svg" class="red-b">
+    </div>
+    <div class="row mt-5">
+        <div class="col-6 mb-3">
+            <label>{{"upgradePackage.invoiceDate" |translate}}</label>
+            <div class="etail my-2d">{{invoiceDetail?.creationDate | date}}</div>
+        </div>
+        <div class="col-6 mb-3">
+            <label>{{"upgradePackage.durationPackage" |translate}}</label>
+            <div class="detail my-2">
+                <span class="duration" *ngIf="invoiceDetail?.durationPackage  === DurationPackage.ThreeMonths">
+                    {{"upgradePackage.ThreeMonths" |translate}}</span>
+                <span class="duration"
+                    *ngIf="invoiceDetail?.durationPackage  === DurationPackage.SixMonths">{{"upgradePackage.SixMonths"
+                    |translate}}</span>
+                <span class="duration"
+                    *ngIf="invoiceDetail?.durationPackage  === DurationPackage.Year">{{"upgradePackage.Year"
+                    |translate}}</span>
+                <span class="duration"
+                    *ngIf="invoiceDetail?.durationPackage  === DurationPackage.Month">{{"upgradePackage.Month"
+                    |translate}}</span>
+            </div>
+        </div>
+        <div class="col-6 mb-3">
+            <label>{{"upgradePackage.invoiceTime" |translate}}</label>
+            <div class="detail my-2">{{invoiceDetail?.creationDate | dateDifference | date:'hh:mm:ss'}}</div>
+        </div>
+        <div class="col-6 mb-3">
+            <label>{{"upgradePackage.serviceName" |translate}}</label>
+            <div class="detail my-2">{{invoiceDetail?.serviceName}}</div>
+        </div>
+        <div class="col-6 mb-3">
+            <label>{{"upgradePackage.clientName" |translate}}</label>
+            <div class="detail my-2">{{invoiceDetail?.agent}}</div>
+        </div>
+        <div class="col-6 mb-3">
+            <label>{{"upgradePackage.taxNumber" |translate}}</label>
+            <div class="detail my-2">{{invoiceDetail?.taxNumber}}</div>
+        </div>
+        <div class="col-6 mb-3">
+            <label>{{"upgradePackage.agentAddress" |translate}}</label>
+            <div class="detail my-2">{{invoiceDetail?.agentAddress}}</div>
+        </div>
+        <div class="col-6 mb-3">
+            <label>{{"upgradePackage.licenseNumber" |translate}}</label>
+            <div class="detail my-2">{{invoiceDetail?.commercialRegistrationNo}}</div>
+        </div>
+
+    </div>
+    <div class="cost-details col-10">
+        <ul class="list-unstyled col-12 p-0">
+            <li class="d-flex justify-content-between align-items-center my-8 ">
+                <div class="ms-2 ">
+                    <div class="fw-bold cost">{{"upgradePackage.serviceCost"| translate}}</div>
+                </div>
+                <span class="costValue">{{invoiceDetail?.price}} {{"payments.sar"| translate}}</span>
+            </li>
+            <li class=" d-flex justify-content-between align-items-center my-8 ">
+                <div class="ms-2 ">
+                    <div class="fw-bold cost">
+                        {{"upgradePackage.discountRate"| translate}}
+                        ({{invoiceDetail?.disCountRate}} %)
+                    </div>
+                </div>
+                <span class="costValue">{{invoiceDetail?.disCountValue}} {{"payments.sar"| translate}}</span>
+            </li>
+            <li class="d-flex justify-content-between align-items-center my-8 ">
+                <div class="ms-2 ">
+                    <div class="fw-bold cost">
+                        {{"upgradePackage.taxRate"| translate}}
+                        ({{invoiceDetail?.rateAddedTax}} %)
+                    </div>
+                </div>
+                <span class="costValue">{{invoiceDetail?.valueAddedTax}} {{"payments.sar"| translate}}</span>
+            </li>
+            <hr />
+            <li class="d-flex justify-content-between align-items-center my-8">
+                <div class="ms-2 ">
+                    <div class="fw-bold cost total">
+                        {{"upgradePackage.total"| translate}}
+                    </div>
+                </div>
+                <span class="costValue total">{{invoiceDetail?.totalPrice}} {{"payments.sar"| translate}}</span>
+
+            </li>
+        </ul>
+
+
+    </div> -->
+    <!-- 
+    <div class="d-flex justify-content-center flex-column align-item-center text-center mt-9">
+        <div class="link">{{"upgradePackage.downloadLink"|translate}}</div>
+        <a [href]="invoiceDetail?.receiptFileStorageUrl" target="_blank" role="button">
+            {{invoiceDetail?.receiptFiletName}}
+        </a>
+    </div> -->
+    <!-- <div class="copyright col-10 mt-9">
+        <div>@2024 QYD </div>
+    </div> -->
+</div>

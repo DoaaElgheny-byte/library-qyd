@@ -1,0 +1,455 @@
+<section class="user-management">
+  <!-- begin::Header -->
+  <div class="page-title">
+    <div class="d-flex justify-content-between align-items-center">
+      <h3>
+        <span>{{ "addIssue.Add" | translate }} </span>
+        {{ "addClient.newClient" | translate }}
+      </h3>
+    </div>
+    <app-breadcrumb></app-breadcrumb>
+  </div>
+  <div class="content">
+    <button class="genral-button mt-7" *ngIf="isAddNewClientFromProject=='true'"
+      (click)="backToProject()">{{'projectManagement.backToProjectDetails'|translate}}</button>
+
+    <article>
+      <div class="body-size position-relative">
+        <form *ngIf="successLoaded" [formGroup]="infoForm" novalidate="novalidate" id="kt_login_signin_form"
+          (ngSubmit)="submit()">
+          <!-- begin::Alert error-->
+          <ng-container *ngIf="hasError">
+            <div class="mb-lg-15 alert alert-danger">
+              <div class="alert-text font-weight-bold">
+                The login details are incorrect
+              </div>
+            </div>
+          </ng-container>
+          <div class="form w-100 my-5 row ">
+            <!--radio-->
+            <div class="col-md-6 col-12 mb-4">
+              <label> {{ "addIssue.ClientType" | translate }} </label>
+              <span class="text-danger mx-2 fs-2">*</span>
+              <div class="d-flex mt-4">
+                <div class="form-check">
+                  <input formControlName="type" [value]="clientType.Individual" class="form-check-input" type="radio"
+                    name="type" id="flexRadioDefault3" (change)="checkOfType()" />
+                  <label class="form-check-label" for="flexRadioDefault3">
+                    {{ "addClient.Individual" | translate }}
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input formControlName="type" [value]="clientType.Special" class="form-check-input" type="radio"
+                    name="type" id="flexRadioDefault4" (change)="checkOfType()" />
+                  <label class="form-check-label" for="flexRadioDefault4">
+                    {{ "addClient.business" | translate }}
+                  </label>
+                </div>
+              </div>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'required',
+                  message: 'loginPage.thisFieldIsRequired' | translate,
+                  control: infoForm.controls['type']
+                }"></ng-container>
+            </div>
+            <!--radio-->
+            <div class="col-md-6 mb-4">
+              <label> {{ "addClient.clientStatus" | translate }} </label>
+              <span class="text-danger mx-2 fs-2">*</span>
+              <div class="d-flex mt-4">
+                <div class="form-check">
+                  <input formControlName="state" [disabled]="isEmployee" [value]="accountState.Active"
+                    class="form-check-input" type="radio" name="state" id="flexRadioDefault1" />
+                  <label class="form-check-label" for="flexRadioDefault1">
+                    {{ "addClient.Active" | translate }}
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input [disabled]="isEmployee" formControlName="state" [value]="accountState.Inactive"
+                    class="form-check-input" type="radio" name="state" id="flexRadioDefault2" />
+                  <label class="form-check-label" for="flexRadioDefault2">
+                    {{ "addClient.NotActive" | translate }}
+                  </label>
+                </div>
+              </div>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'required',
+                  message: 'loginPage.thisFieldIsRequired' | translate,
+                  control: infoForm.controls['state']
+                }"></ng-container>
+            </div>
+            <!--name-->
+            <div class="col-md-4 mb-4 position-relative">
+              <label for=""> {{ "client.clientName" | translate }} </label>
+              <span class="text-danger mx-2 fs-2 position-absolute">*</span>
+              <input class="form-control bg-transparent" type="text" [placeholder]="'client.clientName2' | translate"
+                name="name" formControlName="name" autocomplete="off" [ngClass]="{
+                  'is-invalid':
+                    infoForm.controls['name'].invalid &&
+                    infoForm.controls['name'].touched,
+                  'is-valid': infoForm.controls['name'].valid
+                }" />
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'required',
+                  message: 'loginPage.thisFieldIsRequired' | translate,
+                  control: infoForm.controls['name']
+                }"></ng-container>
+            </div>
+            <!--Name of the representative of the entity-->
+            <div class="col-md-4 mb-4" *ngIf="infoForm.controls['type'].value !== clientType.Individual">
+              <label for=""> {{ "client.representativeName" | translate }} </label>
+              <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+              <input class="form-control bg-transparent" type="text"
+                [placeholder]="'client.representativeName2' | translate" name="name"
+                formControlName="representativeName" autocomplete="off" />
+            </div>
+            <!-- صفة ممثل الجههة -->
+            <div *ngIf="infoForm.controls['type'].value !== clientType.Individual" class="col-md-4 mb-4">
+              <label>{{ "addIssue.clientName2" | translate }}</label>
+              <select formControlName="representativeStatusType" class="form-select"
+                (change)="chooseRepresentativeStatusType($any($event).target.value)">
+                <option disabled selected [value]="null">
+                  {{ "addIssue.writeName2" | translate }}
+                </option>
+                <option *ngFor="let class of representativeStatusType" [value]="class.id">
+                  {{ class.name | translate }}
+                </option>
+              </select>
+            </div>
+            <!--other representative-->
+            <div *ngIf="isShowOtherRepresentativeStatusType" class="col-md-4 mb-4">
+              <label for=""> {{ "addClient.Other2" | translate }} </label>
+              <input class="form-control bg-transparent" type="text" [placeholder]="'addClient.Other2' | translate"
+                name="name" formControlName="otherRepresentativeStatusType" autocomplete="off" />
+            </div>
+            <!--ID Type-->
+            <div class="col-md-4 mb-4">
+              <label *ngIf="isIdNoVisible">{{ "addClient.IDType" | translate }}</label>
+              <label *ngIf="!isIdNoVisible">{{ "client.TypeRepresentative" | translate }}</label>
+              <select formControlName="nationalType" class="form-select"
+                (change)="chooseNationalType($any($event).target.value)">
+                <option disabled selected [value]="null">
+                  {{ "addIssue.writeIDType" | translate }}
+                </option>
+                <option *ngFor="let class of nationalType" [value]="class.id">
+                  {{ class.name | translate }}
+                </option>
+              </select>
+            </div>
+            <!--other national-->
+            <div class="col-md-4 mb-4" *ngIf="otherNational">
+              <label for=""> {{ "addClient.Other" | translate }} </label>
+              <span class="text-danger mx-2 fs-2 position-absolute">*</span>
+              <input class="form-control bg-transparent" type="text" [placeholder]="'addClient.Other' | translate"
+                name="name" formControlName="otherNational" autocomplete="off" [ngClass]="{
+                  'is-invalid':
+                    infoForm.controls['otherNational'].invalid &&
+                    infoForm.controls['otherNational'].touched,
+                  'is-valid': infoForm.controls['otherNational'].valid
+                }" />
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'required',
+                  message: 'loginPage.thisFieldIsRequired' | translate,
+                  control: infoForm.controls['otherNational']
+                }"></ng-container>
+            </div>
+            <!--ID No-->
+            <div *ngIf="isShowNationalType" class="col-md-4 mb-4 col-md-3-max">
+              <label *ngIf="isIdNoVisible">{{ 'addClient.idNo' | translate }}</label>
+              <label *ngIf="!isIdNoVisible">{{ 'client.RepresentativeId' | translate }}</label>
+              <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+              <input class="form-control bg-transparent" type="text" [placeholder]="'addIssue.writeIdNo' | translate"
+                name="typeNum" formControlName="nationalId" autocomplete="off" />
+
+            </div>
+            <!-- BD-->
+            <div class="col-md-4 mb-4">
+              <label> {{ "addClient.birthDay" | translate }} </label>
+              <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+              <div class="iput-sec">
+                <hijri-gregorian-datepicker style="direction: ltr" [label]="'expirationDate'"
+                  [(selectedDate)]="expirationDate" [readonly]="true" [isRequired]="false"
+                  [GregLabel]="'shared.Greg' | translate" [hijriLabel]="'shared.Hijri' | translate"
+                  [placeHolder]="'shared.place' | translate" [minGreg]="initialDate" [minHijri]="initialDateHijri"
+                  [showLabel]="false" [minHijri]="minDateH" [minGreg]="minDateG" [selectedDateType]="selectedDateType"
+                  (selectedDateChange)="selectedDateChange($event)" #expirationDatePicker>
+                </hijri-gregorian-datepicker>
+              </div>
+              <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'required',
+                  message: 'loginPage.thisFieldIsRequired' | translate,
+                  control: infoForm.controls['birthDate']
+                }"></ng-container> -->
+            </div>
+            <!--email-->
+            <div class="col-md-4 mb-4">
+              <label for="">{{ "addClient.clientEmail" | translate }} </label>
+              <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+              <input class="form-control bg-transparent" type="text" [placeholder]="'addIssue.clientEmail' | translate"
+                name="email" formControlName="email" autocomplete="off" [ngClass]="{
+                  'is-invalid':
+                    infoForm.controls['email'].invalid &&
+                    infoForm.controls['email'].touched,
+                  'is-valid': infoForm.controls['email'].valid
+                }" />
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'required',
+                  message: 'loginPage.thisFieldIsRequired' | translate,
+                  control: infoForm.controls['email']
+                }"></ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'pattern',
+                  message: 'addClient.EmailPattern' | translate,
+                  control: infoForm.controls['email']
+                }"></ng-container>
+            </div>
+            <!--phone-->
+            <div class="col-md-4 mb-4">
+              <label for="">{{ "addClient.clientPhoneNumber" | translate }}
+              </label>
+              <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+              <div class="phone form-control" style="
+                  direction: ltr;
+                  height: 41px;
+                  display: flex;
+
+                  background-color: transparent !important;
+                  padding: 0px;
+                ">
+
+                <intl-telephone-input [preferredCountries]="[
+                    CountryISO.SaudiArabia,
+                    CountryISO.SaudiArabia
+                  ]" [enablePlaceholder]="true" [searchCountryFlag]="true" [separateDialCode]="false"
+                  [enableAutoCountrySelect]="true" [searchCountryField]="SearchCountryField.All"
+                  [phoneValidation]="true" [numberFormat]="PhoneNumberFormat.International" [inputId]="'phoneNumber'"
+                  [customPlaceholder]="mobileNumber" [selectedCountryISO]="CountryISO[selectedCountryIso]"
+                  (onChange)="onInputChange($event)">
+                </intl-telephone-input>
+              </div>
+              <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'required',
+                  message: 'loginPage.thisFieldIsRequired' | translate,
+                  control: infoForm.controls['mobileNumber']
+                }"></ng-container> -->
+            </div>
+            <!--branch-->
+            <div class="col-md-4 mb-4 position-relative">
+              <label>{{ "addIssue.BranchName2" | translate }}</label>
+
+
+              <span class="text-danger mx-2 fs-2 position-absolute">*</span>
+
+              <select formControlName="branchId" class="form-select" *ngIf="!isEmployee">
+                <option disabled selected value="null">
+                  {{ "addIssue.BranchName4" | translate }}
+                </option>
+                <option *ngFor="let branch of branches" [value]="branch.id">
+                  {{ branch.name }}
+                </option>
+              </select>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'required',
+                  message: 'addClient.branchIdRequired' | translate,
+                  control: infoForm.controls['branchId']
+                }"></ng-container>
+              <input class="form-control bg-transparent" *ngIf="isEmployee" readonly type="text"
+                formControlName="branch" style="background-color: #e4e6ef !important" />
+            </div>
+
+
+            <!--- address --->
+            <div class="col-md- mb-4">
+              <label> {{ "addClient.address" | translate }} </label>
+
+              <textarea formControlName="nationalAddress" class="form-control bg-transparent"
+                [placeholder]="'addClient.address' | translate">
+              </textarea>
+            </div>
+          </div>
+
+          <div class="row">
+            <!--commerical name-->
+            <div class="col-md-4 mb-4" *ngIf="infoForm.controls['type'].value !== clientType.Individual">
+              <label for="">{{ "addClient.commericalName" | translate }}
+              </label>
+              <input class="form-control bg-transparent" type="text"
+                [placeholder]="'addClient.commericalName' | translate" name="commercialName"
+                formControlName="commercialName" autocomplete="off" />
+            </div>
+            <!--commerical no-->
+            <div class="col-md-4 mb-4" *ngIf="infoForm.controls['type'].value !== clientType.Individual">
+              <label for="">{{ "addClient.commericalNumber" | translate }}
+              </label>
+              <input class="form-control bg-transparent" type="text"
+                [placeholder]="'addClient.commericalNumber' | translate" name="commercialRegistrationNo"
+                formControlName="commercialRegistrationNo" autocomplete="off" />
+
+            </div>
+            <!--commerical no-->
+            <div class="col-md-4 mb-4" *ngIf="infoForm.controls['type'].value !== clientType.Individual">
+              <label for="">{{ "register.VATRegistrationNumber" | translate }}
+              </label>
+              <input class="form-control bg-transparent" type="text"
+                [placeholder]="'register.VATRegistrationNumber' | translate" name="vatRegistrationNumber"
+                formControlName="vatRegistrationNumber" autocomplete="off" />
+
+            </div>
+          </div>
+        </form>
+        <!-- Attachment -->
+        <h3>{{ "addClient.attachment" | translate }}</h3>
+        <form class="row" [formGroup]="filesForm" novalidate="novalidate" *ngIf="successLoaded"
+          id="kt_login_signin_form2" (ngSubmit)="addAttachmentInfo()">
+          <div class="col-md-4 mb-4">
+            <label>{{ "addClient.classification" | translate }}</label>
+            <select formControlName="clientClassificationAttachmentId" class="form-select"
+              (change)="checkRepeatClassification()">
+              <option disabled selected value="null">
+                {{ "addClient.classification" | translate }}
+              </option>
+              <option *ngFor="let class of classes" [value]="class.id">
+                {{ lang === "ar" ? class.nameAr : class.nameEn }}
+              </option>
+            </select>
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'loginPage.thisFieldIsRequired' | translate,
+                control: filesForm.controls['clientClassificationAttachmentId']
+              }"></ng-container>
+
+            <div *ngIf="classificationRepeated" _ngcontent-ebq-c229=""
+              class="fv-plugins-message-container ng-star-inserted m-t-15">
+              <div _ngcontent-ebq-c229="" class="fv-help-block">
+                <span _ngcontent-ebq-c229="" role="alert">
+                  {{ "addClient.classificationRepeated" | translate }}
+                </span>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-4 mb-4" *ngIf="others">
+            <label for=""> {{ "addClient.Other" | translate }} </label>
+            <span class="text-danger mx-2 fs-2">*</span>
+            <input class="form-control bg-transparent" type="text" [placeholder]="'addClient.Other' | translate"
+              name="name" formControlName="others" autocomplete="off" [ngClass]="{
+                                  'is-invalid':
+                                    filesForm.controls['others'].invalid &&
+                                    filesForm.controls['others'].touched,
+                                  'is-valid': filesForm.controls['others'].valid
+                                }" />
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                  validation: 'required',
+                                  message: 'loginPage.thisFieldIsRequired' | translate,
+                                  control: filesForm.controls['others']
+                                }"></ng-container>
+          </div>
+
+          <div class="col-md-4 mb-4 new-upload">
+            <label for="">{{ "addIssue.Attachment" | translate }} </label>
+            <app-upload-file [acceptedExtensions]="['png', 'gif', 'jpg', 'jpeg', 'pdf']" [flag]="4" [isMultiple]="false"
+              (bindValue)="uploadImg($event)" [labelUploaded]="'addIssue.upload' | translate" [fileName]="fileName"
+              [delName]="true">
+            </app-upload-file>
+            <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'loginPage.thisFieldIsRequired' | translate,
+                control: filesForm.controls['attachment']
+              }"></ng-container> -->
+
+            <!-- <div _ngcontent-ebq-c229="" class="fv-plugins-message-container ng-star-inserted m-t-15">
+              <div _ngcontent-ebq-c229="" class="fv-help-block">
+                <pre>{{ fileErrorMessage }}</pre>
+              </div>
+            </div> -->
+          </div>
+          <div class="col-md-2 mb-4 mt-6">
+            <button type="button" id="kt_sign_in_submit" class="genral-button add" (click)="addAttachmentInfo()"
+              [disabled]="classificationRepeated">
+              <span class="d-flex align-items-center justify-content-center">
+                <img src="assets/imgs/qyd/Right-icon.svg" />
+                <span class="indicator-label mx-2">
+                  {{ "addIssue.Add" | translate }}
+                </span>
+              </span>
+            </button>
+          </div>
+        </form>
+
+        <div class="col-md-12 table-grid table-striped table-responsive" *ngIf="attachmentFileInfoArray.length">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">
+                  {{ "addClient.classification" | translate }}
+                </th>
+                <th scope="col">{{ "addIssue.Document" | translate }}</th>
+                <th scope="col">{{ "addIssue.Attachment" | translate }}</th>
+                <th scope="col"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of attachmentFileInfoArray">
+                <td>
+                  {{
+                  item.classificationName
+                  ? item.classificationName
+                  : item.clientClassificationAttachment
+                  }}
+                </td>
+                <td>{{ item.others }}</td>
+                <td>{{ item.imageName }}</td>
+
+                <td>
+                  <a target="_blank" [href]="item?.imageURL ? item?.imageURL :item?.imageStorageFileURL" download>
+                    <i class="fa-solid fa-file-arrow-down"></i>
+                    {{ "addClient.download" | translate }}
+                  </a>
+                </td>
+                <td (click)="deleteRow(item)" role="button" class="deleteCol">
+                  <img src="assets/imgs/qyd/delete-icon.svg" />
+                  {{ "addIssue.delete" | translate }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!--end::Form-->
+        <div class="d-flex button-end">
+          <div class="form-action-btn">
+            <button (click)="Back()" id="kt_sign_in_submit" class="general-outline-button">
+              <ng-container>
+                <span class="indicator-label">
+                  {{ "addIssue.Back" | translate }}
+                </span>
+              </ng-container>
+            </button>
+
+            <button type="submit" (click)="submit()" id="kt_sign_in_submit"
+              [ngClass]="{ end: lang === 'en', 'end-arabic': lang === 'ar' }" class="genral-button">
+              <ng-container class="d-flex">
+                <span class="indicator-label">
+                  {{ "addIssue.SaveAndContinue" | translate }}
+                </span>
+                <img src="assets/imgs/qyd/Left-icon.svg" class="btn-img" />
+              </ng-container>
+            </button>
+          </div>
+        </div>
+      </div>
+      <ng-template #formError let-control="control" let-message="message" let-validation="validation">
+        <ng-container *ngIf="
+            control.hasError(validation) && (control.dirty || control.touched)
+          ">
+          <div class="fv-plugins-message-container">
+            <div class="fv-help-block">
+              <span role="alert">
+                {{ message }}
+              </span>
+            </div>
+          </div>
+        </ng-container>
+      </ng-template>
+    </article>
+  </div>
+</section>

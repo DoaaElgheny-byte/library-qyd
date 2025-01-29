@@ -1,0 +1,73 @@
+.modal-header {
+	border: none;
+	padding-bottom: 0;
+	justify-content: flex-end;
+
+	button {
+		margin: 0;
+	}
+
+	.btn-close {
+		background-color: #ffffff !important;
+
+		span {
+			background-color: #fff;
+			padding: 12px;
+			font-size: 22px;
+		}
+	}
+}
+
+.modal-body {
+	p {
+		margin-bottom: 0 !important;
+	}
+}
+
+.title {
+	color: #0D0D0DCC;
+	font-size: 24px;
+	font-weight: 400;
+
+}
+
+p {
+	color: #0D0D0D80;
+	font-size: 16px;
+	font-weight: 400;
+
+}
+
+.iban {
+	color: #106F6E;
+	font-size: 16px;
+	font-weight: 400;
+}
+
+label {
+	color: #4C4C4C;
+	font-size: 16px;
+	font-weight: 400;
+}
+
+.genral-button {
+	padding: 8px 50px !important;
+}
+
+.number {
+	color: #94A3B8;
+	font-weight: 700;
+}
+
+i {
+	cursor: pointer;
+}
+
+.main-text {
+	color: #6C6C72;
+	font-weight: 700;
+}
+
+.btn2 {
+	background-color: #048081 !important;
+}

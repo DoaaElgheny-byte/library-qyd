@@ -1,0 +1,36 @@
+.search {
+  background-color: #F4F4F5;
+  color:#71717A;
+  p{
+    cursor: pointer;
+    margin-bottom: 0;
+    &.selected {
+      color:#09090B;
+      background-color: #ffffff;
+      padding: 0.5rem;
+    }
+  }
+
+}
+label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #09090B;
+  margin: 1rem auto;
+}
+.form-check {
+  width: fit-content !important;
+    display: flex;
+  label {
+    margin-top: 0;
+    font-weight: 500;
+  }
+  .form-check-input {
+    margin-right: -0.25rem !important;
+  }
+
+}
+.form-check-input {
+  width: 1.4rem;
+  height: 1.4rem;
+}

@@ -1,0 +1,35 @@
+app-editor {
+  .NgxEditor__Wrapper {
+    border-color: var(--gray-light-1);
+    border-width: 1px;
+    border-radius: 8px;
+    height: 203px;
+    overflow: auto;
+
+    .NgxEditor__MenuBar {
+      border-top-left-radius: var(--input-border-radius);
+      border-top-right-radius: var(--input-border-radius);
+      border-bottom-color: var(--gray-light-1);
+    }
+
+    .NgxEditor {
+      border-bottom-left-radius: var(--input-border-radius);
+      border-bottom-right-radius: var(--input-border-radius);
+    }
+
+    &.is-disabled {
+      cursor: not-allowed;
+
+      .NgxEditor,
+      .NgxEditor__MenuBar {
+        pointer-events: none;
+        background-color: var(--neutral-3);
+      }
+    }
+  }
+
+  .NgxEditor__Content {
+    min-height: 160px;
+    height: 100%;
+  }
+}

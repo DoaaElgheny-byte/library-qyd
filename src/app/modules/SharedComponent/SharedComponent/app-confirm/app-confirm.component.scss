@@ -1,0 +1,35 @@
+.modal-header {
+  padding: 16px;
+
+  border: none;
+
+  button {
+    all: unset;
+    cursor: pointer;
+    font-size: 33px;
+  }
+}
+
+.modal-body {
+  // text-align: center;
+  padding: 20px 10px;
+
+  img {
+    max-width: 170px;
+    margin-bottom: 15px
+  }
+
+  h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    margin-top: 15px;
+    color: #0D0D0D
+  }
+
+  p {
+    font-size: 20px;
+    margin-bottom: 60px;
+    margin-top: 15px;
+    color: #0D0D0D
+  }
+}

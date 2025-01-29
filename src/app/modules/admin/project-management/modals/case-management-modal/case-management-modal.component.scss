@@ -1,0 +1,41 @@
+.table {
+    font-size: 14px;
+}
+
+
+
+.badge {
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 8px;
+}
+
+.dropdown-toggle {
+    font-size: 14px;
+}
+
+.dropdown-menu {
+    min-width: 150px;
+}
+
+.form-switch .form-check-input {
+    width: 40px;
+    height: 20px;
+}
+
+th {
+    font-weight: bold;
+    background-color: #fff !important;
+    border-bottom: 1px solid #ccc;
+
+}
+
+i {
+    cursor: pointer;
+}
+
+.form-check-input:checked {
+    background-color: #3B82F6;
+    border-color: #3B82F6;
+
+}

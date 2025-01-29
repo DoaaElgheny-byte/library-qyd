@@ -1,0 +1,56 @@
+.body-size {
+    margin-top:20px;
+    .sessions {
+        font-size: 16px;
+        border:1px solid #f4f4f4;
+        border-radius: 5px;
+        background-color: #fff;
+        padding:20px;
+        .img {
+            background-color: #EEF5F5;
+        }
+        h5 {
+            color:#828282
+        }
+    }
+    .employee {
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .yellow-circle {
+        background-color: #FFE6A6;
+        color:#DDA617;
+        margin: auto -19px;
+      }
+      .green-circle {
+        background-color: #B1E0E0;
+        color:#106F6E;
+        margin: auto -19px;
+      }
+      .blue-circle {
+        background-color: #B8EDEC;
+        color:#49B6B5;
+        margin: auto 3px;
+      }
+      .grey-circle {
+        background-color: #C9C9C9;
+        color:#575757;
+        margin: auto -19px;
+      }
+    
+   
+}
+.general-outline-button {
+  
+  padding: 10px 14px !important;
+}
+
+.tabs-issue{
+  justify-content: center;
+  @media (max-width:500px){
+  justify-content: start;
+}
+}

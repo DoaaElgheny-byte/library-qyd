@@ -1,0 +1,86 @@
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex align-items-center gap-3">
+            <div class="d-flex gap-2">
+
+                <div class="col-lg col-md-4 mb-5">
+                    <label>{{ "projectManagement.start_date2" | translate }}</label>
+
+                    <div class="iput-sec">
+                        <input onfocus="(this.type='date')" class="form-control date" aria-label=""
+                            [(ngModel)]="startDate" (input)="page = 1; getAllPaymentSchedules()" data-toggle="tooltip"
+                            data-placement="bottom" title=" enter the start date " [placeholder]="'projectManagement.start_date2' |
+                            translate" />
+                    </div>
+                </div>
+
+                <div class="col-lg col-md-4 mb-5">
+                    <label>{{ "projectManagement.end_date2" | translate }}</label>
+
+                    <div class="iput-sec">
+                        <input onfocus="(this.type='date')" class="form-control date" aria-label=""
+                            [(ngModel)]="endDate" (input)="page = 1; getAllPaymentSchedules()" data-toggle="tooltip"
+                            data-placement="bottom" title=" enter the end date "
+                            [placeholder]="'projectManagement.end_date2' | translate" />
+                    </div>
+                </div>
+                <div class="col-lg col-md-4 mb-5">
+                    <label for="clientName">{{'projectManagement.clientName'|translate}}</label>
+                    <input [(ngModel)]="clientName" id="clientName" (input)="getAllPaymentSchedules()" type="text"
+                        class="form-control" placeholder="{{ 'projectManagement.client_name' | translate }}"
+                        style="width: 200px;" />
+                </div>
+            </div>
+
+            <!-- <span class="border border-dark p-4 fw-bold rounded">{{ 'projectManagement.total_amount' | translate }}:
+                5000
+                ر.س</span> -->
+        </div>
+        <!-- <div>
+            <button class="btn btn-outline-primary border border-1 border-dark dropdown-toggle" type="button"
+                data-bs-toggle="dropdown">
+                {{ 'projectManagement.export_data' | translate }}
+            </button>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item" href="#">
+                        {{ 'projectManagement.pdf' | translate }}
+                        <i class="fas fa-file-pdf" style="color: #d9534f; font-size: 24px; margin-right: 8px;"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="#">
+                        {{ 'projectManagement.excel' | translate }}
+                        <i class="fas fa-file-excel" style="color: #28a745; font-size: 24px; margin-right: 8px;"></i>
+                    </a>
+                </li>
+            </ul>
+        </div> -->
+    </div>
+    <h5>{{ 'projectManagement.payment_table' | translate }}</h5>
+
+    <table class="table table-bordered text-center">
+        <thead class="table-light">
+            <tr>
+                <th>#</th>
+                <th>{{ 'projectManagement.reference_number' | translate }}</th>
+                <th>{{ 'projectManagement.payment_date' | translate }}</th>
+                <th>{{ 'projectManagement.paid_invoice' | translate }}</th>
+                <th>{{ 'projectManagement.client_name' | translate }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let payment of paymentSchedules; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ payment.referenceNumber }}</td>
+                <td>{{ payment.startDate | date }}</td>
+                <td>{{ payment.invoiceNumber }}</td>
+                <td>{{ payment.clientName }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <ngb-pagination [collectionSize]="totalCount" [(page)]="page" [pageSize]="pageSize"
+        (pageChange)="getAllPaymentSchedules()"
+        class="pagination p-0 my-4 d-flex justify-content-center"></ngb-pagination>
+</div>

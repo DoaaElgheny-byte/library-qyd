@@ -1,0 +1,188 @@
+<section class="main">
+  <h3>{{"client.clientManagement" | translate}}</h3>
+  <app-breadcrumb></app-breadcrumb>
+  <!-- Search -->
+  <div class="search">
+    <h3>{{"contract.search" | translate}}</h3>
+    <div class="row">
+      <div class="col-lg-4 col-xl-4 col-md-6 mb-3">
+        <label>{{'client.clientSearch' | translate}}</label>
+        <div class="input-img">
+          <!-- <img src="/assets/imgs/search.svg" alt="" srcset="" /> -->
+          <button *ngIf="clientName !==''" (click)="clientName = ''; getAllUsersData()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <input style="width: 100%" class="form-control" type="text"
+            (keyup)="page = 1;fromSearchInput=true; getAllUsersData()" [placeholder]="'client.clientSearch' | translate"
+            [(ngModel)]="clientName" />
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-xl-4 col-md-6 mb-3">
+        <label>{{'client.clientType' | translate}}</label>
+        <div class="input-img">
+          <select class="form-select" [(ngModel)]="clientType" aria-label="Default select example"
+            (change)="page = 1;fromSearchInput=true; getAllUsersData()">
+            <option selected disabled value="">
+              {{ "client.clientType" | translate }}
+            </option>
+            <option [value]="clientTypeEnum.All">
+              {{ "client.All" | translate }}
+            </option>
+            <option [value]="clientTypeEnum.Individual">
+              {{ "addClient.Individual" | translate }}
+            </option>
+            <option [value]="clientTypeEnum.Special">
+              {{ "addClient.business" | translate }}
+            </option>
+          </select>
+          <button class="select" *ngIf="clientType !==''" (click)="clientType = ''; getAllUsersData()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+      <div class="col-lg-4 col-xl-4 col-md-6 mb-3">
+        <label>{{'client.clientStatus' | translate}}</label>
+        <div class="input-img">
+          <select class="form-select" [(ngModel)]="clientStatus" aria-label="Default select example"
+            (change)="page = 1;fromSearchInput=true; getAllUsersData()">
+            <option selected disabled value="">
+              {{ "client.clientStatus" | translate }}
+            </option>
+            <option [value]="clientStatusEnum.All">
+              {{ "client.All" | translate }}
+            </option>
+            <option [value]="clientStatusEnum.Active">
+              {{ "client.Active" | translate }}
+            </option>
+            <option [value]="clientStatusEnum.NotActive">
+              {{ "client.NotActive" | translate }}
+            </option>
+          </select>
+          <button class="select" *ngIf="clientStatus !==''" (click)="clientStatus = ''; getAllUsersData()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+    </div>
+    <hr />
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center title">
+    <h3>{{"client.clientList" | translate}}</h3>
+    <div class="" *ngIf="!isEmployee">
+      <button (click)="addNew()" class="general-outline-button d-flex align-items-center justify-content-center">
+        <span class="m-0">{{ "client.addNew" | translate }}</span>
+        <i class="fa-solid fa-plus px-2"></i>
+      </button>
+    </div>
+  </div>
+  <!-- Table-->
+  <div class="card members-page mt-4">
+    <!-- begin::Body -->
+    <div class="card-body">
+      <div *ngIf="allUsers.length === 0">
+        <img style="
+                  text-align: center;
+                  display: block;
+                  margin-left: auto;
+                  margin-right: auto;
+                  max-width: 250px;
+                " src="assets/imgs/qyd/no-results.svg" />
+
+        <h1 style="text-align: center; padding-top: 15px">
+          {{ "contract.NotFound" | translate }}
+        </h1>
+      </div>
+      <!-- begin::Table container -->
+      <div class="table-responsive">
+        <!-- begin::Table -->
+        <table class="table align-middle gs-0 gy-4" *ngIf="allUsers.length !== 0">
+          <!-- begin::Table head -->
+          <thead>
+            <tr class="text-center bg-light">
+              <!-- <th class="">#</th> -->
+              <th class="min-w-125px">
+                {{ "client.clientType" | translate }}
+              </th>
+              <th class="min-w-125px">
+                {{ "client.clientName" | translate }}
+              </th>
+
+              <th class="min-w-125px">
+                {{ "client.clientEmail" | translate }}
+              </th>
+              <th class="min-w-125px">
+                {{ "client.clientPhone" | translate }}
+              </th>
+              <th class="min-w-125px">
+                {{ "client.clientStatus" | translate }}
+              </th>
+              <th class="min-w-125px">
+              </th>
+
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr class="text-center" *ngFor="let player of allUsers">
+              <td>
+                <span *ngIf="player.type === clientTypeEnum.Individual">{{"client.Individual" | translate}} </span>
+                <span *ngIf="player.type === clientTypeEnum.Special">{{"client.Special" | translate}} </span>
+
+              </td>
+              <td>{{ player.name }}</td>
+
+              <td>{{ player.email??'-' }}</td>
+              <td>{{ player.countryCode }}{{ player.mobileNumber }}</td>
+
+              <!-- <td> -->
+              <td class="">
+                <div class="form-check form-switch">
+                  <label class="switch form-check-label" [for]="player.id">
+                    <input (change)="changAccountState(player)" class="form-check-input" type="checkbox"
+                      [checked]="player.state === clientStatusEnum.Active" [id]="player.id" [disabled]="isEmployee"
+                      [disabled]="isEmployee" />
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </td>
+              <!-- </td> -->
+              <td class="overflow-hidden">
+                <div ngbDropdown container="body">
+                  <button type="button" class="btn btn-sm" ngbDropdownToggle>
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                  </button>
+                  <div ngbDropdownMenu>
+                    <button ngbDropdownItem class="px-3" (click)="view(player.id)">
+                      <i class="fa-regular fa-eye mx-1"></i>
+                      {{"client.Details" |translate}}
+                    </button>
+                    <button ngbDropdownItem class="px-3" (click)="edit(player.id)">
+                      <i class="fa-regular fa-pen-to-square mx-1"></i>
+                      {{"client.edit" |translate}}
+                    </button>
+                    <button ngbDropdownItem class="px-3" (click)="copy(player)">
+                      <i class="fa-regular fa-pen-to-square mx-1"></i>
+                      {{"addClient.copy" |translate}}
+                    </button>
+                  </div>
+                </div>
+              </td>
+
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="mx-5">{{ "contract.total" | translate }}:{{ totalCount }}</p>
+        <ngb-pagination [collectionSize]="totalCount" [(page)]="page" [pageSize]="pageSize"
+          (pageChange)="getAllUsersData()" class="pagination p-0 my-4 d-flex justify-content-center">
+        </ngb-pagination>
+        <!-- end::Table -->
+      </div>
+      <!-- end::Table container -->
+      <!-- begin::Body -->
+    </div>
+  </div>
+</section>

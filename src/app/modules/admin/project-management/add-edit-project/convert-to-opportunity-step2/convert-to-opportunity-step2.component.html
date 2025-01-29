@@ -1,0 +1,266 @@
+<section>
+    <div class="container my-20">
+        <!-- Select Client Section -->
+
+        <div class="row mb-20">
+            <div class="col-md-4 my-5">
+                <button [disabled]="isButtonDisabled" *ngIf="!isButtonDisabled" (click)="ChangeToChance()"
+                    class="convert" style="width: fit-content;">{{'projectManagement.convertToOpportunity'|translate}}
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="17" viewBox="0 0 16 17" fill="none">
+                        <path
+                            d="M8 6.125V8.625ZM14 8.125C14 8.91293 13.8448 9.69315 13.5433 10.4211C13.2417 11.1491 12.7998 11.8105 12.2426 12.3676C11.6855 12.9248 11.0241 13.3667 10.2961 13.6683C9.56815 13.9698 8.78793 14.125 8 14.125C7.21207 14.125 6.43185 13.9698 5.7039 13.6683C4.97595 13.3667 4.31451 12.9248 3.75736 12.3676C3.20021 11.8105 2.75825 11.1491 2.45672 10.4211C2.15519 9.69315 2 8.91293 2 8.125C2 6.5337 2.63214 5.00758 3.75736 3.88236C4.88258 2.75714 6.4087 2.125 8 2.125C9.5913 2.125 11.1174 2.75714 12.2426 3.88236C13.3679 5.00758 14 6.5337 14 8.125ZM8 10.625H8.00533V10.6303H8V10.625Z"
+                            fill="#F4F4F5" />
+                        <path
+                            d="M8 6.125V8.625M14 8.125C14 8.91293 13.8448 9.69315 13.5433 10.4211C13.2417 11.1491 12.7998 11.8105 12.2426 12.3676C11.6855 12.9248 11.0241 13.3667 10.2961 13.6683C9.56815 13.9698 8.78793 14.125 8 14.125C7.21207 14.125 6.43185 13.9698 5.7039 13.6683C4.97595 13.3667 4.31451 12.9248 3.75736 12.3676C3.20021 11.8105 2.75825 11.1491 2.45672 10.4211C2.15519 9.69315 2 8.91293 2 8.125C2 6.5337 2.63214 5.00758 3.75736 3.88236C4.88258 2.75714 6.4087 2.125 8 2.125C9.5913 2.125 11.1174 2.75714 12.2426 3.88236C13.3679 5.00758 14 6.5337 14 8.125ZM8 10.625H8.00533V10.6303H8V10.625Z"
+                            stroke="#048081" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+
+                <button [disabled]="isButtonDisabled" *ngIf="isButtonDisabled" (click)="ChangeToChance()"
+                    class="convert2" style="width: fit-content;">{{'projectManagement.converted'|translate}}
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                        <path
+                            d="M6 8.5L7.5 10L10 6.5M14 8C14 8.78793 13.8448 9.56815 13.5433 10.2961C13.2417 11.0241 12.7998 11.6855 12.2426 12.2426C11.6855 12.7998 11.0241 13.2417 10.2961 13.5433C9.56815 13.8448 8.78793 14 8 14C7.21207 14 6.43185 13.8448 5.7039 13.5433C4.97595 13.2417 4.31451 12.7998 3.75736 12.2426C3.20021 11.6855 2.75825 11.0241 2.45672 10.2961C2.15519 9.56815 2 8.78793 2 8C2 6.4087 2.63214 4.88258 3.75736 3.75736C4.88258 2.63214 6.4087 2 8 2C9.5913 2 11.1174 2.63214 12.2426 3.75736C13.3679 4.88258 14 6.4087 14 8Z"
+                            fill="#F4F4F5" />
+                        <path
+                            d="M6 8.5L7.5 10L10 6.5M14 8C14 8.78793 13.8448 9.56815 13.5433 10.2961C13.2417 11.0241 12.7998 11.6855 12.2426 12.2426C11.6855 12.7998 11.0241 13.2417 10.2961 13.5433C9.56815 13.8448 8.78793 14 8 14C7.21207 14 6.43185 13.8448 5.7039 13.5433C4.97595 13.2417 4.31451 12.7998 3.75736 12.2426C3.20021 11.6855 2.75825 11.0241 2.45672 10.2961C2.15519 9.56815 2 8.78793 2 8C2 6.4087 2.63214 4.88258 3.75736 3.75736C4.88258 2.63214 6.4087 2 8 2C9.5913 2 11.1174 2.63214 12.2426 3.75736C13.3679 4.88258 14 6.4087 14 8Z"
+                            stroke="#048081" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <h2># {{ 'projectManagement.potentialClient' | translate }}</h2>
+
+
+        <form class="form w-100 mb-5  row " [formGroup]="infoForm" novalidate="novalidate" id="kt_login_signin_form">
+
+            <div class="row mb-5">
+
+                <div class="col-lg-4 my-5">
+                    <label for="clientDropdown" class="form-label">
+                        {{ 'projectManagement.selectClient' | translate }}
+                    </label>
+                    <ng-select (change)="selectedClient()" formControlName="employeeId" class="custom-ng-select"
+                        [items]="clients" bindLabel="name" bindValue="id"
+                        placeholder="{{ 'projectManagement.searchByName' | translate }}">
+                        <ng-template ng-option-tmp let-item="item">
+                            <span class="label text-dark">{{ item.name }}</span>
+                        </ng-template>
+                        <!-- Custom Footer -->
+                        <ng-template ng-footer-tmp>
+                            <div (click)="addNewClient()" class="d-flex align-items-center p-2 justify-content-between">
+                                <span class="  fw-bold">
+                                    {{ 'projectManagement.addNewClient' | translate }}
+                                    <span class="btn-link p-0 text-decoration-none text-primary cursor-pointer">{{
+                                        'projectManagement.addNewClient2' | translate }}</span>
+                                </span>
+                                <i class="fa fa-plus-circle text-primary mx-2"></i>
+                            </div>
+                        </ng-template>
+                    </ng-select>
+                </div>
+                <div class="col-md-12">
+                    <!-- <h1 style="text-align: center; padding-top: 15px">
+                    {{ "contract.NotFound" | translate }}
+                </h1> -->
+                    <!-- begin::Table container -->
+                    <div class="table-responsive">
+                        <!-- begin::Table -->
+                        <table class="table align-middle gs-0  text-center">
+                            <!-- begin::Table head -->
+                            <thead>
+                                <tr class="text-center bg-light">
+                                    <!-- <th class="">#</th> -->
+                                    <th class="min-w-125px">
+                                        {{ "client.clientType" | translate }}
+                                    </th>
+                                    <th class="min-w-125px">
+                                        {{ "client.clientName" | translate }}
+                                    </th>
+
+                                    <th class="min-w-125px">
+                                        {{ "client.clientEmail" | translate }}
+                                    </th>
+                                    <th class="min-w-125px">
+                                        {{ "client.clientPhone" | translate }}
+                                    </th>
+                                    <!-- <th class="min-w-125px">
+                                        {{ "client.clientStatus" | translate }}
+                                    </th> -->
+                                    <th class="min-w-125px">
+                                    </th>
+
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                                <tr *ngIf="selectedClientData !== null" class="text-center">
+                                    <td>
+                                        <span
+                                            *ngIf="selectedClientData.type === clientTypeEnum.Individual">{{"client.Individual"
+                                            |
+                                            translate}} </span>
+                                        <span
+                                            *ngIf="selectedClientData.type === clientTypeEnum.Special">{{"client.Special"
+                                            |
+                                            translate}} </span>
+
+                                    </td>
+                                    <td>{{ selectedClientData.name }}</td>
+
+                                    <td>{{ selectedClientData.email??'-' }}</td>
+                                    <td>{{ selectedClientData.countryCode }}{{ selectedClientData.mobileNumber }}</td>
+
+                                    <!-- <td> -->
+                                    <!-- <td class="">
+                                        <div class="form-check form-switch">
+                                            <label class="switch form-check-label" [for]="player.id">
+                                                <input (change)="changAccountState(player)" class="form-check-input"
+                                                    type="checkbox" [checked]="player.state === clientStatusEnum.Active"
+                                                    [id]="player.id" [disabled]="isEmployee" [disabled]="isEmployee" />
+                                                <span class="slider round"></span>
+                                            </label>
+                                        </div>
+                                    </td> -->
+                                    <!-- </td> -->
+                                    <td class="overflow-hidden">
+
+                                        <button class="px-3  bg-transparent text-danger border-0" (click)="delete()">
+                                            <i class="fa-solid fa fa-trash mx-1 text-danger"></i>
+                                            {{"employeeManagement.delete" |translate}}
+                                        </button>
+                                    </td>
+
+                                </tr>
+                            </tbody>
+                        </table>
+
+
+                        <!-- end::Table -->
+                    </div>
+                </div>
+
+            </div>
+            <!-- Tasks List Section -->
+            <div class="row">
+
+                <div class="col-md-12 mt-10">
+                    <!-- <h5>{{ 'projectManagement.addTasksToProject' | translate }}</h5>
+                    <button class="save-btn mb-5">
+                        {{ 'projectManagement.addTask' | translate }} <i class="fa fa-plus"></i>
+                    </button> -->
+                    <p class="fw-bold my-5">{{ 'projectManagement.taskList' | translate }}</p>
+                    <div class="row">
+                        <div class="col-lg-4 my-5">
+                            <label for="clientDropdown" class="form-label">
+                                {{ 'projectManagement.selectTask' | translate }}
+                            </label>
+                            <ng-select (change)="selectedDuty()" formControlName="dutiesId" class="custom-ng-select"
+                                [items]="duties" bindLabel="name"
+                                placeholder="{{ 'projectManagement.selectTask' | translate }}">
+                                <ng-template ng-option-tmp let-item="item">
+                                    <span class="label text-dark">{{ item.name }}</span>
+                                </ng-template>
+                                <!-- Custom Footer -->
+                                <ng-template ng-footer-tmp>
+                                    <div (click)="addNewTask()"
+                                        class="d-flex align-items-center p-2 justify-content-between">
+                                        <span class="  fw-bold">
+                                            {{ 'projectManagement.taskNotRegsiter' | translate }}
+                                            <span
+                                                class="btn-link p-0 text-decoration-none text-primary cursor-pointer">{{
+                                                'projectManagement.addTask' | translate }}</span>
+                                        </span>
+                                        <i class="fa fa-plus-circle text-primary mx-2"></i>
+                                    </div>
+                                </ng-template>
+                            </ng-select>
+                        </div>
+                        <table class="table table-bordered">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>{{ 'projectManagement.taskName' | translate }}</th>
+                                    <th>{{ 'projectManagement.taskStatus' | translate }}</th>
+                                    <th>{{ 'projectManagement.taskStartDate' | translate }}</th>
+                                    <th>{{ 'projectManagement.taskEndDate' | translate }}</th>
+                                    <th>{{ 'projectManagement.actions' | translate }}</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-center">
+                                <tr *ngFor="let duty of selectedDutyDataList">
+                                    <td>{{ duty.name }}</td>
+                                    <td *ngIf="duty?.isDraft">
+                                        <span class="badge new-badge-light-light-grey fs-7 fw-bold"> {{"issue.isDraft"
+                                            |translate}} </span>
+                                    </td>
+                                    <td *ngIf="!duty?.isDraft">
+                                        <span *ngIf="duty?.dutyStatus === workDutyStatus.Active"
+                                            class="badge new-badge-light-green fs-7 fw-bold">
+                                            {{ "workDuty.Active" | translate }}
+                                        </span>
+                                        <span *ngIf="duty?.dutyStatus === workDutyStatus.Deferred"
+                                            class="badge new-badge-light-light-yellow  fs-7 fw-bold">
+                                            {{ "workDuty.Deferred" | translate }}
+                                        </span>
+                                        <span *ngIf="duty?.dutyStatus === workDutyStatus.Finished"
+                                            class="badge new-badge-light-red fs-7 fw-bold">
+                                            {{ "workDuty.Finished" | translate }}
+                                        </span>
+                                        <span *ngIf="duty?.dutyStatus === workDutyStatus.Canceled"
+                                            class="badge new-badge-light-grey fs-7 fw-bold">
+                                            {{ "workDuty.Canceled" | translate }}
+                                        </span>
+                                        <span *ngIf="duty?.dutyStatus === workDutyStatus.Pending"
+                                            class="badge new-badge-light-dark-yellow fs-7 fw-bold">
+                                            {{ "workDuty.Pending" | translate }}
+                                        </span>
+                                    </td>
+                                    <td>{{ duty.startDate ? (duty.startDate | date: 'dd-MM-yyyy') : '_' }}</td>
+                                    <td>{{ duty.endDate ? (duty.endDate | date: 'dd-MM-yyyy') : '_' }}</td>
+                                    <!-- <td>
+                                        <span class="badge bg-secondary">{{ task.status }}</span>
+                                    </td> -->
+                                    <td>
+                                        <button (click)="deleteDuty(duty.id)" class="btn btn-sm btn-danger">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Attachments Section -->
+                <div class="row mt-10">
+                    <div class="col-lg-12">
+                        <!-- <h5>{{ 'projectManagement.attachments' | translate }}</h5> -->
+                        <div class="my-7">
+                            <app-project-attachment [triggerNextStep]="triggerNextStep.bind(this)">
+                            </app-project-attachment>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+        <!-- Navigation Buttons -->
+        <div class="container d-flex justify-content-between mt-20">
+            <button (click)="triggerPrevStep()" class="back-btn">
+                {{ 'projectManagement.back' | translate }}
+            </button>
+            <div class="d-flex gap-5">
+                <button (click)="submitLater()" class="save-btn">
+                    {{ 'projectManagement.saveLater' | translate }}
+                    <i class="fa fa-clock"></i>
+                </button>
+                <button class="next-btn" (click)="submit()">
+                    {{ 'projectManagement.next' | translate }}
+                    <i class="fa fa-arrow-left text-white"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+</section>

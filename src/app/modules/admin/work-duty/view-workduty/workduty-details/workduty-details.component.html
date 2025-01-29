@@ -1,0 +1,181 @@
+<div *ngIf="!isAuth && !contractDetails">
+  <img style="
+      text-align: center;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 250px;
+    " src="assets/imgs/qyd/no-results.svg" />
+
+  <h1 style="text-align: center; padding-top: 15px">
+    {{ "contract.NotAuth" | translate }}
+  </h1>
+</div>
+<div class="body-size position-relative" *ngIf="isAuth && contractDetails">
+  <div class="col-md-12 mb-4 mt-8">
+    <div class="card mt-4">
+      <div class="card-header">
+        <span> {{ "workDuty.workDutyInfo" | translate }} </span>
+      </div>
+      <div class="card-body border rounded mt-5">
+        <div class="row">
+          <div class="col-md-4 col-12 details">
+            <div>{{ "workDuty.workDutyName" | translate }}</div>
+            <div>{{ contractDetails?.name ? contractDetails?.name : contractDetails?.dutyName }}</div>
+          </div>
+          <div class="col-md-4 col-12 details">
+            <div>{{ "workDuty.workDutyStatus" | translate }}</div>
+            <div>
+              <span *ngIf="contractDetails?.dutyStatus === workDutyStatus.Active"
+                class="badge new-badge-light-green fs-7 fw-bold">
+                {{ "workDuty.Active" | translate }}
+              </span>
+              <span *ngIf="contractDetails?.dutyStatus === workDutyStatus.Deferred"
+                class="badge new-badge-light-light-yellow fs-7 fw-bold">
+                {{ "workDuty.Deferred" | translate }}
+              </span>
+              <span *ngIf="contractDetails?.dutyStatus === workDutyStatus.Finished"
+                class="badge new-badge-light-red fs-7 fw-bold">
+                {{ "workDuty.Finished" | translate }}
+              </span>
+              <span *ngIf="contractDetails?.dutyStatus === workDutyStatus.Canceled"
+                class="badge new-badge-light-grey fs-7 fw-bold">
+                {{ "workDuty.Canceled" | translate }}
+              </span>
+              <span *ngIf="contractDetails?.dutyStatus === workDutyStatus.Pending"
+                class="badge new-badge-light-dark-yellow fs-7 fw-bold">
+                {{ "workDuty.Pending" | translate }}
+              </span>
+            </div>
+          </div>
+          <div class="col-md-4 col-12 details">
+            <div>{{ "branches.name" | translate }}</div>
+            <div>{{ contractDetails?.branch }}</div>
+          </div>
+
+          <div class="col-md-4 col-12 details">
+            <div>{{ "workDuty.startDate" | translate }}</div>
+            <div>{{ format(startDate) }}</div>
+          </div>
+          <div class="col-md-4 col-12 details">
+            <div>{{ "workDuty.endDate" | translate }}</div>
+            <div>{{ format(endDate) }}</div>
+          </div>
+          <div class="col-md-4 col-12 details">
+            <div>{{ "workDuty.workDutyType" | translate }}</div>
+            <div *ngIf="!contractDetails?.lawsuitNumber">
+              {{ "workDuty.general" | translate }}
+            </div>
+            <div *ngIf="contractDetails?.lawsuitNumber">
+              {{ "workDuty.relatedCase" | translate }}
+            </div>
+          </div>
+          <div class="col-md-4 col-12 details">
+            <div>{{ "workDuty.caseNo" | translate }}</div>
+            <div>{{ contractDetails?.lawsuitNumber?contractDetails?.lawsuitNumber:"-" }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12 mb-4 mt-8">
+    <div class="card mt-4">
+      <div class="card-header">
+        <span> {{ "workDuty.Subject" | translate }} </span>
+      </div>
+      <div class="card-body border">
+        <p class="card-text">
+          {{ contractDetails?.details }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12 mb-4 mt-8" *ngIf="!view">
+    <div class="card mt-4">
+      <div class="card-header">
+        <span> {{ "contract.contractTeam" | translate }} </span>
+      </div>
+      <!-- <div class="card-body table-responsive">
+        <table class="table header-bg-none align-middle">
+          <thead>
+            <tr class="text-center">
+
+              <th scope="col">{{ "addIssue.assignedName2" | translate }}</th>
+              <th scope="col">{{ "addIssue.assignedName3" | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="text-center">
+
+              <td>تيم</td>
+              <td>فريق معطي</td>
+            </tr>
+          </tbody>
+        </table>
+      </div> -->
+      <div class="card-body table-responsive">
+        <table class="table header-bg-none align-middle">
+          <thead>
+            <tr class="text-center">
+              <th scope="col">{{ "addIssue.assignedName2" | translate }}</th>
+              <th *ngIf="contractDetails?.teamEmployees" scope="col">{{ "addIssue.assignedName3" | translate }}</th>
+              <th scope="col">{{ "issue.assignedName" | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="text-center"
+              *ngFor="let employee of (contractDetails?.employees ?? contractDetails?.teamEmployees)">
+
+              <td *ngIf="contractDetails?.teamEmployees">{{ "employeeManagement.team" | translate }}</td>
+              <td *ngIf="!contractDetails?.teamEmployees">{{ "Dashboard.oneEmployee" |
+                translate}}</td>
+              <td *ngIf="contractDetails?.teamEmployees">{{ employee.teamName }}</td>
+              <td>{{ employee.name }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <!-- <div class="notify">
+                <i class="fa-regular fa-bell fa-lg"></i>
+                {{"contract.remember" | translate}}  {{contractDetails?.noOfDays}}{{"contract.timeRemain" | translate}}
+            </div> -->
+    </div>
+  </div>
+
+  <div class="col-md-12 mb-4 mt-8">
+    <div class="card mt-4">
+      <div class="card-header">
+        <span> {{ "issue.attachments" | translate }} </span>
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table header-bg-none align-middle" *ngIf="contractDetails?.dutyFiles">
+          <thead>
+            <tr class="text-center">
+              <th scope="col">{{ "addIssue.name" | translate }}</th>
+              <th scope="col">{{ "issue.attachments" | translate }}</th>
+              <th scope="col">{{ "issue.uploadDate" | translate }}</th>
+              <th scope="col">{{ "issue.uploadBy" | translate }}</th>
+              <th scope="col">{{ "issue.download" | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="text-center" *ngFor="let lawsuitFile of contractDetails?.dutyFiles">
+              <td>{{ lawsuitFile.classificationName }}</td>
+              <td>{{ lawsuitFile.imageName }}</td>
+              <td>{{ lawsuitFile.date | date }}</td>
+              <td>{{ lawsuitFile.name }}</td>
+              <td>
+                <a [href]="lawsuitFile.imageStorageFileURL" target="_blank">
+                  <i class="fa-solid fa-file-arrow-down fs-1"></i>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div *ngIf="!contractDetails?.dutyFiles">{{"userManagement.NotFound" | translate}}</div>
+      </div>
+    </div>
+  </div>
+</div>

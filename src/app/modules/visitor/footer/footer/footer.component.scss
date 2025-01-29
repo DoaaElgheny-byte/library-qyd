@@ -1,0 +1,43 @@
+.footer {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  right: 0;
+  z-index: 99999;
+  background: linear-gradient(104deg, #1b1b1b 65.92%, #4c7799 135.74%);
+  color: #fff;
+  @media (max-width: 578px) {
+    padding: 0 30px;
+  }
+  p a,
+  h5,
+  h3 {
+    color: #fff !important;
+  }
+  .social {
+    border-radius: 8px;
+    width: 30px;
+    height: 30px;
+
+    background: #0d5958;
+    color: #fff !important;
+    display: inline-block;
+    margin: 0 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .links {
+    @media (max-width: 578px) {
+      margin-top: 20px;
+    }
+  }
+
+  .logo {
+    @media (max-width: 578px) {
+      padding: 20px;
+    }
+  }
+}

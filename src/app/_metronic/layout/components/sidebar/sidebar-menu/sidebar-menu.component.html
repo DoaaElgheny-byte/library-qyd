@@ -1,0 +1,270 @@
+<div id="kt_app_sidebar_menu_wrapper" class="app-sidebar-wrapper hover-scroll-overlay-y p-2" data-kt-scroll="true"
+  data-kt-scroll-activate="true" data-kt-scroll-height="auto"
+  data-kt-scroll-dependencies="#kt_app_sidebar_logo, #kt_app_sidebar_footer"
+  data-kt-scroll-wrappers="#kt_app_sidebar_menu" data-kt-scroll-offset="5px" data-kt-scroll-save-state="true">
+  <div class="menu menu-column menu-rounded menu-sub-indention" id="#kt_app_sidebar_menu" data-kt-menu="true"
+    data-kt-menu-expand="false">
+    <div class="logo  px-10">
+      <a routerLink="/home"> <img alt="Logo" src="./assets/imgs/qyd/logo-blue.svg" /> </a>
+    </div>
+    <hr />
+    <!-- dashboard -->
+    <div class="menu-item" *ngIf="!isAdmin">
+      <a routerLink="/admin/departments/dashboard-managment" routerLinkActive="active" class="menu-link without-sub">
+        <span class="menu-icon">
+          <span [inlineSVG]="'./assets/imgs/menu/statistics.svg'" class="svg-icon svg-icon-2">
+          </span>
+        </span>
+        <span class="menu-title">{{ "menu.dashboard" | translate }} </span>
+      </a>
+    </div>
+
+
+      <!-- library -->
+      <div class="menu-item" *ngIf="!isAdmin">
+        <a routerLink="/admin/library" routerLinkActive="active" class="menu-link without-sub">
+          <span class="menu-icon">
+            <span [inlineSVG]="'./assets/imgs/menu/statistics.svg'" class="svg-icon svg-icon-2">
+            </span>
+          </span>
+          <span class="menu-title">{{ "المكتبة" | translate }} </span>
+        </a>
+      </div>
+
+
+    <!--الفروع-->
+
+    <div class="menu-item" *ngIf="currentUser?.roles[0] === allRoles.qydAgent">
+      <a class="menu-link without-sub" (click)="inValid()" routerLinkActive="active">
+        <span class="menu-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M14 5L12.5 4.12467M14 5V6.5M14 5L12.5 5.87533M2 5L3.5 4.12467M2 5L3.5 5.87533M2 5V6.5M8 8.5L9.5 7.62467M8 8.5L6.5 7.62467M8 8.5V10M8 14.5L9.5 13.6247M8 14.5V13M8 14.5L6.5 13.6247M6.5 2.37467L8 1.5L9.5 2.37533M14 9.5V11L12.5 11.8753M3.5 11.8753L2 11V9.5"
+              stroke="#27272A" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </span>
+        <span class="menu-title">{{
+          "branches.branchesManagement" | translate
+          }}</span>
+      </a>
+    </div>
+    <!--الموظفين-->
+    <div class="menu-item" *ngIf=" !isEmployee && isShowEmployee">
+      <a class="menu-link without-sub" routerLink="/agent/departments/employee-managment" routerLinkActive="active">
+        <span class="menu-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M8.27605 3.33333H13.9999C14.3681 3.33333 14.6666 3.63181 14.6666 4V13.3333C14.6666 13.7015 14.3681 14 13.9999 14H1.99992C1.63173 14 1.33325 13.7015 1.33325 13.3333V2.66667C1.33325 2.29848 1.63173 2 1.99992 2H6.94272L8.27605 3.33333ZM2.66659 3.33333V12.6667H13.3333V4.66667H7.72378L6.39044 3.33333H2.66659ZM5.33325 12C5.33325 10.5273 6.52716 9.33333 7.99992 9.33333C9.47265 9.33333 10.6666 10.5273 10.6666 12H5.33325ZM7.99992 8.66667C7.07945 8.66667 6.33325 7.92047 6.33325 7C6.33325 6.07953 7.07945 5.33333 7.99992 5.33333C8.92038 5.33333 9.66658 6.07953 9.66658 7C9.66658 7.92047 8.92038 8.66667 7.99992 8.66667Z"
+              fill="#18181B" />
+          </svg>
+        </span>
+        <span class="menu-title">{{
+          "menu.employeeManagement" | translate
+          }}</span>
+      </a>
+    </div>
+    <div class="menu-item" *ngIf=" !isEmployee && !isShowEmployee">
+      <a class="menu-link without-sub" (click)="inValid()" routerLinkActive="active">
+        <span class="menu-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M8.27605 3.33333H13.9999C14.3681 3.33333 14.6666 3.63181 14.6666 4V13.3333C14.6666 13.7015 14.3681 14 13.9999 14H1.99992C1.63173 14 1.33325 13.7015 1.33325 13.3333V2.66667C1.33325 2.29848 1.63173 2 1.99992 2H6.94272L8.27605 3.33333ZM2.66659 3.33333V12.6667H13.3333V4.66667H7.72378L6.39044 3.33333H2.66659ZM5.33325 12C5.33325 10.5273 6.52716 9.33333 7.99992 9.33333C9.47265 9.33333 10.6666 10.5273 10.6666 12H5.33325ZM7.99992 8.66667C7.07945 8.66667 6.33325 7.92047 6.33325 7C6.33325 6.07953 7.07945 5.33333 7.99992 5.33333C8.92038 5.33333 9.66658 6.07953 9.66658 7C9.66658 7.92047 8.92038 8.66667 7.99992 8.66667Z"
+              fill="#18181B" />
+          </svg>
+        </span>
+        <span class="menu-title">{{
+          "menu.employeeManagement" | translate
+          }}</span>
+      </a>
+    </div>
+    <!--العملاء-->
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLink="/agent/departments/clients" routerLinkActive="active">
+        <span class="menu-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M8.2763 3.33333H14.0002C14.3684 3.33333 14.6668 3.63181 14.6668 4V13.3333C14.6668 13.7015 14.3684 14 14.0002 14H2.00016C1.63198 14 1.3335 13.7015 1.3335 13.3333V2.66667C1.3335 2.29848 1.63198 2 2.00016 2H6.94296L8.2763 3.33333ZM2.66683 3.33333V12.6667H13.3335V4.66667H7.72403L6.39069 3.33333H2.66683ZM5.3335 12C5.3335 10.5273 6.5274 9.33333 8.00016 9.33333C9.4729 9.33333 10.6668 10.5273 10.6668 12H5.3335ZM8.00016 8.66667C7.0797 8.66667 6.3335 7.92047 6.3335 7C6.3335 6.07953 7.0797 5.33333 8.00016 5.33333C8.92063 5.33333 9.66683 6.07953 9.66683 7C9.66683 7.92047 8.92063 8.66667 8.00016 8.66667Z"
+              fill="#0F172A" />
+          </svg>
+        </span>
+        <span class="menu-title">{{
+          "client.clientManagement" | translate
+          }}</span>
+      </a>
+    </div>
+    <!--العقود-->
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLink="/agent/departments/contracts" routerLinkActive="active">
+        <span class="menu-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 18 18" fill="none">
+            <path
+              d="M5.24985 4.5V2.25C5.24985 1.83579 5.58564 1.5 5.99985 1.5H14.9998C15.4141 1.5 15.7498 1.83579 15.7498 2.25V12.75C15.7498 13.1642 15.4141 13.5 14.9998 13.5H12.7498V15.7493C12.7498 16.1639 12.4124 16.5 11.9948 16.5H3.00499C2.58794 16.5 2.25 16.1665 2.25 15.7493L2.25195 5.25065C2.25202 4.83608 2.58948 4.5 3.00706 4.5H5.24985ZM3.75181 6L3.75014 15H11.2498V6H3.75181ZM6.74985 4.5H12.7498V12H14.2498V3H6.74985V4.5ZM5.25 8.25H9.75V9.75H5.25V8.25ZM5.25 11.25H9.75V12.75H5.25V11.25Z"
+              fill="black" />
+          </svg>
+        </span>
+        <span class="menu-title">{{
+          "contract.contractManagement" | translate
+          }}</span>
+      </a>
+    </div>
+    <!--الوكلات-->
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLink="/agent/departments/attorny" routerLinkActive="active">
+        <span class="menu-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M2.66675 14.666C2.66675 11.7205 5.05456 9.33268 8.00008 9.33268C10.9456 9.33268 13.3334 11.7205 13.3334 14.666H2.66675ZM8.66675 10.7213V13.3327H11.7725C11.2949 11.9817 10.1123 10.9638 8.66675 10.7213ZM7.33342 13.3327V10.7213C5.88785 10.9638 4.70519 11.9817 4.22769 13.3327H7.33342ZM8.00008 8.66602C5.79008 8.66602 4.00008 6.87602 4.00008 4.66602C4.00008 2.45602 5.79008 0.666016 8.00008 0.666016C10.2101 0.666016 12.0001 2.45602 12.0001 4.66602C12.0001 6.87602 10.2101 8.66602 8.00008 8.66602ZM8.00008 7.33268C9.47368 7.33268 10.6667 6.13964 10.6667 4.66602C10.6667 3.1924 9.47368 1.99935 8.00008 1.99935C6.52646 1.99935 5.33341 3.1924 5.33341 4.66602C5.33341 6.13964 6.52646 7.33268 8.00008 7.33268Z"
+              fill="black" />
+          </svg>
+        </span>
+        <span class="menu-title">{{
+          "attorny.attornyManagement" | translate
+          }}</span>
+      </a>
+    </div>
+
+    <!--القضايا-->
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLink="/agent/departments/cases" routerLinkActive="active">
+        <span class="menu-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M13.9999 2C14.3681 2 14.6666 2.29848 14.6666 2.66667V13.3333C14.6666 13.7015 14.3681 14 13.9999 14H1.99992C1.63173 14 1.33325 13.7015 1.33325 13.3333V2.66667C1.33325 2.29848 1.63173 2 1.99992 2H13.9999ZM4.94394 9.33333H2.66659V12.6667H13.3333V9.33333H11.0559C10.5415 10.5106 9.36679 11.3333 7.99992 11.3333C6.63304 11.3333 5.45832 10.5106 4.94394 9.33333ZM13.3333 3.33333H2.66659V8H5.99992C5.99992 9.1046 6.89532 10 7.99992 10C9.10452 10 9.99992 9.1046 9.99992 8H13.3333V3.33333Z"
+              fill="black" />
+          </svg>
+        </span>
+        <span class="menu-title">{{
+          "issue.issueManagement" | translate
+          }}</span>
+      </a>
+    </div>
+    <!--الجلسات-->
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLink="/agent/departments/court-sessions" routerLinkActive="active">
+        <span class="menu-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M13.9999 2C14.3681 2 14.6666 2.29848 14.6666 2.66667V13.3333C14.6666 13.7015 14.3681 14 13.9999 14H1.99992C1.63173 14 1.33325 13.7015 1.33325 13.3333V2.66667C1.33325 2.29848 1.63173 2 1.99992 2H13.9999ZM13.3333 7.33333H2.66659V12.6667H13.3333V7.33333ZM13.3333 3.33333H2.66659V6H13.3333V3.33333ZM12.6666 4V5.33333H9.99992V4H12.6666Z"
+              fill="black" />
+          </svg>
+        </span>
+        <span class="menu-title">{{
+          "sitting.CourtSessionManagement" | translate
+          }}</span>
+      </a>
+    </div>
+
+    <!--التكاليف-->
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLink="/agent/departments/work-duty" routerLinkActive="active">
+        <span class="menu-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M12.6667 2.66732H3.33333V13.334H12.6667V2.66732ZM2 1.99518C2 1.63002 2.29833 1.33398 2.66567 1.33398H13.3331C13.7013 1.33398 13.9997 1.63246 13.9998 2.00065L14 13.9957C14 14.3666 13.7034 14.6673 13.3377 14.6673H2.66227C2.29651 14.6673 2 14.3638 2 14.0061V1.99518ZM7.5286 8.74818L10.357 5.91977L11.2998 6.86258L7.5286 10.6338L4.93587 8.04112L5.87868 7.09825L7.5286 8.74818Z"
+              fill="black" />
+          </svg>
+        </span>
+        <span class="menu-title">{{
+          "workDuty.workDutyManagement" | translate
+          }}</span>
+      </a>
+    </div>
+
+    <!--المشاريع-->
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLink="/admin/departments/project-management" routerLinkActive="active">
+        <span class="menu-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+            <path
+              d="M6.90707 0.593714C7.56601 0.154421 8.42207 0.145314 9.09021 0.570488L11.8603 2.33329H12.9995C13.3677 2.33329 13.6662 2.63177 13.6662 2.99996V8.99993C13.6662 9.36813 13.3677 9.6666 12.9995 9.6666H11.9864C12.0261 10.2981 11.7285 10.9401 11.13 11.2993L7.73441 13.3367C7.30574 13.5938 6.77361 13.5878 6.35394 13.3316C5.88707 13.7445 5.16841 13.7899 4.64703 13.3803L1.21986 10.6875C0.708921 10.2861 0.579714 9.6002 0.843534 9.05647C0.521328 8.8038 0.333008 8.41693 0.333008 8.00727V3C0.333008 2.63181 0.631488 2.33333 0.999674 2.33333H4.29763L6.90707 0.593714ZM1.78143 8.0968L2.24279 7.69313C3.06293 6.97547 4.30662 7.04653 5.03968 7.85293L6.84114 9.83453C7.42081 10.4722 7.52654 11.409 7.10494 12.1593L10.444 10.1559C10.6316 10.0434 10.6995 9.8184 10.6295 9.62887L7.67814 5.49701C7.51234 5.26491 7.21727 5.16399 6.94407 5.24595L5.28724 5.743C4.58251 5.9544 3.81859 5.7618 3.29833 5.24157L3.10315 5.04639C2.72448 4.66771 2.62655 4.12879 2.78591 3.66667H1.66634V8.00727L1.78143 8.0968ZM8.37441 1.69537C8.15167 1.55365 7.86634 1.55668 7.64667 1.70311L4.04596 4.10358L4.24114 4.29876C4.41456 4.47218 4.6692 4.53637 4.90411 4.4659L6.56094 3.96885C7.38054 3.72297 8.26581 4.02573 8.76314 4.72202L11.3426 8.33327H12.3329V3.66663H11.8603C11.6067 3.66663 11.3584 3.59432 11.1445 3.45818L8.37441 1.69537ZM3.12079 8.69653L2.04363 9.63907L5.4708 12.3319L5.94007 11.5106C6.08341 11.2598 6.04887 10.9452 5.85454 10.7314L4.05309 8.7498C3.80874 8.481 3.39417 8.45733 3.12079 8.69653Z"
+              fill="black" />
+          </svg>
+        </span>
+        <span class="menu-title">{{
+          "workDuty.projectManagement" | translate
+          }}</span>
+      </a>
+    </div>
+
+    <!--  الملخص المحاماة  -->
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLink="/admin/departments/accounting-summary" routerLinkActive="active">
+        <span class="menu-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <path
+              d="M2.66667 1.33203H13.3333C13.7015 1.33203 14 1.63051 14 1.9987V13.9987C14 14.3669 13.7015 14.6654 13.3333 14.6654H2.66667C2.29848 14.6654 2 14.3669 2 13.9987V1.9987C2 1.63051 2.29848 1.33203 2.66667 1.33203ZM3.33333 2.66536V13.332H12.6667V2.66536H3.33333ZM4.66667 3.9987H11.3333V6.66536H4.66667V3.9987ZM4.66667 7.9987H6V9.33203H4.66667V7.9987ZM4.66667 10.6654H6V11.9987H4.66667V10.6654ZM7.33333 7.9987H8.66667V9.33203H7.33333V7.9987ZM7.33333 10.6654H8.66667V11.9987H7.33333V10.6654ZM10 7.9987H11.3333V11.9987H10V7.9987Z"
+              fill="#0F172A" />
+          </svg>
+        </span>
+        <span class="menu-title">{{
+          "workDuty.accountingSummary" | translate
+          }}</span>
+      </a>
+    </div>
+    <!-- إدارة المستخدمين -->
+    <div class="menu-item">
+      <a class="menu-link without-sub" routerLink="departments/customer-management"  *ngIf="currentUser?.customerType === CustomerTypes.SuperAdministrator" routerLinkActive="active">
+        <span class="menu-icon">
+          <i class="fa-regular fa-address-card fs-5 text-dark"></i>
+        </span>
+        <span class="menu-title">{{
+          "customerManagement.userManagement" | translate
+          }}</span>
+      </a>
+    </div>
+
+    <!-- الاحصائيات -->
+    <div class="menu-item">
+      <a routerLink="/admin/departments/statistics-managment" routerLinkActive="active" class="menu-link without-sub">
+        <span class="menu-icon">
+          <span [inlineSVG]="'./assets/imgs/menu/statistics.svg'" class="svg-icon svg-icon-2">
+          </span>
+        </span>
+        <span class="menu-title">{{ "menu.statistics" | translate }} </span>
+      </a>
+    </div>
+    <!-- الاشعارات -->
+    <div class="menu-item ">
+      <a class="menu-link without-sub" routerLink="/agent/notification" routerLinkActive="active">
+        <span class="menu-icon">
+          <span [inlineSVG]="'./assets/imgs/menu/notifications.svg'" class="svg-icon svg-icon-2">
+          </span>
+        </span>
+        <span class="menu-title">{{ "menu.notifications" | translate }} </span>
+      </a>
+    </div>
+
+    <!-- تحديث الباقات -->
+    <div class="menu-item" *ngIf="currentUser?.roles[0] === allRoles.qydAgent">
+      <a class="menu-link without-sub" routerLink="/agent/edit-profile" routerLinkActive="active">
+        <span class="menu-icon">
+          <span [inlineSVG]="'./assets/imgs/menu/profie.svg'" class="svg-icon svg-icon-2">
+          </span>
+        </span>
+        <span class="menu-title">{{ "menu.editProfile" | translate }} </span>
+      </a>
+    </div>
+    <!-- ترقية الباقات-->
+    <div class="menu-item " *ngIf="currentUser?.customerType === CustomerTypes.SuperAdministrator && currentUser?.roles[0] === allRoles.qydAgent">
+      <a class="menu-link without-sub" routerLink="/agent/upgrade-package" routerLinkActive="active">
+        <span class="menu-icon">
+          <span [inlineSVG]="'./assets/imgs/menu/upgrade-package.svg'" class="svg-icon svg-icon-2">
+          </span>
+        </span>
+        <span class="menu-title">{{ "menu.upgradePackage" | translate }} </span>
+      </a>
+    </div>
+    <!-- المدفوعات-->
+    <div class="menu-item mb-100" *ngIf="currentUser?.customerType === CustomerTypes.SuperAdministrator && currentUser?.roles[0] === allRoles.qydAgent">
+      <a class="menu-link without-sub" routerLink="/agent/agent-payment" routerLinkActive="active">
+        <span class="menu-icon">
+          <span [inlineSVG]="'./assets/imgs/menu/payment.svg'" class="svg-icon svg-icon-2">
+          </span>
+        </span>
+        <span class="menu-title">{{ "menu.payment" | translate }} </span>
+      </a>
+    </div>
+
+
+  </div>
+</div>

@@ -1,0 +1,118 @@
+<i class="fa fa-solid fa-times fs-2x float-start m-7" (click)="close()"></i>
+
+<div class="container my-10 px-10">
+    <h5>{{ 'projectManagement.case_management' | translate }}</h5>
+    <p>{{ 'projectManagement.total_cases' | translate }}: 1</p>
+    <table class="table table-bordered text-center">
+        <thead class="table-light">
+            <tr>
+                <th>{{ 'projectManagement.case_number' | translate }}</th>
+                <th>{{ 'projectManagement.case_number_in_court' | translate }}</th>
+                <th>{{ 'projectManagement.case_type' | translate }}</th>
+                <th>{{ 'projectManagement.case_status' | translate }}</th>
+                <th>{{ 'projectManagement.court' | translate }}</th>
+                <!-- <th>{{ 'projectManagement.project_associated' | translate }}</th>
+                <th>{{ 'projectManagement.assigned_members' | translate }}</th> -->
+                <!-- <th>{{ 'projectManagement.activation_status' | translate }}</th> -->
+                <th>{{ 'projectManagement.details' | translate }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ lawsuit?.caseNumber === 0 ? '-' : lawsuit.caseNumber}}</td>
+                <td>{{ lawsuit?.number === 0 ? '-' : lawsuit.number }}</td>
+                <td>
+                    <span *ngIf="lawsuit?.lawsuitType === issueTypes.Workers" class="fs-7 fw-bold">
+                        {{ "addIssue.Workers" | translate }}
+                    </span>
+                    <span *ngIf="lawsuit?.lawsuitType === issueTypes.Criminal" class="fs-7 fw-bold">
+                        {{ "addIssue.Criminal" | translate }}
+                    </span>
+                    <span *ngIf="lawsuit?.lawsuitType === issueTypes.PersonalConditions" class="fs-7 fw-bold">
+                        {{ "addIssue.PersonalConditions" | translate }}
+                    </span>
+                    <span *ngIf="lawsuit?.lawsuitType === issueTypes.Civilian" class="fs-7 fw-bold">
+                        {{ "addIssue.Civilian" | translate }}
+                    </span>
+                    <span *ngIf="lawsuit?.lawsuitType === issueTypes.Administrative" class="fs-7 fw-bold">
+                        {{ "addIssue.Administrative" | translate }}
+                    </span>
+                    <span *ngIf="lawsuit?.lawsuitType === issueTypes.Commercial" class="fs-7 fw-bold">
+                        {{ "addIssue.Commercial" | translate }}
+                    </span>
+                    <span *ngIf="lawsuit?.lawsuitType === issueTypes.Other" class="fs-7 fw-bold">
+                        {{ "addIssue.Other" | translate }}
+                    </span>
+                </td>
+                <td>
+                    <span *ngIf="lawsuit?.lawsuitStatus === issueStatusEnum.Inprogress"
+                        class="badge new-badge-light-green fs-7 fw-bold">
+                        {{ "addIssue.Inprogress" | translate }}
+                    </span>
+                    <span *ngIf="lawsuit?.lawsuitStatus === issueStatusEnum.Finished"
+                        class="badge new-badge-light-red fs-7 fw-bold">
+                        {{ "addIssue.Finished" | translate }}
+                    </span>
+                    <span *ngIf="lawsuit?.lawsuitStatus === issueStatusEnum.Pending"
+                        class="badge new-badge-light-yellow fs-7 fw-bold">
+                        {{ "addIssue.Pending" | translate }}
+                    </span>
+                    <span *ngIf="lawsuit?.lawsuitStatus === issueStatusEnum.Approval"
+                        class="badge new-badge-light-purple fs-7 fw-bold">
+                        {{ "addIssue.Approval" | translate }}
+                    </span>
+                    <span *ngIf="lawsuit?.lawsuitStatus === issueStatusEnum.Canceled"
+                        class="badge new-badge-light-pink fs-7 fw-bold">
+                        {{ "addIssue.Canceled" | translate }}
+                    </span>
+                    <span *ngIf="lawsuit?.lawsuitStatus === issueStatusEnum.UnderReview"
+                        class="badge new-badge-light-blue fs-7 fw-bold">
+                        {{ "addIssue.UnderReview" | translate }}
+                    </span>
+                </td>
+
+                <td *ngIf="lawsuit.court">{{ lawsuit.court }}</td>
+                <td *ngIf="lawsuit.committee">{{ lawsuit.committee }}</td>
+                <td *ngIf="lawsuit.subDistrict">{{ lawsuit.subDistrict }}</td>
+                <td *ngIf="lawsuit.otherCourtType">{{ lawsuit.otherCourtType }}</td>
+
+                <td *ngIf="
+                                  !lawsuit.subDistrict &&
+                                  !lawsuit.committee &&
+                                  !lawsuit.court &&
+                                  !lawsuit.otherCourtType
+                                ">
+                    -
+                </td>
+                <!-- <td>{{ lawsuit?.court }}</td> -->
+                <!-- <td>{{ player.projectAssociated }}</td>
+                <td>{{ player.assignedMembers }}</td>  -->
+                <!-- <td>
+                    <div class="form-check form-switch d-flex justify-content-center">
+                        <input class="form-check-input" type="checkbox" [checked]="lawsuit.activationStatus" />
+                    </div>
+                </td> -->
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            {{ 'projectManagement.details' | translate }}
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" (click)="viewCase()">
+                                    <i class="fas fa-eye"></i> {{ 'projectManagement.view' | translate }}
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" (click)="editCaseData()">
+                                    <i class="fas fa-edit"></i> {{ 'projectManagement.edit_data' | translate }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

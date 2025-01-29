@@ -1,0 +1,103 @@
+.user-management {
+  margin-top: 30px;
+  padding: 35px;
+
+  .page-title {
+    h3 {
+      color: #0E6463;
+      font-size: 20px;
+      margin-bottom: 15px;
+
+      span {
+        border-bottom: 4px solid #DDA617;
+
+      }
+    }
+  }
+.message-box {
+  text-align: center;
+  /* Centers the content inside the box */
+  padding: 20px;
+  /* Optional: padding for spacing inside the box */
+  background-color: #ffffff;
+  /* Optional: background color for the box */
+  border-radius: 8px;
+  /* Optional: rounded corners */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  /* Optional: shadow for a better visual effect */
+}
+  .content {
+    box-shadow: 0 10px 60px rgba(226, 236, 249, 0.5);
+    background-color: #FFF !important;
+
+    h5 {
+      margin: 15px auto;
+    }
+
+    article {
+      .invoice {
+        padding: 35px;
+
+        .detail {
+          color: #525256;
+          font-size: 16px;
+          font-weight: 500;
+        }
+
+        label {
+          color: #525256;
+          font-size: 16px;
+          font-weight: 500;
+
+        }
+      }
+
+
+      .cost-details {
+        padding: 0px 35px;
+        background-color: #F4F4F4;
+        border-radius: 5px;
+        border: 1px solid #F4F4F4;
+
+        .cost {
+          color: #525256;
+          font-size: 16px;
+          font-weight: 500;
+
+          &.total {
+            font-weight: 900;
+            color: #525256;
+            font-size: 20px;
+
+          }
+        }
+
+        .costValue {
+          color: #525256;
+          font-size: 16px;
+          font-weight: 500;
+
+          &.total {
+            color: #3B82F6 !important;
+            font-weight: 900;
+            font-size: 22px;
+
+          }
+        }
+      }
+    }
+  }
+
+}
+.loadingNotes {
+  position: fixed;
+  top: 167px;
+  left: 0;
+  height: calc(100vh - 167px);
+  width: 100%;
+  z-index: 179;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgb(151 141 141 / 20%);
+}

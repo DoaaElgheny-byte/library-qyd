@@ -1,0 +1,108 @@
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex align-items-center gap-5">
+            <div class="d-flex gap-4">
+
+                <div class="col-lg col-md-4 mb-5">
+                    <label>{{ "projectManagement.start_date2" | translate }}</label>
+                    <div class="iput-sec">
+                        <input onfocus="(this.type='date')" class="form-control date" aria-label=""
+                            [(ngModel)]="startDate" (input)="page = 1; getAllAccountingSummary()" data-toggle="tooltip"
+                            data-placement="bottom" title=" enter the start date " [placeholder]="'projectManagement.start_date2' |
+                            translate" />
+                    </div>
+                </div>
+
+                <div class="col-lg col-md-4 mb-5">
+                    <label>{{ "projectManagement.end_date2" | translate }}</label>
+
+                    <div class="iput-sec">
+                        <input onfocus="(this.type='date')" class="form-control date" aria-label=""
+                            [(ngModel)]="endDate" (input)="page = 1; getAllAccountingSummary()" data-toggle="tooltip"
+                            data-placement="bottom" title=" enter the end date "
+                            [placeholder]="'projectManagement.end_date2' | translate" />
+                    </div>
+                </div>
+                <div class="col-lg col-md-4 mb-5">
+                    <label for="clientName">{{'projectManagement.clientName'|translate}}</label>
+                    <input [(ngModel)]="clientName" id="clientName" (input)="getAllAccountingSummary()" type="text"
+                        class="form-control " placeholder="{{ 'projectManagement.client_name' | translate }}"
+                        style="width: 200px;" />
+                </div>
+                <div class="col-lg col-md-4 mb-5">
+                    <label for="projectName">{{'projectManagement.projectName'|translate}}</label>
+                    <input id="projectName" [(ngModel)]="projectName" (input)="getAllAccountingSummary()" type="text"
+                        class="form-control " placeholder="{{ 'projectManagement.project_name' | translate }}"
+                        style="width: 200px;" />
+                </div>
+            </div>
+
+            <!-- <span class="border border-dark p-4 fw-bold rounded">{{ 'projectManagement.total_amount' | translate }}:
+                5000
+                ر.س</span> -->
+        </div>
+        <!-- <div>
+            <button class="btn btn-outline-primary border border-1 border-dark dropdown-toggle" type="button"
+                data-bs-toggle="dropdown">
+                {{ 'projectManagement.export_data' | translate }}
+            </button>
+            <ul class="dropdown-menu">
+                <li>
+                    <a class="dropdown-item" href="#">
+                        {{ 'projectManagement.pdf' | translate }}
+                        <i class="fas fa-file-pdf" style="color: #d9534f; font-size: 24px; margin-right: 8px;"></i>
+                    </a>
+                </li>
+                <li>
+                    <a class="dropdown-item" href="#">
+                        {{ 'projectManagement.excel' | translate }}
+                        <i class="fas fa-file-excel" style="color: #28a745; font-size: 24px; margin-right: 8px;"></i>
+                    </a>
+                </li>
+            </ul>
+        </div> -->
+    </div>
+
+    <h5>{{ 'projectManagement.account_statement' | translate }}</h5>
+    <table class="table table-bordered text-center">
+        <thead class="table-light">
+            <tr>
+                <th>#</th>
+                <th>{{ 'projectManagement.reference_number' | translate }}</th>
+                <th>{{ 'projectManagement.transaction_date' | translate }}</th>
+                <th>{{ 'projectManagement.transaction_type' | translate }}</th>
+                <th>{{ 'projectManagement.project' | translate }}</th>
+                <th>{{ 'projectManagement.client_name' | translate }}</th>
+
+                <th>{{ 'projectManagement.debit' | translate }}</th>
+                <th>{{ 'projectManagement.credit' | translate }}</th>
+                <th>{{ 'projectManagement.amount' | translate }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let transaction of accountingSummary; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ transaction.referenceNumber }}</td>
+                <td>{{ transaction.startDate | date }}</td>
+                <!-- <td>{{ transaction.paidType }}</td> -->
+                <td>
+                    <span *ngIf=" transaction.paidType === 2" class="fs-7 fw-bold">
+                        {{ "projectManagement.Invoice" | translate }}
+                    </span>
+                    <span *ngIf=" transaction.paidType === 3" class="fs-7 fw-bold">
+                        {{ "projectManagement.PaymentNotice" | translate }}
+                    </span>
+                </td>
+                <td>{{ transaction.projectName }}</td>
+                <td>{{ transaction.clientName }}</td>
+
+                <td>{{ transaction.debtor }}</td>
+                <td>{{ transaction.creditor }}</td>
+                <td>{{ transaction.price }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <ngb-pagination [collectionSize]="totalCount" [(page)]="page" [pageSize]="pageSize"
+        (pageChange)="getAllAccountingSummary()"
+        class="pagination p-0 my-4 d-flex justify-content-center"></ngb-pagination>
+</div>

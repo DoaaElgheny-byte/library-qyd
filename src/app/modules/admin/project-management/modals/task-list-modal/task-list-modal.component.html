@@ -1,0 +1,73 @@
+<i class="fa fa-solid fa-times fs-2x float-start m-7" (click)="close()"></i>
+<div class=" container my-10 px-10 ">
+    <h5>{{ 'projectManagement.task_list' | translate }}</h5>
+    <table class=" table table-bordered text-center">
+        <thead class="table-light">
+            <tr>
+                <th>{{ 'projectManagement.task_name' | translate }}</th>
+                <!-- <th>{{ 'projectManagement.assigned_to' | translate }}</th> -->
+                <th>{{ 'projectManagement.task_status' | translate }}</th>
+                <th>{{ 'projectManagement.start_date' | translate }}</th>
+                <th>{{ 'projectManagement.end_date' | translate }}</th>
+                <!-- <th>{{ 'projectManagement.activation_status' | translate }}</th> -->
+                <th>{{ 'projectManagement.details' | translate }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let duty of selectedDutyDataList">
+                <td>{{ duty.name }}</td>
+                <!-- <td>{{ task.assignedTo }}</td> -->
+                <td>
+                    <span *ngIf="duty?.dutyStatus === workDutyStatus.Active"
+                        class="badge new-badge-light-green fs-7 fw-bold">
+                        {{ "workDuty.Active" | translate }}
+                    </span>
+                    <span *ngIf="duty?.dutyStatus === workDutyStatus.Deferred"
+                        class="badge new-badge-light-light-yellow  fs-7 fw-bold">
+                        {{ "workDuty.Deferred" | translate }}
+                    </span>
+                    <span *ngIf="duty?.dutyStatus === workDutyStatus.Finished"
+                        class="badge new-badge-light-red fs-7 fw-bold">
+                        {{ "workDuty.Finished" | translate }}
+                    </span>
+                    <span *ngIf="duty?.dutyStatus === workDutyStatus.Canceled"
+                        class="badge new-badge-light-grey fs-7 fw-bold">
+                        {{ "workDuty.Canceled" | translate }}
+                    </span>
+                    <span *ngIf="duty?.dutyStatus === workDutyStatus.Pending"
+                        class="badge new-badge-light-dark-yellow fs-7 fw-bold">
+                        {{ "workDuty.Pending" | translate }}
+                    </span>
+                </td>
+                <td>{{ duty.startDate ? (duty.startDate | date: 'dd-MM-yyyy') : '_' }}</td>
+                <td>{{ duty.endDate ? (duty.endDate | date: 'dd-MM-yyyy') : '_' }}</td>
+                <!-- <td>
+                    <div class="form-check form-switch d-flex justify-content-center">
+                        <input class="form-check-input" type="checkbox" [checked]="task.active" />
+                    </div>
+                </td> -->
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            {{ 'projectManagement.details' | translate }}
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" (click)="editTask(duty.id)">
+                                    <i class="fas fa-edit"></i> {{ 'projectManagement.edit_task' | translate }}
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" (click)="viewTaskDetails(duty.id)">
+                                    <i class="fas fa-info-circle"></i> {{ 'projectManagement.task_details' | translate
+                                    }}
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

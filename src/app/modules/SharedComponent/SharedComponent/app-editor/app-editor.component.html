@@ -1,0 +1,5 @@
+<label class="form-label" *ngIf="label">{{label}}</label>
+<div class="NgxEditor__Wrapper" [class.is-disabled]="isDisabled" (paste)="onPaste($event)" contenteditable="true">
+  <ngx-editor-menu [editor]="editor" [toolbar]="toolbar"> </ngx-editor-menu>
+  <ngx-editor [editor]="editor" (ngModelChange)="onHtmlChange($event)" [ngModel]="html" [disabled]="isDisabled" [placeholder]="'sitting.Typehere'|translate"></ngx-editor>
+</div>

@@ -1,0 +1,24 @@
+<app-work-duty-info (bindBranchID)="getBranchId($event)"></app-work-duty-info>
+
+<app-work-duty-assigned [branchId]="branchId" [issueId]="workDutyId"></app-work-duty-assigned>
+<app-work-duty-attachment></app-work-duty-attachment>
+<div class="row button-end">
+  <div class="d-flex justify-content-between">
+    <button (click)="Back()" id="kt_sign_in_submit" class="general-outline-button">
+      <ng-container>
+        <span class="indicator-label">
+          {{ "addIssue.Back" | translate }}
+        </span>
+      </ng-container>
+    </button>
+    <button type="submit" (click)="submit()" id="kt_sign_in_submit"
+      [ngClass]="{ end: lang === 'en', 'end-arabic': lang === 'ar' }" class="genral-button next">
+      <ng-container class="d-flex">
+        <span class="indicator-label">
+          {{ "addIssue.SaveAndContinue" | translate }}
+        </span>
+        <img src="assets/imgs/qyd/Left-icon.svg" />
+      </ng-container>
+    </button>
+  </div>
+</div>

@@ -1,0 +1,294 @@
+<section class="main">
+
+
+
+  <h3>{{ "attorny.attornyManagement" | translate }}</h3>
+  <app-breadcrumb></app-breadcrumb>
+  <div class="search">
+    <h3 class="fw-bolder text-dark">{{ "attorny.search" | translate }}</h3>
+    <div class="row">
+      <!--Attorny No-->
+      <div class="col-lg-3 col-md-4  mb-5">
+        <label>{{ "attorny.attornyNumber" | translate }}</label>
+        <div class="input-img">
+          <!-- <img src="/assets/imgs/search.svg" alt="" srcset="" /> -->
+          <button *ngIf="agencyNo !== ''" (click)="agencyNo = ''; getAllUsersData()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <input style="width: 100%" class="form-control" type="text"
+            (keyup)="page = 1; fromSearchInput = true; getAllUsersData()" (keypress)="keyPressNumbers($event)"
+            [placeholder]="'attorny.attornyNumber' | translate" [(ngModel)]="agencyNo" />
+        </div>
+      </div>
+      <!--Attorny Address-->
+      <div class="col-lg-3 col-md-4  mb-5">
+        <label>{{ "attorny.attornyAddress" | translate }}</label>
+        <div class="input-img">
+          <!-- <img src="/assets/imgs/search.svg" alt="" srcset="" /> -->
+          <button *ngIf="searchText !== ''" (click)="searchText = ''; getAllUsersData()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <input style="width: 100%" class="form-control" type="text"
+            (keyup)="page = 1; fromSearchInput = true; getAllUsersData()"
+            [placeholder]="'attorny.attornyAddress' | translate" [(ngModel)]="searchText" />
+        </div>
+      </div>
+      <!--Attorny Status-->
+      <div class="col-lg-3 col-md-4  mb-5">
+        <label>{{ "attorny.attornyStatus" | translate }}</label>
+        <div class="input-img">
+          <select class="form-select" [(ngModel)]="State" aria-label="Default select example"
+            (change)="page = 1; fromSearchInput = true; getAllUsersData()">
+            <option selected disabled value="">
+              {{ "attorny.attornyStatus" | translate }}
+            </option>
+            <option [value]="attornyStatus.All">
+              {{ "attorny.All" | translate }}
+            </option>
+            <option value="0">
+              {{ "issue.isDraft" | translate }}
+            </option>
+            <option [value]="attornyStatus.Active">
+              {{ "attorny.Active" | translate }}
+            </option>
+
+            <option [value]="attornyStatus.Finished">
+              {{ "attorny.Finished" | translate }}
+            </option>
+            <option [value]="attornyStatus.Canceled">
+              {{ "attorny.Canceled" | translate }}
+            </option>
+            <option [value]="attornyStatus.PartiallyDissolved">
+              {{ "attorny.PartiallyDissolved" | translate }}
+            </option>
+          </select>
+          <button class="select" *ngIf="State !== ''" (click)="State = ''; getAllUsersData()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+      <!--Attorny StartDate-->
+      <div class="col-lg-3 col-md-4 mb-3">
+        <label>{{ "attorny.startDate" | translate }}</label>
+
+        <div class="iput-sec">
+          <!-- <img class="mx-2" src="/assets/imgs/dat.svg" alt="" srcset="" /> -->
+          <input onfocus="(this.type='date')" class="form-control date" ngbDatepicker #d="ngbDatepicker" aria-label=""
+            [(ngModel)]="StartDate" (change)="page = 1; getAllUsersData()" data-toggle="tooltip" data-placement="bottom"
+            title=" enter the start date " [placeholder]="'attorny.startDate' | translate" />
+        </div>
+      </div>
+      <!--Attorny EndDate-->
+      <div class="col-lg-3 col-md-4 mb-3">
+        <label>{{ "attorny.endDate" | translate }}</label>
+
+        <div class="iput-sec">
+          <!-- <img class="mx-2" src="/assets/imgs/dat.svg" alt="" srcset="" /> -->
+          <input onfocus="(this.type='date')" class="form-control date" ngbDatepicker #d="ngbDatepicker" aria-label=""
+            [(ngModel)]="EndDate" (change)="page = 1; fromSearchInput = true; getAllUsersData()" data-toggle="tooltip"
+            data-placement="bottom" title=" enter the end date " [placeholder]="'attorny.endDate' | translate" />
+        </div>
+      </div>
+      <!--Attorny Branch-->
+      <div class="col-lg-3 col-md-4 mb-3" *ngIf="isAgent">
+        <label>{{"branches.name" | translate}}</label>
+
+        <div class="input-img">
+
+          <select class="form-select" [(ngModel)]="BranchId" aria-label="Default select example"
+            (change)="page = 1; fromSearchInput = true; getAllUsersData();getClientList($any($event).target.value)">
+            <option selected disabled value="">
+              {{ "branches.name" | translate }}
+            </option>
+            <option *ngFor="let branch of branches" [value]="branch.id">
+              {{ branch.name}}
+            </option>
+
+          </select>
+          <button *ngIf="BranchId !== ''" (click)="BranchId = '';ClientId = ''; getAllUsersData()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+      <!-- Attorny Client-->
+      <div class="col-lg-3 col-md-4 mb-3" *ngIf="BranchId !== ''">
+        <label> {{ "addIssue.Client" | translate }} </label>
+        <div class="input-img">
+          <select class="form-select" [(ngModel)]="ClientId" aria-label="Default select example"
+            (change)="page = 1; fromSearchInput = true; getAllUsersData();">
+            <option selected disabled value="">
+              {{ "addIssue.Client" | translate }}
+            </option>
+            <option *ngFor="let item of clientList" [value]="item?.id">
+              {{ item?.name }}
+            </option>
+          </select>
+          <button *ngIf="ClientId !== ''" (click)="ClientId = ''; getAllUsersData()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <hr />
+  </div>
+
+  <div *ngIf="allUsers[0]?.isTakeMaxNumber==2" class="alert text-white text-center fw-bolder "
+    style="margin: 30px auto; width: 90%;background-color: #ef9744;">
+    يتبقي لك إضافة واحدة في هذه الباقة المجانية <a routerLink="/agent/upgrade-package"
+      class="p-2 bg-white fw-bold rounded mx-10" style="color: #ef9744;">ترقية الباقة</a>
+  </div>
+  <div *ngIf="allUsers[0]?.isTakeMaxNumber==1" class="alert text-white text-center fw-bolder "
+    style="margin: 30px auto; width: 90%;background-color: #EF4444;">
+    لقد وصلت للحد الاقصى من استعمالات في هذه الباقة المجانية <a routerLink="/agent/upgrade-package"
+      class="p-2 bg-white fw-bold rounded mx-10" style="color: #EF4444;">ترقية الباقة</a>
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center title">
+    <h3>{{ "attorny.attornyTitle" | translate }}</h3>
+    <div *ngIf="!isEmployee" class="">
+      <button (click)="addEdit()" class="general-outline-button d-flex align-items-center justify-content-center">
+        <span class="m-0">{{ "attorny.addNew" | translate }}</span>
+        <i class="fa-solid fa-plus px-2"></i>
+
+      </button>
+    </div>
+  </div>
+
+  <!-- Table-->
+  <div class="card members-page mt-4">
+    <!-- begin::Body -->
+    <div class="card-body py-3">
+      <div *ngIf="allUsers.length === 0">
+        <img style="
+              text-align: center;
+              display: block;
+              margin-left: auto;
+              margin-right: auto;
+              max-width: 250px;
+            " src="assets/imgs/qyd/no-results.svg" />
+
+        <h1 style="text-align: center; padding-top: 15px">
+          {{ "attorny.NotFound" | translate }}
+        </h1>
+      </div>
+      <!-- begin::Table container -->
+      <div class="table-responsive">
+        <!-- begin::Table -->
+        <table class="table align-middle gs-0 gy-4" *ngIf="allUsers.length !== 0">
+          <!-- begin::Table head -->
+          <thead>
+            <tr class="text-center bg-light">
+              <!-- <th class="">#</th> -->
+              <th class="min-w-125px">
+                {{ "attorny.attornyNumber" | translate }}
+              </th>
+              <th class="min-w-125px">
+                {{ "attorny.attornyAddress" | translate }}
+              </th>
+              <th class="min-w-125px">
+                {{ "attorny.attornyStatus" | translate }}
+              </th>
+              <th class="min-w-125px">
+                {{ "attorny.startDate" | translate }}
+              </th>
+              <th class="min-w-125px">
+                {{ "attorny.endDate" | translate }}
+              </th>
+
+              <th class="min-w-125px">
+                {{"branches.name" | translate}}
+              </th>
+              <th class="min-w-125px">
+                {{ "attorny.user" | translate }}
+              </th>
+              <th class="min-w-125px">
+                {{ "attorny.caseStatus" | translate }}
+              </th>
+
+              <th class="min-w-95px"></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr class="text-center" *ngFor="let player of allUsers">
+              <td>{{ player.number ?? '_' }}</td>
+              <td>{{ player.address?? '_' }}</td>
+              <td *ngIf="player?.isDraft">
+                <span class="badge new-badge-light-light-grey fs-7 fw-light">
+                  {{ "issue.isDraft" | translate }}
+                </span>
+              </td>
+              <td *ngIf="!player?.isDraft">
+                <span *ngIf="player?.agencyStatus === attornyStatus.Active"
+                  class="badge new-badge-light-green fs-7 fw-light">
+                  {{ "attorny.Active" | translate }}
+                </span>
+
+                <span *ngIf="player?.agencyStatus === attornyStatus.Finished"
+                  class="badge new-badge-light-red fs-7 fw-light">
+                  {{ "attorny.Finished" | translate }}
+                </span>
+                <span *ngIf="player?.agencyStatus === attornyStatus.Canceled"
+                  class="badge new-badge-light-grey fs-7 fw-light">
+                  {{ "attorny.Canceled" | translate }}
+                </span>
+                <span *ngIf="player?.agencyStatus === attornyStatus.PartiallyDissolved"
+                  class="badge new-badge-light-grey  fs-7 fw-light">
+                  {{ "attorny.PartiallyDissolved" | translate }}
+                </span>
+                <span *ngIf="player?.agencyStatus === null" class="badge new-badge-light-grey  fs-7 fw-bold">
+                  {{ '_'}}
+                </span>
+              </td>
+              <td>{{ player.startDate ? (player.startDate | date: 'dd-MM-yyyy') : '_' }}</td>
+              <td>{{ player.endDate ? (player.endDate | date: 'dd-MM-yyyy') : '_' }}</td>
+              <td>{{ player.branch ?? '_' }}</td>
+              <td>{{ player.client ?? '_' }}</td>
+
+              <td>
+                <div class="d-flex justify-content-center align-items-center">
+                  <div class="form-check form-switch">
+                    <label class="switch form-check-label" [for]="player.id">
+                      <input (change)="changAccountState(player)" class="form-check-input" type="checkbox"
+                        [checked]="player.state === attornyState.Active" [id]="player.id" [disabled]="isEmployee" />
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td class="overflow-hidden">
+                <div ngbDropdown container="body">
+                  <button type="button" class="btn btn-sm" ngbDropdownToggle>
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                  </button>
+                  <div ngbDropdownMenu>
+                    <button ngbDropdownItem class="px-3" (click)="view(player.id)">
+                      <i class="fa-regular fa-eye mx-1"></i>
+                      {{ "issue.Details" | translate }}
+                    </button>
+                    <button ngbDropdownItem class="px-3" (click)="addEdit(player.id)">
+                      <i class="fa-regular fa-pen-to-square mx-1"></i>
+                      {{ "issue.edit" | translate }}
+                    </button>
+                    <button ngbDropdownItem class="px-3" *ngIf="!isEmployee" (click)="assigned(player.id)">
+                      <i class="fa-solid fa-users mx-1"></i>
+                      {{ "issue.issueTeam" | translate }}
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="mx-5">{{ "attorny.total" | translate }}:{{ totalCount }}</p>
+        <ngb-pagination [collectionSize]="totalCount" [(page)]="page" [pageSize]="pageSize"
+          (pageChange)="getAllUsersData()" class="pagination p-0 my-4 d-flex justify-content-center">
+        </ngb-pagination>
+        <!-- end::Table -->
+      </div>
+      <!-- end::Table container -->
+      <!-- begin::Body -->
+    </div>
+  </div>
+</section>

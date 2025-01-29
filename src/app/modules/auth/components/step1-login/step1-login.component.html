@@ -1,0 +1,181 @@
+<section class="login-page">
+    <div class="page-content">
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <!-- Form Section -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="login-content border">
+                        <!-- Header -->
+                        <div class="form-title d-flex justify-content-between">
+                            <a class="fw-bold back" href="/">
+                                <i class="fa-solid" [ngClass]="lang === 'ar' ? 'fa-arrow-right' : 'fa-arrow-left'"></i>
+                            </a>
+                            <div class="switchToggle">
+                                <input type="checkbox" id="switch" [(ngModel)]="selectedLanguage"
+                                    (change)="selectLanguage()" />
+                                <label for="switch" class="text-white"></label>
+                            </div>
+                        </div>
+                        <!-- Title -->
+                        <div class="text-center">
+                            <h1 class="fw-bold mb-5 mt-3 pb-5">{{ "auth.newAccount" | translate }}</h1>
+                        </div>
+                        <div class="container mt-10">
+                            <div class="row">
+                                <div class="col-md-4 d-flex align-items-center gap-2 ">
+                                    <input (click)="isPhoneOrEmail(true)" [checked]="phoneOrEmail" id="phone"
+                                        name="type" type="radio">
+                                    <label for="phone" class="mb-0">{{ "auth.phone" | translate }}</label>
+                                </div>
+                                <div (click)="isPhoneOrEmail(false)" class="col-md-4 d-flex gap-2 align-items-center">
+                                    <input [checked]="!phoneOrEmail" id="email" name="type" type="radio">
+                                    <label for="email" class="mb-0">{{ "auth.email" | translate }}</label>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Form -->
+                        <div class="body-size">
+                            <form class="form w-100 my-5" [formGroup]="loginForm" id="kt_login_signin_form"
+                                (ngSubmit)="submit()" novalidate>
+                                <!-- Error Alert -->
+                                <ng-container *ngIf="hasError">
+                                    <div class="mb-lg-15 alert alert-danger">
+                                        <div class="alert-text font-weight-bold">
+                                            {{ "loginPage.loginError" | translate }}
+                                        </div>
+                                    </div>
+                                </ng-container>
+
+                                <!-- Email Field -->
+                                <div *ngIf="!phoneOrEmail" class="form-group my-10">
+                                    <label for="email">{{ "loginPage.logInEmail" | translate }}</label>
+                                    <input type="email" class="form-control bg-transparent" formControlName="email"
+                                        [placeholder]="'loginPage.enterEmail' | translate" [ngClass]="{
+                        'is-invalid': loginForm.controls['email'].invalid && loginForm.controls['email'].touched,
+                        'is-valid': loginForm.controls['email'].valid
+                      }" autocomplete="off" />
+
+                                    <!-- Required Validation -->
+                                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                        validation: 'required',
+                                        message: 'Validation.emailRequired' | translate,
+                                        control: loginForm.controls['email']
+                                      }">
+                                    </ng-container>
+
+                                    <!-- Email Pattern Validation -->
+                                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                        validation: 'pattern',
+                                        message: 'Validation.EmailIsInValid' | translate,
+                                        control: loginForm.controls['email']
+                                      }">
+                                    </ng-container>
+                                </div>
+
+
+
+
+                                <!-- phone number -->
+                                <div *ngIf="phoneOrEmail" class="fv-col-6 my-10 ">
+                                    <label for="">{{ "register.phoneNumber" | translate }}</label>
+                                    <div class="phone form-control" style="
+                                direction: ltr;
+                                height: 41px;
+                                display: flex;
+                                background-color: transparent !important;
+                                padding: 0px;
+                              " [ngClass]="{
+                                'is-invalid': loginForm.controls['mobileNumber'].invalid && loginForm.controls['mobileNumber'].touched,
+                                'is-valid': loginForm.controls['mobileNumber'].valid && loginForm.controls['mobileNumber'].touched
+                              }">
+                                        <intl-telephone-input class="w-100"
+                                            [preferredCountries]="[CountryISO.SaudiArabia]" [enablePlaceholder]="true"
+                                            [searchCountryFlag]="true" [separateDialCode]="false"
+                                            [enableAutoCountrySelect]="true"
+                                            [searchCountryField]="SearchCountryField.All" [phoneValidation]="true"
+                                            [numberFormat]="PhoneNumberFormat.International" [inputId]="'phoneNumber'"
+                                            [customPlaceholder]="mobileNumber"
+                                            [selectedCountryISO]="CountryISO[selectedCountryIso]"
+                                            (onChange)="onInputChange($event)">
+                                            >
+                                        </intl-telephone-input>
+                                    </div>
+                                    <!-- Validation Messages -->
+                                    <div *ngIf="loginForm.controls['mobileNumber'].touched ">
+                                        <!-- Required Validation -->
+                                        <small *ngIf="loginForm.controls['mobileNumber'].hasError('required')"
+                                            class="text-danger">
+                                            {{'loginPage.thisFieldIsRequired' | translate}}
+                                        </small>
+
+                                        <!-- Invalid Phone Number -->
+                                        <small *ngIf="loginForm.controls['mobileNumber'].hasError('invalidPhoneNumber')"
+                                            class="text-danger">
+                                            {{'Validation.invalidPhoneNumber' | translate}}
+                                        </small>
+                                    </div>
+
+
+                                </div>
+                                <!-- Recaptcha -->
+                                <div class="recaptcha2 my-10">
+                                    <label for="">{{'loginPage.CAPTCHA_TITLE' |translate}}</label>
+
+                                    <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" [hl]="lang"
+                                        formControlName="recaptcha"></ngx-recaptcha2>
+                                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'required',
+                        message: 'Validation.recaptchaRequired' | translate,
+                        control: loginForm.controls['recaptcha']
+                      }"></ng-container>
+                                </div>
+                            </form>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <div class="form-action-btn">
+                            <button type="submit" id="kt_sign_in_submit" class="col-12 genral-button"
+                                (click)="submit()">
+                                <span class="indicator-label">{{ "auth.addAccount" | translate }}</span>
+                            </button>
+                        </div>
+
+                        <div class="register mt-4 text-center fw-light">
+                            <p>
+                                {{"loginPage.hasAccount" | translate}}
+                                <a routerLink="/auth/login" class="text-dark  fw-bold mx-2">
+
+                                    {{"loginPage.logIn" | translate}}
+
+
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Image Section -->
+                <div class="col-md-6 order-first order-md-last">
+                    <div class="frame">
+                        <picture>
+                            <source srcset="./assets/imgs/form/signin.webp" media="(min-width: 768px)"
+                                type="image/webp" />
+                            <img src="./assets/imgs/form/signin-mobile.webp"
+                                alt="{{ 'loginPage.imageAlt' | translate }}" class="img-fluid" />
+                        </picture>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+    <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+        <div class="fv-plugins-message-container">
+            <div class="fv-help-block">
+                <span role="alert">{{ message }}</span>
+            </div>
+        </div>
+    </ng-container>
+</ng-template>

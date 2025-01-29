@@ -1,0 +1,225 @@
+<section class="main">
+  <div class="d-md-flex d-sm-block  justify-content-between align-items-center">
+    <h3>
+      <span>{{ "branches.management" | translate }} </span>
+      {{ "branches.branches" | translate }}
+
+    </h3>
+
+  </div>
+  <app-breadcrumb></app-breadcrumb>
+  <!-- Search -->
+
+
+  <div *ngIf="!isAuth">
+    <img style="
+        text-align: center;
+        display: block;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 250px;
+      " src="assets/imgs/qyd/no-results.svg" />
+
+    <h1 style="text-align: center; padding-top: 15px">
+      {{ "contract.NotAuth" | translate }}
+    </h1>
+  </div>
+  <div *ngIf="isAuth">
+
+    <div class="search">
+      <h3>{{ "contract.search" | translate }}</h3>
+
+      <div class="card-header search-top border-0 py-10">
+        <div class="">
+          <div class="row">
+            <div class="col-lg-5 col-md-4 mb-3">
+              <label>{{"branches.search" | translate}}</label>
+              <div class="input-img">
+                <!-- <img src="/assets/imgs/search.svg" alt="" srcset="" /> -->
+                <button *ngIf="searchText !== ''" (click)="searchText = ''; getallBranchesData()">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+
+                <input style="width: 100%" class="form-control" type="text"
+                  (keyup)="page = 1; fromSearchInput = true; getallBranchesData()"
+                  [placeholder]="'branches.search' | translate" [(ngModel)]="searchText" />
+              </div>
+            </div>
+
+            <div class="col-lg-3 col-md-4 mb-3">
+              <label>{{"branches.accountStatus" | translate}}</label>
+
+              <div class="input-img">
+
+                <select class="form-select" [(ngModel)]="State" aria-label="Default select example"
+                  (change)="page = 1; fromSearchInput = true; getallBranchesData()">
+                  <option selected disabled value="">
+                    {{ "branches.accountStatus" | translate }}
+                  </option>
+                  <option [value]="userAccountState.All">
+                    {{ "branches.All" | translate }}
+                  </option>
+                  <option [value]="userAccountState.Active">
+                    {{ "branches.active" | translate }}
+                  </option>
+                  <option [value]="userAccountState.NotActive">
+                    {{ "branches.inActive" | translate }}
+                  </option>
+                </select>
+                <button *ngIf="State !== ''" (click)="State = ''; getallBranchesData()">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-4 mb-3">
+              <label>{{"branches.branchManager" | translate}}</label>
+
+              <div class="input-img">
+
+                <select class="form-select" [(ngModel)]="EmployeeManagerId" aria-label="Default select example"
+                  (change)="page = 1; fromSearchInput = true; getallBranchesData()">
+                  <option selected disabled value="">
+                    {{ "branches.branchManager" | translate }}
+                  </option>
+                  <option *ngFor="let manage of managers" [value]="manage.id">
+                    {{ manage.name}}
+                  </option>
+
+                </select>
+                <button *ngIf="EmployeeManagerId !== ''" (click)="EmployeeManagerId = ''; getallBranchesData()">
+                  <i class="fa-solid fa-xmark"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <!--account Status  -->
+        </div>
+      </div>
+      <!-- begin::card -->
+    </div>
+    <div class="d-flex justify-content-between align-items-center title">
+      <h3>{{ "branches.branshList" | translate }}</h3>
+      <div>
+        <button (click)="addNew()" class="general-outline-button d-flex align-items-center justify-content-center">
+          <span class="m-0">{{ "branches.addNew" | translate }}</span>
+          <i class="fa-solid fa-plus px-2"></i>
+        </button>
+      </div>
+    </div>
+
+    {{ "shared.noOfBranches" | translate }} {{residual}} /
+    {{maxBranches}}
+
+    <!-- begin::card -->
+    <div class="card members-page mt-4">
+      <!-- begin::Body -->
+      <div class="card-body py-3">
+        <div *ngIf="allBranches.length === 0">
+          <img style="
+                text-align: center;
+                display: block;
+                margin-left: auto;
+                margin-right: auto;
+                max-width: 250px;
+              " src="assets/imgs/qyd/no-results.svg" />
+
+          <h1 style="text-align: center; padding-top: 15px">
+            {{ "branches.NotFound" | translate }}
+          </h1>
+        </div>
+        <!-- begin::Table container -->
+        <div class="table-responsive">
+          <!-- begin::Table -->
+          <table class="table align-middle gs-0 gy-4" *ngIf="allBranches.length !== 0">
+            <!-- begin::Table head -->
+            <thead>
+              <tr class="text-center bg-light">
+                <!-- <th class="">#</th> -->
+                <th class="min-w-125px">
+                  {{ "branches.name" | translate }}
+                </th>
+                <th class="min-w-125px">
+                  {{ "branches.branchManager" | translate }}
+                </th>
+                <th class="min-w-125px">
+                  {{ "branches.region" | translate }}
+                </th>
+                <th class="min-w-125px">
+                  {{ "branches.employeeNo" | translate }}
+                </th>
+                <th class="min-w-125px">
+                  {{ "branches.status" | translate }}
+                </th>
+                <th class="min-w-125px">
+                </th>
+
+              </tr>
+            </thead>
+            <!-- end::Table head -->
+            <!-- begin::Table body -->
+
+            <tbody>
+              <tr class="text-center" *ngFor="let player of allBranches">
+                <!-- <td>
+                  <img style="max-width: 40px; max-height: 40px" [src]="
+                        player?.imageURL
+                          ? player?.imageURL
+                          : '/assets/imgs/User.png'
+                      " class="" alt="" />
+                </td> -->
+                <td class="fw-bold">{{ player.name }}</td>
+                <td class="fw-bold">{{ player.employeeManager ??'-'}}</td>
+                <td class="fw-bold">{{ player.regionName ??'-' }}</td>
+                <td class="fw-bold">{{ player.noOfEmployees ??'-' }}</td>
+
+                <!-- <td> -->
+                <td class="">
+                  <div class="form-check form-switch">
+                    <label class="switch form-check-label" [for]="player.id">
+                      <input (change)="changAccountState(player)" class="form-check-input" type="checkbox"
+                        [checked]="player.branchStatus === userAccountState.Active" [id]="player.id" />
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                </td>
+                <!-- </td> -->
+                <td class="overflow-hidden">
+                  <div ngbDropdown container="body">
+                    <button type="button" class="btn btn-outline-primary btn-sm" ngbDropdownToggle>
+                      <i class="fa-solid fa-ellipsis-vertical"></i>
+                    </button>
+                    <div ngbDropdownMenu>
+                      <button ngbDropdownItem class="px-3" (click)="view(player.id)">
+                        <i class="fa-regular fa-eye mx-1"></i>
+                        {{"client.Details" |translate}}
+                      </button>
+                      <button ngbDropdownItem class="px-3" (click)="edit(player.id)">
+
+                        <i class="fa-regular fa-pen-to-square mx-1"></i>
+                        {{"branches.edit" |translate}}
+                      </button>
+                      <!-- <button ngbDropdownItem class="px-3" (click)="deleteEmployee(player.id)">
+                        <i class="fa-solid fa-trash-can mx-1"></i>
+                        {{"branches.delete" |translate}}
+                      </button> -->
+
+                    </div>
+                  </div>
+                </td>
+
+              </tr>
+            </tbody>
+          </table>
+
+          <p>{{ "employeeManagement.total" | translate }}:{{ totalCount }}</p>
+          <ngb-pagination [collectionSize]="totalCount" [(page)]="page" [pageSize]="pageSize"
+            (pageChange)="getallBranchesData()" class="pagination p-0 my-4 d-flex justify-content-center">
+          </ngb-pagination>
+          <!-- end::Table -->
+        </div>
+        <!-- end::Table container -->
+        <!-- begin::Body -->
+      </div>
+    </div>
+  </div>
+</section>

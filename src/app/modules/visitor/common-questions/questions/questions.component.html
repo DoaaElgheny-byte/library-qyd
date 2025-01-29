@@ -1,0 +1,47 @@
+<div class="container">
+  <app-breadcrumb></app-breadcrumb>
+<h3>{{ "question.title" | translate }}</h3>
+<div class="label mt-5">
+  {{ "question.label" | translate }}
+  <a [routerLink]="['/visitor/contact-us']">{{
+    "question.contact" | translate
+  }}</a>
+  {{ "question.label2" | translate }}
+</div>
+<div class="main">
+  <div>
+    <div *ngFor="let item of list">
+        <div
+        role="button"
+        (click)="isCollapsed[item] = !isCollapsed[item]"
+        [attr.aria-expanded]="isCollapsed[item]"
+        aria-controls="collapseExample"
+        class="d-flex justify-content-between fw-bold"
+      >
+        {{ "landingPage.q"+(item+1) | translate }}
+        <i class="fa-solid fa-chevron-down" *ngIf="isCollapsed[item]"></i>
+        <i class="fa-solid fa-chevron-up" *ngIf="!isCollapsed[item]"></i>
+      </div>
+      <div #collapse="ngbCollapse" [(ngbCollapse)]="!isCollapsed[item]">
+        <div class="card">
+          <div class="my-5">
+            {{ "landingPage.answer"+(item+1) | translate }}
+            <div *ngIf="item===2">
+              <div>{{ "landingPage.answer31" | translate }}</div>
+              <div>{{ "landingPage.answer32" | translate }}</div>
+              <div>{{ "landingPage.answer33" | translate }}</div>
+              <div>{{ "landingPage.answer34" | translate }}</div>
+              <div>{{ "landingPage.answer35" | translate }}</div>
+              <div>{{ "landingPage.answer36" | translate }}</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <hr />
+    </div>
+
+
+  </div>
+</div>
+
+</div>

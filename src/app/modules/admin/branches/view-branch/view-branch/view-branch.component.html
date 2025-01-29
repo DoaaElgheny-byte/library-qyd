@@ -1,0 +1,111 @@
+<section class="main">
+    <h3>
+      {{ "branches.branchDetails" | translate }}
+    </h3>
+    <app-breadcrumb></app-breadcrumb>
+    <div class="content">
+      <div class="col-md-12 mb-4 mt-8">
+        <div class="card mt-4">
+          <div class="card-header">
+            <span> {{ "branches.branchInfo" | translate }} </span>
+          </div>
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-4 col-12 col-sm-6 details">
+                <div class="title">{{ "branchEditAdd.arabicName" | translate }}</div>
+                <div class="data">{{ branchDetails?.nameAr }}</div>
+              </div>
+              <div class="col-md-4 col-12 col-sm-6 details">
+                <div class="title">{{ "branchEditAdd.englishName" | translate }}</div>
+                <div class="data">{{ branchDetails?.nameEn }}</div>
+              </div>
+              <div class="col-md-4 col-12 col-sm-6 details">
+                <div class="title">{{ "branchEditAdd.region" | translate }}</div>
+                <div class="data">{{ branchDetails?.regionName }}</div>
+              </div>
+              <div class="col-md-4 col-12 col-sm-6 details">
+                <div class="title">{{ "branchEditAdd.branchManager" | translate }}</div>
+                <div class="data">{{ branchDetails?.employeeManager ?? '_'}}</div>
+              </div>
+              <div class="col-md-4 col-12 col-sm-6 details">
+                <div class="title">{{ "branchEditAdd.employeeNo" | translate }}</div>
+                <div class="data">
+                  {{ branchDetails?.noOfEmployees }}
+                </div>
+              </div>
+              <div class="col-md-12 col-12 col-sm-6 details">
+                <div class="title">{{ "addClient.address" | translate }}</div>
+                <div class="address border rounded">
+                  <span>{{branchDetails.nationalAddress}}</span>
+                </div>
+              </div>
+              
+            </div>
+          </div>
+          <div class="col-md-12 mb-4 mt-8">
+            <div class="card mt-4">
+              <div class="card-header">
+                <span> {{ "issue.attachments" | translate }} </span>
+              </div>
+              <div class="card-body table-responsive">
+                <table class="table align-middle" *ngIf="branchDetails?.files">
+                  <thead>
+                    <tr class="text-center">
+                      <th scope="col">{{ "addClient.classification" | translate }}</th>
+                      <th scope="col">{{ "addClient.attachment" | translate }}</th>
+                      <th scope="col">{{ "issue.download" | translate }}</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr
+                      class="text-center"
+                      *ngFor="let File of branchDetails?.files"
+                    >
+                      <td>{{ File.classificationName ? File.classificationName : File.branchName}}</td>
+                      <td>{{ File.imageName }}</td>
+                      <td>
+                        <a [href]="File.imageURL" target="_blank">
+                          <img src="assets/imgs/qyd/download.svg">
+                          {{"addClient.download" | translate}}
+                        </a>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <div  *ngIf="!branchDetails?.files">{{"contract.NotFound" | translate}}</div>
+              </div>
+            </div>
+          </div>
+          <div class="button-view">
+            <div class="form-action-btn justify-content-between d-flex">
+              <button
+                (click)="Back()"
+                id="kt_sign_in_submit"
+                class="general-outline-button"
+              >
+                <ng-container>
+                  <span class="indicator-label">
+                    {{ "client.Back" | translate }}
+                  </span>
+                </ng-container>
+              </button>
+              <button
+                type="submit"
+                (click)="submit()"
+                id="kt_sign_in_submit"
+                [ngClass]="{ end: lang === 'en', 'end-arabic': lang === 'ar' }"
+                class="genral-button next"
+              >
+                <ng-container class="d-flex">
+                  <span class="indicator-label">
+                    {{ "client.editbtton" | translate }}
+                  </span>
+                </ng-container>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  

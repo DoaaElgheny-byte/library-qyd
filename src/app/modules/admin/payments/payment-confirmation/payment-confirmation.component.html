@@ -1,0 +1,71 @@
+<section class="main mt-5 pt-5">
+    <h3>{{ "payments.payment" | translate }}</h3>
+    <app-breadcrumb></app-breadcrumb>
+
+
+    <div class="container">
+        <div class="row">
+
+            <div class="col-sm-12 col-md-5">
+                <h5 class="my-5">ملخص الطلب</h5>
+                <div class="card bg-white border my-5 py-3">
+                    <div class="card-header d-flex justify-content-between border-bottom align-items-center">
+                        <div>
+                            <h2>باقة الأفراد</h2>
+                            <p>اشتراك في باقة الأفراد</p>
+                        </div>
+                        <div>
+                            <p><span class="fw-bolder">99</span> .س. /في الشهر</p>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <p>مدة الباقة</p>
+                            <p>شهر</p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p>خصم العروض</p>
+                            <p>10</p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p>ضريبة القيمة المضافة</p>
+                            <p>15</p>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <p>رسوم الخدمة</p>
+                            <p>1</p>
+                        </div>
+                    </div>
+                    <div class="card-footer py-4">
+                        <div class="d-flex justify-content-between">
+                            <h3 class="m-0">المجموع الكلي</h3>
+                            <p class="p-0"><span class="fw-bolder">99</span>ر.س.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-12 col-md-4">
+                <h5 class="my-5">حدد طريقة الدفع</h5>
+                <div class="card py-3 pb-0 px-3 my-4">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p class=" d-flex align-items-center m-0 pb-3"><input type="radio" name="payment" class="ms-3 "
+                                style="height:20px; width:20px; vertical-align: middle;"> بطاقة
+                            مدى البنكية
+                        </p>
+                        <p><img src="./assets/imgs/confirm/mada.svg" alt=""></p>
+                    </div>
+                </div>
+                <div class="card py-3 pb-0 px-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <p class=" d-flex align-items-center m-0 pb-3"><input type="radio" name="payment" class="ms-3 "
+                                style="height:20px; width:20px; vertical-align: middle;">
+                            بطاقة إئتمانية
+                        </p>
+                        <p><img src="./assets/imgs/confirm/visa.svg" alt=""></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>

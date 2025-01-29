@@ -1,0 +1,84 @@
+label,
+.label {
+    color: #71767D;
+    font-size: 18px;
+    font-weight: 500;
+    // margin-bottom: 15px;
+}
+
+.addBtn {
+    border-radius: 6px;
+    color: #fff;
+    border: none;
+    background: #048081;
+}
+
+.back-btn {
+    border-radius: 6px;
+    border: 1px solid #E4E4E7;
+    background: #FFF;
+    padding: 12px 30px;
+    transition: 0.5s;
+
+    &:hover {
+        background-color: #ececf0;
+    }
+}
+
+button {
+    font-weight: 700;
+}
+
+.save-btn {
+    padding: 12px 30px;
+    border-radius: 6px;
+    border: 1px solid #E4E4E7;
+    background: #F4F4F5;
+    transition: 0.5s;
+
+    &:hover {
+        background-color: #ececf0;
+    }
+}
+
+.next-btn {
+    padding: 12px 30px;
+    border-radius: 6px;
+    border: 1px solid #E4E4E7;
+    background: #18181B;
+    transition: 0.5s;
+    color: #fff;
+
+    &:hover {
+        background-color: #fff;
+        color: #000;
+        border-color: #000;
+
+        i {
+            transition: 0.5s;
+
+            color: #000 !important;
+        }
+    }
+}
+
+thead th {
+    font-size: 19px;
+}
+
+tr td {
+    font-size: 17px;
+    font-weight: 500 !important;
+}
+
+
+.convert2 {
+    border-radius: 6px;
+    background: rgba(4, 128, 129, 0.10);
+    box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.25) inset;
+    padding: 12px 30px;
+    border: none;
+    color: #048081;
+
+    transition: 0.5s;
+}

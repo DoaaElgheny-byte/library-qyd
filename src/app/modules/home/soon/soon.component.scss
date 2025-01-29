@@ -1,0 +1,138 @@
+@import url("https://fonts.googleapis.com/css2?family=Cairo:wght@200..1000&display=swap");
+
+:host {
+  // background-image: url(https://test.qyd.sa/assets/imgs/qyd/login-bg.svg);
+  font-family: "Cairo", sans-serif;
+  // height: 100vh;
+  background-color: #f5f6f8;
+}
+h1 {
+  font-weight: bolder;
+  color: #212e51 !important;
+  font-size: 24px;
+}
+input,
+textarea {
+  background: rgba(244, 244, 245, 0.5) !important;
+  text-align: right !important;
+}
+
+select:focus,
+.select-style select:active {
+  outline: none;
+  color: #000 !important;
+}
+select {
+  appearance: none; /* Remove default arrow in Firefox */
+  -webkit-appearance: none; /* Remove default arrow in Webkit browsers */
+  -moz-appearance: none; /* Remove default arrow in Firefox */
+  padding: 10px; /* Set padding */
+  font-size: 16px; /* Set font size for the dropdown */
+  background-color: rgba(240, 240, 240, 0.424);
+  border-radius: 5px;
+  position: relative;
+}
+
+/* Style for the custom arrow */
+select::after {
+  content: "\25BC"; /* Unicode for down arrow */
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+}
+select {
+  color: #a1a5b7 !important;
+  font-size: 18px;
+}
+input::placeholder,
+textarea::placeholder {
+  text-align: right !important;
+}
+body[dir="rtl"] .input-container input.dir {
+  direction: rtl !important;
+}
+img {
+  width: 60px;
+  margin: 28px auto;
+}
+
+.form-control,
+.form-control:focus {
+  padding: 7px 15px;
+  font-size: 18px;
+  background: rgba(244, 244, 245, 0.5);
+}
+
+.form {
+  transition: 0.2s;
+  box-shadow: 0 0.3rem 0.3rem rgba(0, 0, 0, 0.075) !important;
+  padding: 20px;
+  border-radius: 6px;
+  border: none;
+  background-color: #fff !important;
+  p {
+    color: var(--text-text-muted-foreground, #71717a);
+    text-align: right;
+    font-size: var(--font-size-lg, 20px);
+    font-weight: 400;
+    margin: 12px;
+  }
+}
+
+.btn {
+  border: none !important;
+  background: #212e51 !important;
+  width: 100%;
+}
+.btn:hover {
+  background: #293966 !important;
+}
+.caption {
+  background-color: #326d6d;
+  border-radius: 30px;
+  overflow: hidden;
+  height: 100%;
+}
+.dark-blue {
+  background-color: #212e51;
+  height: 70%;
+  border-bottom-left-radius: 60%;
+}
+.inner-text img {
+  width: 100px;
+}
+.inner-text h2 {
+  color: #fafafa;
+  text-align: right;
+  font-size: 20px;
+  font-weight: var(--font-weight-semibold, 700);
+}
+.inner-text p {
+  text-align: right;
+  font-size: 46px;
+  font-weight: 700;
+}
+
+@media (min-width: 992px) {
+  .form {
+    padding: 40px;
+  }
+}
+
+@media (max-width: 992px) {
+  :host {
+    background: linear-gradient(180deg, #212e51 20%, #326d6d 70%);
+  }
+  .inner-text p {
+    font-size: 30px;
+  }
+  .inner-text h2 {
+    font-size: 18px;
+  }
+  .caption,
+  .dark-blue {
+    background-color: transparent;
+    height: auto;
+  }
+}

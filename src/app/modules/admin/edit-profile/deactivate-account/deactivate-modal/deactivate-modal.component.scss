@@ -1,0 +1,45 @@
+.modal-header {
+    border-bottom: none;
+}
+
+.modal-footer {
+    border-top: none;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
+
+.btn-outline-secondary {
+    color: #6c757d;
+    border-color: #6c757d;
+}
+
+h5 {
+    color: #18181B;
+    text-align: right;
+    font-size: 16px;
+    font-weight: 800;
+    line-height: 30px;
+}
+
+p {
+    color: #71717A;
+    text-align: right;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 30px;
+}
+
+.btn-outline-secondary {
+    border-radius: 8px;
+    border: 1px solid #686868 !important;
+    background: #FFF;
+    box-shadow: 0px 2px 1px 0px rgba(0, 0, 0, 0.10) !important;
+}
+
+.btn-outline-secondary:hover {
+    background-color: #18181B !important;
+    color: #fff !important;
+}

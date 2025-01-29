@@ -1,0 +1,186 @@
+<div class="container my-10">
+  <!-- <app-breadcrumb></app-breadcrumb> -->
+  <h3>{{"contactUs.contact" | translate}}</h3>
+  <div class="label mt-5">
+    {{"contactUs.label" |translate}}
+  </div>
+  <div class="main">
+    <form [formGroup]="contactUsForm" role="form" novalidate="novalidate" class="row">
+      <div class="col-md-12 mb-6 ">
+        <!-- <label> {{ "contactUs.purpose" | translate }} </label> -->
+        <div class="d-flex my-4 mx-4 ">
+          <div class="form-check">
+            <input formControlName="messageType" [value]="messageType.Inquiry" class="form-check-input" type="radio"
+              name="messageType" id="flexRadioDefault3" />
+            <label class="form-check-label" for="flexRadioDefault3">
+              {{ "contactUs.Inquiry" | translate }}
+            </label>
+          </div>
+          <div class="form-check">
+            <input formControlName="messageType" [value]="messageType.Suggestion" class="form-check-input" type="radio"
+              name="messageType" id="flexRadioDefault4" />
+            <label class="form-check-label" for="flexRadioDefault4">
+              {{ "contactUs.Suggestion" | translate }}
+            </label>
+          </div>
+          <div class="form-check">
+            <input formControlName="messageType" [value]="messageType.Complaint" class="form-check-input" type="radio"
+              name="messageType" id="flexRadioDefault5" />
+            <label class="form-check-label" for="flexRadioDefault5">
+              {{ "contactUs.Complaint" | translate }}
+            </label>
+          </div>
+        </div>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'Validation.thisFieldIsRequired' | translate,
+                control: contactUsForm.controls['messageType']
+              }"></ng-container>
+      </div>
+      <div class="col-sm-6 mb-10">
+        <label> {{ "contactUs.name" | translate }} </label>
+        <input id="exampleFormControlInput1" [placeholder]="'contactUs.name' | translate" formControlName="name"
+          type="text" class="form-control" aria-label="First name" />
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'Validation.thisFieldIsRequired' | translate,
+                control: contactUsForm.controls['name']
+                }"></ng-container>
+      </div>
+      <div class="col-sm-6 mb-10">
+        <label> {{ "contactUs.email" | translate }} </label>
+        <input id="exampleFormControlInput1" [placeholder]="'contactUs.email' | translate" formControlName="email"
+          type="text" class="form-control" aria-label="First name" />
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'Validation.thisFieldIsRequired' | translate,
+                control: contactUsForm.controls['email']
+                }"></ng-container>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'pattern',
+                message: 'Validation.EmailIsInValid' | translate,
+                control: contactUsForm.controls['email']
+                }"></ng-container>
+      </div>
+      <div class="col-sm-12 mb-5">
+        <label> {{ "contactUs.message" | translate }} </label>
+
+        <textarea [placeholder]="'contactUs.message' | translate" formControlName="message" class="form-control"
+          id="exampleFormControlTextarea1" rows="5"></textarea>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'Validation.thisFieldIsRequired' | translate,
+                control: contactUsForm.controls['message']
+              }"></ng-container>
+      </div>
+      <!--  send data -->
+      <div class="d-flex button-end justify-content-md-between">
+        <div class="form-action-btn">
+          <button type="submit" (click)="submit()" id="kt_sign_in_submit"
+            [ngClass]="{ end: lang === 'en', 'end-arabic': lang === 'ar' }" class="genral-button px-10">
+            <ng-container class="d-flex">
+              <span class="indicator-label">
+                {{ "contactUs.send" | translate }}
+              </span>
+            </ng-container>
+          </button>
+        </div>
+        <div class="recaptcha2">
+          <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" formControlName="recaptcha">
+          </ngx-recaptcha2>
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'Validation.thisFieldIsRequired' | translate,
+            control: contactUsForm.controls['recaptcha']
+          }"></ng-container>
+        </div>
+        <!-- <div>
+          <re-captcha class="mt-3 block md:mt-0" (resolved)="resolved($event)"
+            siteKey="6LcVXH4pAAAAAH8eyL7Ah1NnXmxvPqS9mT1UxB3K"></re-captcha>
+          <app-validation class="block mt-4" [control]="contactUsForm | getControl: 'captcha'"></app-validation>
+        </div> -->
+      </div>
+    </form>
+
+
+  </div>
+  <!-- error -->
+  <ng-template #formError let-control="control" let-message="message" let-validation="validation">
+    <ng-container *ngIf="
+      control?.hasError(validation) && (control?.dirty || control?.touched)
+    ">
+      <div class="fv-plugins-message-container">
+        <div class="fv-help-block">
+          <span role="alert">
+            {{ message }}
+          </span>
+        </div>
+      </div>
+    </ng-container>
+  </ng-template>
+</div>
+
+
+<div class="container my-10">
+  <div class="row gy-5">
+    <div class="col-md-3">
+      <div class="card h-100">
+        <div class="icon p-4">
+          <svg xmlns="http://www.w3.org/2000/svg" width="25" height="24" viewBox="0 0 25 24" fill="none">
+            <path
+              d="M12.502 2C18.0248 2 22.502 6.47715 22.502 12C22.502 17.5228 18.0248 22 12.502 22C10.6681 22 8.94948 21.5064 7.47183 20.6447L2.50613 22L3.85809 17.0315C2.99591 15.5536 2.50195 13.8345 2.50195 12C2.50195 6.47715 6.9791 2 12.502 2ZM8.89329 7.30833C8.7639 7.31742 8.63704 7.34902 8.52154 7.40811C8.43489 7.45244 8.35445 7.51651 8.22806 7.63586C8.10871 7.74855 8.03954 7.84697 7.96666 7.94186C7.59696 8.4232 7.39826 9.01405 7.40195 9.62098C7.40396 10.1116 7.5314 10.5884 7.73266 11.0336C8.14079 11.9364 8.81385 12.8908 9.70291 13.7759C9.91647 13.9885 10.1257 14.2034 10.3513 14.402C11.4548 15.3736 12.7698 16.0742 14.1917 16.4482C14.1917 16.4482 14.7517 16.5342 14.7599 16.5347C14.9454 16.5447 15.1306 16.5313 15.3163 16.5218C15.6076 16.5068 15.892 16.428 16.1494 16.2909C16.3149 16.2028 16.3932 16.159 16.5321 16.0714C16.5321 16.0714 16.5747 16.0426 16.6569 15.9814C16.7919 15.8808 16.8753 15.81 16.9876 15.6934C17.0704 15.6074 17.1416 15.5058 17.1966 15.3913C17.2748 15.2281 17.3535 14.9166 17.3848 14.6579C17.4087 14.4603 17.4015 14.3523 17.3989 14.2854C17.3946 14.1778 17.3057 14.0671 17.2083 14.0201L16.6268 13.7587C16.6268 13.7587 15.7573 13.3803 15.2255 13.1377C15.1701 13.1124 15.1095 13.1007 15.0486 13.097C14.9152 13.0888 14.7657 13.1236 14.6706 13.2238C14.6656 13.2218 14.5994 13.279 13.8759 14.1555C13.836 14.2032 13.7425 14.3069 13.5808 14.2972C13.5564 14.2955 13.5321 14.292 13.5084 14.2858C13.4429 14.2685 13.3791 14.2457 13.3167 14.2193C13.193 14.1668 13.1496 14.1469 13.0651 14.1105C12.4878 13.8583 11.958 13.5209 11.4897 13.108C11.3641 12.9974 11.2473 12.8783 11.1269 12.7616C10.7067 12.3543 10.3627 11.9211 10.1067 11.4938C10.0928 11.4705 10.0712 11.4368 10.0481 11.3991C10.0062 11.331 9.96 11.25 9.94552 11.1944C9.90835 11.0473 10.007 10.9291 10.007 10.9291C10.007 10.9291 10.2504 10.663 10.3635 10.5183C10.4723 10.379 10.5662 10.2428 10.626 10.1457C10.7438 9.95633 10.7811 9.76062 10.7192 9.60963C10.4386 8.92565 10.1492 8.24536 9.85083 7.56894C9.79195 7.43545 9.61682 7.33846 9.45756 7.32007C9.40362 7.31384 9.34972 7.30758 9.29556 7.30402C9.1615 7.29748 9.02717 7.29892 8.89329 7.30833Z"
+              fill="#25577F" />
+          </svg>
+        </div>
+        <p class="m-0 p-0">{{"contactUs.contactNumber"|translate}}</p>
+        <p class="m-0 p-0">966552202366+</p>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card h-100">
+        <div class=" p-4">
+          <svg xmlns="http://www.w3.org/2000/svg" width="54" height="54" viewBox="0 0 54 54" fill="none">
+            <rect opacity="0.1" x="0.5" y="0.769531" width="53" height="53" rx="12" fill="#25577F" />
+            <path
+              d="M16.75 19.2695C15.5078 19.2695 14.5 20.2773 14.5 21.5195C14.5 22.2273 14.8328 22.893 15.4 23.3195L25.6 30.9695C26.1344 31.368 26.8656 31.368 27.4 30.9695L37.6 23.3195C38.1672 22.893 38.5 22.2273 38.5 21.5195C38.5 20.2773 37.4922 19.2695 36.25 19.2695H16.75ZM14.5 24.5195V34.2695C14.5 35.9242 15.8453 37.2695 17.5 37.2695H35.5C37.1547 37.2695 38.5 35.9242 38.5 34.2695V24.5195L28.3 32.1695C27.2312 32.9711 25.7688 32.9711 24.7 32.1695L14.5 24.5195Z"
+              fill="#25577F" />
+          </svg>
+        </div>
+        <p class="m-0 p-0">{{"contactUs.supportMail"|translate}}</p>
+        <p class="m-0 p-0">support@qyd.sa</p>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card h-100">
+        <div class=" p-4">
+          <svg xmlns="http://www.w3.org/2000/svg" width="54" height="54" viewBox="0 0 54 54" fill="none">
+            <rect opacity="0.1" x="0.5" y="0.769531" width="53" height="53" rx="12" fill="#25577F" />
+            <path
+              d="M16.75 19.2695C15.5078 19.2695 14.5 20.2773 14.5 21.5195C14.5 22.2273 14.8328 22.893 15.4 23.3195L25.6 30.9695C26.1344 31.368 26.8656 31.368 27.4 30.9695L37.6 23.3195C38.1672 22.893 38.5 22.2273 38.5 21.5195C38.5 20.2773 37.4922 19.2695 36.25 19.2695H16.75ZM14.5 24.5195V34.2695C14.5 35.9242 15.8453 37.2695 17.5 37.2695H35.5C37.1547 37.2695 38.5 35.9242 38.5 34.2695V24.5195L28.3 32.1695C27.2312 32.9711 25.7688 32.9711 24.7 32.1695L14.5 24.5195Z"
+              fill="#25577F" />
+          </svg>
+        </div>
+        <p class="m-0 p-0">{{"contactUs.infoMail"|translate}}</p>
+        <p class="m-0 p-0">info@qyd.sa</p>
+      </div>
+    </div>
+
+    <div class="col-md-3">
+      <div class="card h-100 text-center">
+        <div class=" p-4">
+          <svg width="53" height="53" viewBox="0 0 53 53" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect opacity="0.1" width="53" height="53" rx="12" fill="#25577F" />
+            <path
+              d="M27.1109 38.9C29.5156 35.8906 35 28.5969 35 24.5C35 19.5312 30.9688 15.5 26 15.5C21.0312 15.5 17 19.5312 17 24.5C17 28.5969 22.4844 35.8906 24.8891 38.9C25.4656 39.6172 26.5344 39.6172 27.1109 38.9ZM26 21.5C26.7956 21.5 27.5587 21.8161 28.1213 22.3787C28.6839 22.9413 29 23.7044 29 24.5C29 25.2956 28.6839 26.0587 28.1213 26.6213C27.5587 27.1839 26.7956 27.5 26 27.5C25.2044 27.5 24.4413 27.1839 23.8787 26.6213C23.3161 26.0587 23 25.2956 23 24.5C23 23.7044 23.3161 22.9413 23.8787 22.3787C24.4413 21.8161 25.2044 21.5 26 21.5Z"
+              fill="#25577F" />
+          </svg>
+
+        </div>
+        <p class="m-0 p-0">{{"contactUs.address"|translate}}</p>
+        <p class="m-0 p-0 fw-bolder">{{"footer.address"|translate}}</p>
+      </div>
+    </div>
+  </div>
+</div>

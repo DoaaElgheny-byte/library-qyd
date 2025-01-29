@@ -1,0 +1,50 @@
+<section class="user-management">
+  <!-- begin::Header -->
+  <div class="page-title">
+    <div class="d-flex justify-content-between align-items-center">
+      <h3 *ngIf="!issueId">
+        <span>{{ "addIssue.Add" | translate }} </span>
+
+        {{ "AddEditcontract.contract" | translate }}
+      </h3>
+      <h3 *ngIf="issueId">
+        <span>{{ "addIssue.edit" | translate }} </span>
+        {{ "AddEditcontract.contract" | translate }}
+      </h3>
+
+    </div>
+    <app-breadcrumb></app-breadcrumb>
+
+  </div>
+
+
+
+
+  <div class="content">
+    <article>
+      <div class="btns-tab">
+        <button [ngClass]="{ active: tabNum === 1 }">
+          <span class="step">1</span>
+          <span> {{ "AddEditcontract.contractDetail" | translate }}</span>
+        </button>
+
+        <button [ngClass]="{ active: tabNum === 2 }">
+          <span class="step">2</span>
+          <span> {{ "contract.ApplicationReview" | translate }} </span>
+        </button>
+
+      </div>
+
+
+      <div class="tabs-content">
+        <div *ngIf="tabNum === 1">
+          <app-contract-info (bindValue)="getId($event)"></app-contract-info>
+        </div>
+
+        <div *ngIf="tabNum === 2">
+          <app-review (bindValue)="stepReview($event)"></app-review>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>

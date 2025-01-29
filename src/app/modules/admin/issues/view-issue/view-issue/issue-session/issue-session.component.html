@@ -1,0 +1,252 @@
+<div *ngIf="!isAuth">
+  <img
+    style="
+      text-align: center;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 250px;
+    "
+    src="assets/imgs/qyd/no-results.svg"
+  />
+
+  <h1 style="text-align: center; padding-top: 15px">
+    {{ "contract.NotAuth" | translate }}
+  </h1>
+</div>
+<div class="body-size position-relative" *ngIf="isAuth">
+    <div class="sessions">
+        <div class="row">
+            <div class="col-md-4 col-lg-4 col-sm-12">
+                <div class="d-flex align-items-start tabs-issue">
+                  <div class="border rounded-circle p-5 mx-3 img">
+                    <img src="assets/imgs/qyd/court.svg">
+                  </div>
+                  <div  *ngIf="issueDetails?.court ">
+                    <h5>{{ "issue.court" | translate }}</h5>
+                    <div>{{ issueDetails?.court }}</div>
+                  </div>
+                  <div  *ngIf="issueDetails?.committee ">
+                    <h5>{{ "addIssue.Committee" | translate }}</h5>
+                    <div>{{ issueDetails?.committee }}</div>
+                  </div>
+                  <div  *ngIf="issueDetails?.subDistrict ">
+                    <h5>{{ EntityChoosen | translate }}</h5>
+                    <div>{{ issueDetails?.subDistrict }}</div>
+                  </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-sm-12">
+                <div class="d-flex align-items-start tabs-issue">
+                  <div class="border rounded-circle p-5 mx-3 img">
+                    <img src="assets/imgs/qyd/case.svg" >
+                  </div>
+                    <div>
+                        <h5>{{"issue.issueType" | translate}}</h5>
+                        <p>
+                          <span *ngIf="
+                          issueDetails?.lawsuitType === issueTypes.Workers
+                        " class="details">
+                        {{ "addIssue.Workers" | translate }}
+                      </span>
+                      <span *ngIf="issueDetails?.lawsuitType === issueTypes.Criminal" class="details">
+                        {{ "addIssue.Criminal" | translate }}
+                      </span>
+                      <span *ngIf="
+                          issueDetails?.lawsuitType === issueTypes.PersonalConditions
+                        " class="details">
+                        {{ "addIssue.PersonalConditions" | translate }}
+                      </span>
+                      <span *ngIf="
+                      issueDetails?.lawsuitType === issueTypes.Civilian
+                      " class="details">
+                      {{ "addIssue.Civilian" | translate }}
+                      </span>
+                      <span *ngIf="
+                      issueDetails?.lawsuitType === issueTypes.Administrative
+                      " class="details">
+                      {{ "addIssue.Administrative" | translate }}
+                      </span>
+                      <span *ngIf="
+                      issueDetails?.lawsuitType === issueTypes.Commercial
+                      " class="details">
+                      {{ "addIssue.Commercial" | translate }}
+                      </span>
+                      <span *ngIf="
+                      issueDetails?.lawsuitType === issueTypes.Other
+                      " class="details">
+                      {{ "addIssue.Other" | translate }}
+                      </span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 col-lg-4 col-sm-12 mt-md-2">
+                <div class="d-flex align-items-start tabs-issue">
+                  <div class="border rounded-circle p-5 mx-3 img">
+                    <img src="assets/imgs/qyd/calender.svg" >
+                  </div>
+                    <div>
+                        <h5>{{"issue.issueDate" | translate}}</h5>
+                        <p>{{issueDetails?.date | date}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="d-flex flex-end mt-4" *ngIf="!isEmployee">
+        <button type="submit" (click)="add()" id="kt_sign_in_submit" class="general-outline-button">
+            <ng-container class="d-flex">
+                <span class="indicator-label">
+                    <i class="fa-solid fa-plus"></i>
+                    {{ "issue.newSession" | translate }}
+                </span>
+            </ng-container>
+        </button>
+    </div>
+     <!-- Table-->
+  <div class="card members-page mt-4">
+    <!-- begin::Body -->
+    <div class="card-body">
+      <div *ngIf="allUsers.length === 0">
+        <img
+          style="
+            text-align: center;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 250px;
+          "
+          src="assets/imgs/qyd/no-results.svg"
+        />
+
+        <h1 style="text-align: center; padding-top: 15px">
+          {{ "contract.NotFound" | translate }}
+        </h1>
+      </div>
+      <!-- begin::Table container -->
+      <div class="table-responsive">
+        <!-- begin::Table -->
+        <table
+          class="table align-middle gs-0 gy-4"
+          *ngIf="allUsers.length !== 0"
+        >
+          <!-- begin::Table head -->
+          <thead>
+            <tr class="text-center bg-light">
+              <!-- <th class="">#</th> -->
+              <th class="min-w-125px">
+                {{ "sitting.CourtSessionName" | translate }}
+              </th>
+              <th class="min-w-125px">{{ "sitting.startDate" | translate }}</th>
+              <th class="min-w-125px">{{ "sitting.startTime" | translate }}</th>
+
+              <th class="min-w-125px">
+                {{ "addWorkDuty.workDutyTeam" | translate }}
+              </th>
+              <th class="min-w-125px">
+                {{ "sitting.sittingStatus" | translate }}
+              </th>
+              
+              <th class="min-w-95px"></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr class="text-center" *ngFor="let player of allUsers">
+              <td >{{ player.name }}</td>
+                <td >{{ player.startDate | date : "dd-MM-yyyy" }}</td>
+                <td>{{ player.startTime }}</td>
+
+                <td
+                class="d-flex align-items-center justify-content-center border-0"
+                (click)="viewTeam(player.employees)"
+                role="button"
+              >
+                <ng-container *ngIf="player.employees">
+                  <ng-container
+                    *ngFor="
+                      let employee of player.employees.slice(0, 3);
+                      let i = index
+                    "
+                  >
+                    <div
+                      class="border rounded-circle employee yellow-circle"
+                      *ngIf="i === 0"
+                    >
+                      {{ getShortName(employee.name) }}
+                    </div>
+                    <div
+                      class="border rounded-circle employee blue-circle"
+                      *ngIf="i === 1"
+                    >
+                      {{ getShortName(employee.name) }}
+                    </div>
+                    <div
+                      class="border rounded-circle employee green-circle"
+                      *ngIf="i === 2"
+                    >
+                      {{ getShortName(employee.name) }}
+                    </div>
+                  </ng-container>
+                  <div
+                    class="border rounded-circle employee grey-circle"
+                    *ngIf="player.employees.length > 3"
+                  >
+                    + {{ player.employees.length - 3 }}
+                  </div>
+                </ng-container>
+              </td>
+              <td *ngIf="player?.isDraft">
+                <span class="badge new-badge-light-light-grey fs-7 fw-bold">
+                  {{ "issue.isDraft" | translate }}
+                </span>
+              </td>
+              <td *ngIf="!player?.isDraft">
+                <span
+                  *ngIf="player?.sittingStatus === sittingStatusEnum.Active"
+                  class="badge new-badge-light-green fs-7 fw-bold"
+                >
+                  {{ "sitting.Active" | translate }}
+                </span>
+                <span
+                  *ngIf="player?.sittingStatus === sittingStatusEnum.Finished"
+                  class="badge new-badge-light-red fs-7 fw-bold"
+                >
+                  {{ "sitting.Finished" | translate }}
+                </span>
+
+               
+              </td>
+
+              <td class="overflow-hidden d-flex justify-content-center align-items-center">
+                
+                    <button
+                      ngbDropdownItem
+                      class="px-3"
+                      (click)="view(player.id, 1)"
+                    >
+                      <i class="fa-regular fa-eye mx-1"></i>
+                    </button>
+                  
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="mx-5">{{ "contract.total" | translate }}:{{ totalCount }}</p>
+        <ngb-pagination
+          [collectionSize]="totalCount"
+          [(page)]="page"
+          [pageSize]="pageSize"
+          (pageChange)="getAllUsersData()"
+          class="pagination p-0 my-4 d-flex justify-content-center"
+        >
+        </ngb-pagination>
+        <!-- end::Table -->
+      </div>
+      <!-- end::Table container -->
+      <!-- begin::Body -->
+    </div>
+  </div>
+</div>

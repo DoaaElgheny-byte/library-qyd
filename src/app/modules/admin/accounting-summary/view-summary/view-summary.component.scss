@@ -1,0 +1,18 @@
+.btns {
+    border-radius: 8px;
+    background: #F4F4F5;
+    width: fit-content;
+    padding: 4px;
+
+    button {
+        border-radius: var(--radius-rounded-sm, 2px);
+        border: none;
+        padding: 12px;
+        background-color: transparent;
+    }
+
+    button.active {
+        background: #FFF;
+
+    }
+}

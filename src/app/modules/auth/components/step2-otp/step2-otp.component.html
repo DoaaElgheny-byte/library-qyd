@@ -1,0 +1,54 @@
+<section class="login-page">
+    <div class="page-content">
+        <div class="container">
+            <div class="row justify-content-center align-items-center">
+                <!-- Form Section -->
+                <div class="col-lg-6 col-md-6">
+                    <div class="otp-container">
+                        <h2>{{ 'auth.otp.enterCode' | translate }}</h2>
+                        <p *ngIf="phoneOrEmail=='true'">{{ 'auth.otp.sentMessage' | translate }}</p>
+                        <p *ngIf="phoneOrEmail=='false'">{{ 'auth.otp.sentMessage2' | translate }}</p>
+
+                        <div class="otp-inputs" dir="ltr">
+                            <input type="text" maxlength="1" (input)="moveToNext($event, 0)" [(ngModel)]="otp[0]" />
+                            <input type="text" maxlength="1" (input)="moveToNext($event, 1)" [(ngModel)]="otp[1]" />
+                            <input type="text" maxlength="1" (input)="moveToNext($event, 2)" [(ngModel)]="otp[2]" />
+                            <input type="text" maxlength="1" (input)="moveToNext($event, 3)" [(ngModel)]="otp[3]" />
+                        </div>
+
+                        <p class="timer">
+                            <span *ngIf="timer > 0">{{ 'auth.otp.resendMessage' | translate }} {{ formatTime(timer)
+                                }}</span>
+                            <a *ngIf="timer === 0" (click)="resendCode()">{{ 'auth.otp.resendCode' | translate }}</a>
+                        </p>
+
+                        <button class="confirm-button general-button" (click)="confirmOtp()"
+                            [disabled]="!isOtpComplete()">
+                            {{ 'auth.otp.confirmAccount' | translate }}
+                        </button>
+
+                        <a *ngIf="phoneOrEmail=='true'" class="edit-number" (click)="editPhoneNumber()">
+                            {{ 'auth.otp.editPhoneNumber' | translate }}
+                        </a>
+                        <a *ngIf="phoneOrEmail=='false'" class="edit-number" (click)="editPhoneNumber()">
+                            {{ 'auth.otp.editEmail' | translate }}
+                        </a>
+                    </div>
+
+                </div>
+
+                <!-- Image Section -->
+                <div class="col-md-6 order-first order-md-last">
+                    <div class="frame">
+                        <picture>
+                            <source srcset="./assets/imgs/form/signin.webp" media="(min-width: 768px)"
+                                type="image/webp" />
+                            <img src="./assets/imgs/form/signin-mobile.webp"
+                                alt="{{ 'loginPage.imageAlt' | translate }}" class="img-fluid" />
+                        </picture>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

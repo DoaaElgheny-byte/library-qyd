@@ -1,0 +1,114 @@
+<div class=" d-flex align-items-center mx-2" dir="rtl">
+    <div class="container  my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="caption ">
+
+                    <div class="dark-blue d-flex  align-items-center">
+                        <div class="inner-text p-5 text-white mx-5">
+                            <img src="../../../../assets/imgs/qyd/logo (1).svg" alt="">
+                            <h2 class="text-white">منصة قيد لتنظيم الأعمال القانونية</h2>
+                            <p>سننطلق قريباً</p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="form m-auto shadow-lg">
+                    <!-- <img class="text-end" src="./../../../../assets/imgs/qyd/logo3.svg" alt=""> -->
+                    <h1 class=" text-end"> سجّل اهتمامك </h1>
+                    <p>لتكون أول المستفيدين من التجربة المجانية لحلولنا القانونية الذكية</p>
+                    <form class=" w-100 my-5" [formGroup]="loginForm" novalidate="novalidate" id="kt_login_signin_form"
+                        (ngSubmit)="submit()">
+
+                        <div class="text-end">
+                            <label for="name" class="fw-bolder"> ادخل الاسم ثلاثي <span
+                                    class="text-danger  fs-xl-1">*</span>
+                            </label>
+                            <input class="form-control bg-transparent my-3" type="text" placeholder="ادخل الاسم ثلاثي"
+                                name="fullName" formControlName="fullName" autocomplete="off" [ngClass]="{
+                                    'border-danger': loginForm.controls['fullName'].invalid && loginForm.controls['fullName'].touched,
+                                    'border-success': loginForm.controls['fullName'].valid
+                                  }" />
+
+                        </div>
+                        <div class="text-end">
+                            <label for="name" class="fw-bolder"> ادخل رقم الجوال <span
+                                    class="text-danger  fs-xl-1">*</span>
+                            </label>
+                            <input class="form-control bg-transparent mt-3" type="tel" placeholder="ادخل رقم الجوال"
+                                name="phone" formControlName="phone" autocomplete="off" [ngClass]="{
+                                    'border-danger': loginForm.controls['phone'].invalid && loginForm.controls['phone'].touched,
+                                    'border-success': loginForm.controls['phone'].valid
+                                  }" />
+
+
+                        </div>
+
+                        <div class="text-end">
+                            <label for="name" class="fw-bolder mt-3"> ادخل البريد الالكتروني
+                            </label>
+                            <input class="form-control b-g-transparent my-3" type="email"
+                                placeholder="ادخل البريد الالكتروني" name="email" formControlName="email"
+                                autocomplete="off" />
+                        </div>
+
+                        <div class="fv-col-6 mb-4">
+                            <label class="fw-bolder mt-3">نوع الاهتمام</label>
+                            <select formControlName="accountType" class="form-select  my-3"
+                                aria-label="Default select example">
+                                <option class="option1" [value]="null" disabled hidden aria-selected="true">
+                                    اختر نوع الاهتمام
+                                </option>
+
+                                <option value=" محامي">
+                                    محامي
+                                </option>
+                                <option value="ممثل نظامي">
+                                    ممثل نظامي
+                                </option>
+                                <option value="مستشار">
+                                    مستشار
+                                </option>
+
+                                <option value="مكتب محاماة">
+                                    مكتب محاماة
+                                </option>
+                                <option value="الإدارة القانونية">
+                                    الإدارة القانونية
+                                </option>
+                            </select>
+
+                        </div>
+
+
+                        <div class="text-end">
+                            <label for="name" class="fw-bolder mt-2"> سبب الاهتمام </label>
+                            <textarea class="form-control bg-transparent my-2" type="text" placeholder="سبب الاهتمام"
+                                name="reason" formControlName="reason" autocomplete="off"></textarea>
+
+                        </div>
+                    </form>
+                    <div class="form-action-btn">
+
+                        <button type="submit" id="kt_sign_in_submit" class="btn text-white mt-4" (click)="submit()">
+                            سجل الآن
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+    <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+        <div class="fv-plugins-message-container">
+            <div class="fv-help-block">
+                <span role="alert">
+                    {{ message }}
+                </span>
+            </div>
+        </div>
+    </ng-container>
+</ng-template>

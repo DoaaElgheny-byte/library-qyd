@@ -1,0 +1,33 @@
+<div class="container my-4">
+    <table class="table table-bordered text-center">
+        <thead class="table-light">
+            <tr>
+                <th>#</th>
+                <th>{{ 'projectManagement.project_serial_number' | translate }}</th>
+                <th>{{ 'projectManagement.invoice_number2' | translate }}</th>
+                <th>{{ 'projectManagement.invoice_number' | translate }}</th>
+                <th>{{ 'projectManagement.invoice_issue_date' | translate }}</th>
+                <th>{{ 'projectManagement.client_name' | translate }}</th>
+                <th>{{ 'projectManagement.total_with_tax' | translate }}</th>
+                <th>{{ 'projectManagement.view_invoice' | translate }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of invoiceData; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ row.serialNumber }}</td>
+                <td>{{ row.paymentNumber }}</td>
+                <td>{{ row.invoiceNumber }}</td>
+                <td>{{ row.startDate | date}}</td>
+                <td>{{ row.clientName }}</td>
+                <td>{{ row.price }}</td>
+                <td>
+                    <button (click)="viewSimplifiedInvoicePdf(i)"
+                        class="text-decoration-none text-primary border-0 bg-transparent">
+                        <i class="fas fa-download"></i> {{ 'projectManagement.download_invoice' | translate }}
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

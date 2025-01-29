@@ -1,0 +1,83 @@
+<!--backButton:beging-->
+<div class="my-20 row">
+  <div class="col-3">
+    <div class="back-button">
+      <img width="10px" height="20px" src="./assets/media/authnew/back- icon.svg" alt="" />
+      <p>Back to login</p>
+    </div>
+  </div>
+
+</div>
+<!--backButton:Ending-->
+
+<!--begin::Form-->
+<div class="body-size">
+  <form class="form w-100" [formGroup]="codeCharactersForm" novalidate="novalidate" id="kt_login_signin_form"
+    (ngSubmit)="submit()">
+    <!-- begin::Heading-->
+    <div class="text-center mb-11">
+      <img class="mb-10" src="./assets/media/authnew/otp.svg" alt="" />
+      <h1 class="text-dark fw-bolder mb-3">
+        Enter OTP code
+      </h1>
+      <div class="text-gray-500 fw-semibold fs-6">
+        Enter your email to reset your password.
+      </div>
+    </div>
+
+    <div class="d-flex justify-content-center flex-wrap gap-2 fs-base fw-semibold mb-8">
+      <!--begin::inputs-->
+      <div class="chart-place">
+        <div class="d-flex" style="direction: ltr;">
+
+          <input formControlName="char1" type="text" name="code_4" data-inputmask="'mask': '9', 'placeholder': ''"
+            maxlength="1" class="form-control bg-transparent h-60px w-60px fs-2qx text-center mx-1 my-2" value=""
+            inputmode="text" (keyup)="movetoNext($event)">
+
+          <input formControlName="char2" type="text" name="code_4" data-inputmask="'mask': '9', 'placeholder': ''"
+            maxlength="1" class="form-control bg-transparent h-60px w-60px fs-2qx text-center mx-1 my-2" value=""
+            inputmode="text" (keyup)="movetoNext($event)">
+
+          <input formControlName="char3" type="text" name="code_4" data-inputmask="'mask': '9', 'placeholder': ''"
+            maxlength="1" class="form-control bg-transparent h-60px w-60px fs-2qx text-center mx-1 my-2" value=""
+            inputmode="text" (keyup)="movetoNext($event)">
+
+          <input formControlName="char4" type="text" name="code_4" data-inputmask="'mask': '9', 'placeholder': ''"
+            maxlength="1" class="form-control bg-transparent h-60px w-60px fs-2qx text-center mx-1 my-2" value=""
+            inputmode="text" (keyup)="movetoNext($event)">
+
+
+        </div>
+      </div>
+      <!--end::inputs-->
+    </div>
+    <!--end::Wrapper-->
+    <div class="button-size">
+      <div class="d-grid mb-2">
+        <button type="submit" id="kt_sign_in_submit" class="genral-button">
+
+          <span class="indicator-progress">
+            Please wait...
+            <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+          </span>
+
+
+          <span class="indicator-label">Continue</span>
+
+        </button>
+      </div>
+    </div>
+    <!--end::Action-->
+  </form>
+</div>
+<!--end::Form-->
+
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <span role="alert">
+        {{ message }}
+      </span>
+    </div>
+  </ng-container>
+</ng-template>

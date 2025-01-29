@@ -1,0 +1,25 @@
+<div class="body-size position-relative">
+  <h5>{{ "addWorkDuty.ApplicationReview" | translate }}</h5>
+  <span class="sub-title">{{ "addWorkDuty.reviewSubTitle" | translate }}</span>
+  <app-workduty-details [id]="id"></app-workduty-details>
+  <div class="d-flex button-end">
+    <div class="form-action-btn">
+      <button (click)="Back()" id="kt_sign_in_submit" class="general-outline-button">
+        <ng-container>
+          <span class="indicator-label">
+            {{ "addIssue.Back" | translate }}
+          </span>
+        </ng-container>
+      </button>
+      <button (click)="submit()" type="submit" id="kt_sign_in_submit" class="genral-button"
+        [ngClass]="{ end: lang === 'en', 'end-arabic': lang === 'ar' }">
+        <ng-container class="d-flex">
+          <span class="indicator-label">
+            {{ "addIssue.save" | translate }}
+          </span>
+          <img src="assets/imgs/qyd/Left-icon.svg" />
+        </ng-container>
+      </button>
+    </div>
+  </div>
+</div>

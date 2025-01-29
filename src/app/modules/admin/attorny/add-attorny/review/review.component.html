@@ -1,0 +1,142 @@
+<div class="body-size position-relative">
+
+
+
+  <h5>{{ "attorny.reviewTitle" | translate }}</h5>
+  <span class="sub-title">{{ "attorny.reviewSubTitle" | translate }}</span>
+  <div>
+    <div class="body-size position-relative">
+      <div class="col-md-12 mb-4 mt-8">
+        <div class="card mt-4">
+          <div class="card-header">
+            <span> {{ "attorny.attornyInfo" | translate }} </span>
+          </div>
+          <div class="card-body border rounded mt-5">
+            <div class="row">
+              <div class="col-md-3 col-sm-12 col-lg-6 details">
+                <div>{{ "attorny.attornyNumber" | translate }}</div>
+                <div class="">{{ attornyDetails?.number }}</div>
+              </div>
+              <div class="col-md-3 col-sm-12 col-lg-6 details">
+                <div>{{ "attorny.attornyAddress" | translate }}</div>
+                <div>{{ attornyDetails?.address }}</div>
+              </div>
+              <div class="col-md-3 col-sm-12 col-lg-6 details">
+                <div>{{ "attorny.attornyStatus" | translate }}</div>
+                <div class="col-6 p-0">
+                  <span *ngIf="
+                      attornyDetails?.agencyStatus === attornyStatus.Active
+                    " class="badge new-badge-light-green fs-7 fw-light">
+                    {{ "attorny.Active" | translate }}
+                  </span>
+
+                  <span *ngIf="
+                      attornyDetails?.agencyStatus === attornyStatus.Finished
+                    " class="badge new-badge-light-red fs-7 fw-light">
+                    {{ "attorny.Finished" | translate }}
+                  </span>
+                  <span *ngIf="
+                      attornyDetails?.agencyStatus === attornyStatus.Canceled
+                    " class="badge new-badge-light-grey fs-7 fw-light">
+                    {{ "attorny.Canceled" | translate }}
+                  </span>
+                  <span *ngIf="attornyDetails?.agencyStatus === attornyStatus.PartiallyDissolved"
+                    class="badge new-badge-light-grey  fs-7 fw-light">
+                    {{ "attorny.PartiallyDissolved" | translate }}
+                  </span>
+                </div>
+              </div>
+              <div class="col-md-3 col-sm-12 col-lg-6 details">
+                <div>{{ "attorny.startDate" | translate }}</div>
+                <div>{{ format(startDate) }}</div>
+              </div>
+              <div class="col-md-3 col-sm-12 col-lg-6 details">
+                <div>{{ "attorny.endDate" | translate }}</div>
+                <div>{{ format(endDate) }}</div>
+              </div>
+              <div class="col-md-3 col-sm-12 col-lg-6 details">
+                <div>{{ "branches.name" | translate }}</div>
+                <div>{{ attornyDetails?.branch }}</div>
+              </div>
+              <div class="col-md-3 col-sm-12 col-lg-6 details">
+                <div>{{ "attorny.user" | translate }}</div>
+                <div>{{ attornyDetails?.client }}</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 mb-4 mt-8">
+        <div class="card mt-4">
+          <div class="card-header">
+            <span> {{ "attorny.attornySubject" | translate }} </span>
+          </div>
+          <div class="card-body border">
+            <p class="card-text" *ngIf="attornyDetails?.details">
+              {{ attornyDetails?.details }}
+            </p>
+            <p class="card-text" *ngIf="!attornyDetails?.details">
+              {{ "attorny.NotFound" | translate }}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-md-12 mb-4 mt-8">
+        <div class="card mt-4">
+          <div class="card-header">
+            <span> {{ "issue.attachments" | translate }} </span>
+          </div>
+          <div class="card-body table-responsive">
+            <table class="table align-middle">
+              <thead>
+                <tr class="text-center">
+                  <th scope="col">{{ "issue.attachments" | translate }}</th>
+                  <th scope="col">{{ "issue.uploadDate" | translate }}</th>
+                  <th scope="col">{{ "issue.uploadBy" | translate }}</th>
+                  <th scope="col">{{ "issue.download" | translate }}</th>
+                </tr>
+              </thead>
+              <tbody *ngIf="attornyDetails?.agencyFiles">
+                <tr class="text-center" *ngFor="let lawsuitFile of attornyDetails?.agencyFiles">
+                  <td>{{ lawsuitFile.imageName }}</td>
+                  <td>{{ lawsuitFile.date | date : "yyyy-MM-dd" }}</td>
+                  <td>{{ lawsuitFile.name }}</td>
+                  <td>
+                    <a [href]="lawsuitFile.imageStorageFileURL" target="_blank">
+                      <i class="fa-solid fa-file-arrow-down fs-1"></i>
+                    </a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div *ngIf="!attornyDetails?.agencyFiles">
+              {{ "attorny.NotFound" | translate }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex button-end">
+    <div class="form-action-btn">
+      <button (click)="Back()" id="kt_sign_in_submit" class="general-outline-button">
+        <ng-container>
+          <span class="indicator-label">
+            {{ "addIssue.Back" | translate }}
+          </span>
+        </ng-container>
+      </button>
+      <button (click)="submit()" type="submit" id="kt_sign_in_submit" class="genral-button"
+        [ngClass]="{ end: lang === 'en', 'end-arabic': lang === 'ar' }">
+        <ng-container class="d-flex">
+          <span class="indicator-label">
+            {{ "addIssue.save" | translate }}
+          </span>
+          <img src="assets/imgs/qyd/Left-icon.svg" />
+        </ng-container>
+      </button>
+    </div>
+  </div>
+</div>

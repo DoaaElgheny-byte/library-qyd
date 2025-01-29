@@ -1,0 +1,99 @@
+<i class="fa fa-solid fa-times fs-2x float-start m-4" (click)="close()"></i>
+<div style="clear: both;"></div>
+<div class="container my-5">
+
+    <div class="card border border-dark border-2" id="contentToDownload">
+        <div class="card-body">
+            <div class="position-relative ">
+                <h6 class=" quote-preview">{{ 'projectManagement.view_payment_notice' | translate }}</h6>
+            </div>
+            <div class="position-relative">
+                <div class="row mb-3 invoice-details ">
+                    <div class="col-md-12 d-flex justify-content-between  my-7 align-items-center ">
+                        <p *ngIf="details.taxNumberAgent" class="vat-number p-2" style="text-wrap: nowrap;"><strong>{{
+                                'projectManagement.vat_number' |
+                                translate }}:</strong> {{details.taxNumberAgent}}</p>
+
+                        <span *ngIf="!details.taxNumberAgen">.</span>
+                        <img crossorigin="anonymous" width="90" height="54"
+                            [src]="details.logoImageStorageFileURL?details.logoImageStorageFileURL:'./assets/imgs/qyd/logo-blue.svg'"
+                            alt="">
+
+                    </div>
+                    <div class="col-md-3 mb-7">
+                        <p><strong>{{ 'projectManagement.issue_date2' | translate }}:</strong>
+                            {{details.startDate|date}}</p>
+                    </div>
+                    <div class="col-md-9 mb-7">
+                        <p><strong>{{ 'projectManagement.to' | translate }}:</strong> {{details.clientName}} </p>
+                    </div>
+                </div>
+
+                <div class="row invoice-details mt-7">
+
+                    <div class="col-md-6">
+                        <p class="fw-bolder p-0 m-0 mb-2">{{ 'projectManagement.service_name' | translate }}</p>
+                        <p> {{details.projectName}}</p>
+
+                    </div>
+                    <div class="col-md-6">
+                        <p class="fw-bolder p-0 m-0 mb-2">{{ 'projectManagement.amount' | translate }}</p>
+                        <p>{{details.price|currency:'SR'}}</p>
+
+                    </div>
+                    <div class="col-md-12 mt-4">
+                        <p class="fw-bolder p-0 m-0 mb-2 text-dark">{{ 'projectManagement.description' | translate }}
+                        </p>
+                        <p class="text-dark">مقابل الدفعة الثانية بناءً على عقد الخدمات القانونية بتاريخ 24-06-2024 شامل
+                            ضريبة
+                            القيمة المضافة</p>
+                    </div>
+
+
+                </div>
+            </div>
+            <hr />
+            <table class="table table-bordered text-center">
+                <thead class="table-light">
+                    <tr>
+                        <th>{{ 'projectManagement.account_name' | translate }}</th>
+                        <th>{{ 'projectManagement.iban' | translate }}</th>
+                        <th>اسم البنك</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{details.accountName}}</td>
+                        <td>{{details.iban}}</td>
+                        <td>{{details.bankName}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="mt-4">
+                <p class="text-muted">
+                    {{ 'projectManagement.note_text' |
+                    translate }}
+                </p>
+            </div>
+
+            <hr>
+            <div class="text-start my-6">
+                <img crossorigin="anonymous" width="174.522" height="97.4715"
+                    [src]="details.logoStampImageStorageFileURL?details.logoStampImageStorageFileURL:'./assets/imgs/qyd/logo-blue.svg'"
+                    alt="">
+
+            </div>
+
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center gap-3 mt-4">
+        <button class="btn btn-pdf" (click)="downloadPDF()">
+            {{ 'projectManagement.download' | translate }} {{ 'projectManagement.view_payment_notice' | translate }} <i
+                class="fas fa-file-download"></i>
+        </button>
+        <button class="btn btn-dark" (click)="close()">
+            {{ 'projectManagement.cancel' | translate }}
+        </button>
+    </div>
+</div>

@@ -1,0 +1,122 @@
+<i class="fa fa-solid fa-times fs-2x float-start m-4" (click)="close()"></i>
+<div style="clear: both;"></div>
+<div class="container my-5">
+    <div class="text-center mb-7" *ngIf="!isHide">
+        <div class="mb-2">
+            <i class="fas fa-check-circle text-success" style="font-size: 48px;"></i>
+        </div>
+        <h5 class="text-success my-4">{{ 'projectManagement.project_added_successfully' | translate }}</h5>
+        <p>{{ 'projectManagement.review_and_download' | translate }}</p>
+    </div>
+
+    <div class="card border border-dark border-2" id="contentToDownload">
+        <div class="card-body">
+            <div class="position-relative ">
+                <h6 class=" quote-preview">{{ 'projectManagement.quote_preview' | translate }}</h6>
+            </div>
+            <div class="position-relative">
+                <div class="row mb-3 invoice-details">
+                    <div class="col-md-12 d-flex justify-content-between my-7 align-items-center ">
+                        <p *ngIf="projectDetails.taxNumberForAgent" class="vat-number p-2" style="text-wrap: nowrap;">
+                            <strong>{{ 'projectManagement.vat_number' |
+                                translate }}:</strong> {{projectDetails.taxNumberForAgent}}
+                        </p>
+                        <span *ngIf="!projectDetails.taxNumberForAgent">.</span>
+                        <img crossorigin="anonymous" width="90" height="54"
+                            [src]="projectDetails.logoImageStorageFileURL?projectDetails.logoImageStorageFileURL:'./assets/imgs/qyd/logo-blue.svg'"
+                            alt="">
+
+                    </div>
+                    <div class="col-md-4 mb-7">
+                        <p><strong>{{ 'projectManagement.issue_date2' | translate }}:</strong>
+                            {{projectDetails.startDate|date }}</p>
+                    </div>
+                    <div class="col-md-6 mb-7">
+                        <p><strong>{{ 'projectManagement.expiry_date' | translate }}:</strong>
+                            {{projectDetails.endDate|date }} </p>
+                    </div>
+                </div>
+
+                <div class="row invoice-details mt-7">
+                    <div class="col-md-6">
+                        <p><strong>{{ 'projectManagement.client_name' | translate }}:</strong>
+                            {{projectDetails.clientName }}
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>{{ 'projectManagement.client_vat' | translate }}: {{projectDetails.taxNumberForClient
+                                }} </strong>
+
+                    </div>
+                    <div class="col-md-6">
+                        <p>
+                            <strong>{{ 'projectManagement.client_address' | translate }}:</strong>
+
+                            {{projectDetails.regionClientName }} -
+                            {{projectDetails.cityClientName }} -
+                            {{projectDetails.district }} -
+                            {{projectDetails.street }} -
+                            {{projectDetails.buildingNumber }} -
+                            {{projectDetails.zipCode }}
+                        </p>
+                    </div>
+                    <div class="col-md-6">
+                        <p> <strong>الرقم التسلسلي للمشروع :</strong> {{projectDetails.serialNumber}}</p>
+                    </div>
+                </div>
+            </div>
+
+            <table class="table table-bordered text-center my-10">
+                <thead class="table-light">
+                    <tr>
+
+                        <!-- <th>{{ 'projectManagement.service' | translate }}</th> -->
+                        <th>{{ 'projectManagement.description' | translate }}</th>
+                        <th>{{ 'projectManagement.unit_price' | translate }}</th>
+                        <th>{{ 'projectManagement.taxable_amount' | translate }}</th>
+                        <th>{{ 'projectManagement.tax_rate' | translate }}</th>
+                        <th>{{ 'projectManagement.tax_amount' | translate }}</th>
+                        <th>{{ 'projectManagement.total_with_tax2' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+
+                        <!-- <td>مرافعة</td> -->
+                        <td>{{projectDetails.description}}</td>
+                        <td>{{projectDetails.unitPrice}}</td>
+                        <td>{{projectDetails.taxAmount}}</td>
+                        <td>15%</td>
+                        <td>{{projectDetails.vat}}</td>
+                        <td>{{projectDetails.totalTax}}</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="text-end">
+                <p class="my-5"><strong>{{ 'projectManagement.subtotal' | translate }}:</strong>
+                    {{projectDetails.taxAmount}}</p>
+                <p class="my-5"><strong>{{ 'projectManagement.tax_total' | translate }}:</strong> {{projectDetails.vat}}
+                </p>
+                <p class="my-5"><strong>{{ 'projectManagement.total_amount' | translate }}:</strong>
+                    {{projectDetails.totalTax}}</p>
+            </div>
+            <hr>
+            <div class="text-start my-6">
+                <img crossorigin="anonymous" width="174.522" height="97.4715"
+                    [src]="projectDetails.logoStampImageStorageFileURL?projectDetails.logoStampImageStorageFileURL:'./assets/imgs/qyd/logo-blue.svg'"
+                    alt="">
+
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center gap-3 mt-4">
+        <button class="btn btn-pdf" (click)="downloadPDF()">
+            {{ 'projectManagement.download_quote' | translate }} <i class="fas fa-file-download"></i>
+        </button>
+        <button class="btn btn-next" (click)="next()" *ngIf="!isHide">
+            {{ 'projectManagement.navigate_to_projects' | translate }} <i class="fas fa-home text-white"></i>
+        </button>
+    </div>
+</div>

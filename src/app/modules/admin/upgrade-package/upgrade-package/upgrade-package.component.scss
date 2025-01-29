@@ -1,0 +1,121 @@
+.user-management {
+  margin-top: 30px;
+  padding: 35px;
+
+  .page-title {
+    h3 {
+      color: #0E6463;
+      font-size: 20px;
+      margin-bottom: 15px;
+
+      span {
+        border-bottom: 4px solid #DDA617;
+
+      }
+    }
+  }
+
+  .content {
+    box-shadow: 0 10px 60px rgba(226, 236, 249, 0.5);
+    padding: 35px;
+    background-color: #FFF !important;
+
+    h5 {
+      margin: 15px auto;
+    }
+
+    article {}
+  }
+}
+
+.accountType {
+  display: flex;
+  justify-content: flex-end;
+  margin-left: 0 !important;
+
+  @media (max-width:500px) {
+    display: list-item;
+
+    .form-check {
+      padding-bottom: 4px
+    }
+  }
+
+  .switchToggle input[type=checkbox] {
+    height: 0;
+    width: 0;
+    visibility: hidden;
+    position: absolute;
+  }
+
+  .switchToggle label {
+    cursor: pointer;
+    text-indent: -9999px;
+    width: 100px;
+    max-width: 100px;
+    height: 30px;
+    background: #d1d1d1;
+    display: block;
+    border-radius: 100px;
+    position: relative;
+  }
+
+  .switchToggle label:after {
+    content: '';
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 26px;
+    height: 26px;
+    background: #fff;
+    border-radius: 90px;
+    transition: 0.3s;
+  }
+
+  .switchToggle input:checked+label,
+  .switchToggle input:checked+input+label {
+    background: #0E6463;
+  }
+
+  .switchToggle input+label:before,
+  .switchToggle input+input+label:before {
+    content: 'شهري';
+    position: absolute;
+    top: 5px;
+    left: 35px;
+    width: 50px;
+    height: 26px;
+    border-radius: 90px;
+    transition: 0.3s;
+    text-indent: 0;
+    color: #fff;
+  }
+
+  .switchToggle input:checked+label:before,
+  .switchToggle input:checked+input+label:before {
+    content: 'سنوي';
+    position: absolute;
+    top: 5px;
+    left: 10px;
+    width: 50px;
+    height: 26px;
+    border-radius: 90px;
+    transition: 0.3s;
+    text-indent: 0;
+    color: #fff;
+  }
+
+  .switchToggle input:checked+label:after,
+  .switchToggle input:checked+input+label:after {
+    left: calc(100% - 2px);
+    transform: translateX(-100%);
+  }
+
+  .switchToggle label:active:after {
+    width: 60px;
+  }
+
+  .toggle-switchArea {
+    margin: 10px 0 10px 0;
+  }
+}

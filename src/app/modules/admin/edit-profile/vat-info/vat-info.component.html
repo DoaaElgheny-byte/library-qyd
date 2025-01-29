@@ -1,0 +1,91 @@
+<h5>{{"editProfile.editVat" |translate}}</h5>
+<form class="form w-100" [formGroup]="loginForm" novalidate="novalidate" id="kt_login_signin_form2" (ngSubmit)="save()">
+    <!--begin::Action-->
+
+    <!--begin::Form group-->
+    <div class="row">
+
+        <!--begin::Form group-->
+        <div class="col-md-6 mb-3">
+            <!-- <label class="form-label fw-bolder text-dark fs-6 mb-0">{{'SingUp.Password'|translate}}</label> -->
+            <div class="input-group d-block mb-5">
+                <label for="">{{ "register.licenseNumber" | translate }}</label>
+                <span class="text-danger mx-2 fs-2">*</span>
+
+                <div class="pass-sec">
+                    <input class="form-control bg-transparent" [placeholder]="'register.enternumber' | translate"
+                        formControlName="commercialRegistrationNo" [type]="'number'" name="commercialRegistrationNo"
+                        autocomplete="off" />
+                </div>
+            </div>
+        </div>
+
+        <!--begin::Form group-->
+        <div class="col-md-6 mb-3">
+            <!-- <label class="form-label fw-bolder text-dark fs-6 mb-0">{{'SingUp.Password'|translate}}</label> -->
+            <div class="input-group d-block mb-5">
+                <label for="">{{ "register.VATRegistrationNumber" | translate }}</label>
+                <span class="text-danger mx-2 fs-2">*</span>
+
+                <div class="pass-sec">
+                    <input class="form-control bg-transparent"
+                        [placeholder]="'register.VATRegistrationNumber' | translate" [type]="'number'"
+                        formControlName="vatRegistrationNumber" name="commercialRegistrationNo" autocomplete="off" />
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-6 mb-5 new-upload">
+            <label>{{ "register.CommercialRegistrationCertificate" | translate }}</label>
+            <span class="text-danger mx-2 fs-2">*</span>
+            <app-upload-file [acceptedExtensions]="['png', 'gif', 'jpg', 'jpeg','pdf']" [flag]="4" [isMultiple]="false"
+                (bindValue)="uploadImg($event,1)"
+                [labelUploaded]="'register.CommercialRegistrationCertificate' | translate" [delName]="true">
+            </app-upload-file>
+
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'required',
+                  message: 'register.logoRequired' | translate,
+                  control: loginForm.controls['logoImageNameForVat']
+                }"></ng-container>
+        </div>
+
+        <div class="col-lg-6 mb-5 new-upload">
+            <label>{{ "register.VATCertificate" | translate }}</label>
+            <span class="text-danger mx-2 fs-2">*</span>
+            <app-upload-file [acceptedExtensions]="['png', 'gif', 'jpg', 'jpeg','pdf']" [flag]="4" [isMultiple]="false"
+                (bindValue)="uploadImg($event,2)" [labelUploaded]="'register.VATCertificate' | translate"
+                [delName]="true">
+            </app-upload-file>
+
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'required',
+                  message: 'register.logoRequired' | translate,
+                  control: loginForm.controls['logoImageNameForVatTax']
+                }"></ng-container>
+        </div>
+
+
+    </div>
+    <div class="d-flex justify-content-end">
+        <div class="form-action-btn">
+            <button type="button" id="kt_sign_in_submit2" class="general-outline-button" (click)="save()">
+                <ng-container>
+                    <span class="indicator-label">{{ "register.save" | translate }}
+                    </span>
+                </ng-container>
+            </button>
+        </div>
+    </div>
+</form>
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+    <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+        <div class="fv-plugins-message-container">
+            <div class="fv-help-block">
+                <span role="alert">
+                    {{ message }}
+                </span>
+            </div>
+        </div>
+    </ng-container>
+</ng-template>

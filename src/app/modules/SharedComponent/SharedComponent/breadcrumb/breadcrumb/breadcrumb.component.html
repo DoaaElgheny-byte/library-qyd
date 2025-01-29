@@ -1,0 +1,18 @@
+<div class="my-2">
+  <ng-container *ngFor="let breadcrumb of breadcrumbs$ | async; let last = last; let first = first">
+    <ng-container *ngIf="first">
+      <a [routerLink]="'/admin/departments/dashboard-managment'"><i class="fa-solid fa-house"></i> </a>
+      <i class="fa-solid fa-chevron-right mx-2" *ngIf="lang === 'en'"></i>
+      <i class="fa-solid fa-chevron-left mx-2" *ngIf="lang === 'ar'"></i>
+    </ng-container>
+    <ng-container *ngIf="!last && !first">
+      <a [routerLink]="breadcrumb.url">{{ breadcrumb.label }}</a>
+      <i class="fa-solid fa-chevron-right mx-2" *ngIf="lang === 'en'"></i>
+      <i class="fa-solid fa-chevron-left mx-2" *ngIf="lang === 'ar'"></i>
+
+    </ng-container>
+    <ng-container *ngIf="last">
+      {{ breadcrumb.label }}
+    </ng-container>
+  </ng-container>
+</div>

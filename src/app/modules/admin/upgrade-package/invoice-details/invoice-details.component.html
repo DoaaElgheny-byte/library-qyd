@@ -1,0 +1,142 @@
+<section class="user-management">
+  <!-- begin::Header -->
+  <div *ngIf="!isShowCompletedForm" class="loadingNotes">
+    <div class="message-box">
+      <main class="px-3">
+        <h1>{{ "LogIn.attention" | translate }}</h1>
+        <p class="lead">{{ "LogIn.MessageValidation" | translate }}</p>
+        <p class="lead">
+          <button class="btn btn-primary" (click)="showFinalStep()">{{ "LogIn.clickIn" | translate }} </button>
+        </p>
+      </main>
+    </div>
+  </div>
+  <div *ngIf="isShowCompletedForm">
+    <div class="page-title">
+      <div class="d-flex justify-content-between  align-items-center">
+        <h3 class="text-dark">{{ "upgradePackage.invoiceDetails" | translate }}</h3>
+      </div>
+      <app-breadcrumb></app-breadcrumb>
+    </div>
+    <div class="content rounded-5 my-5">
+      <article>
+
+        <div class="invoice">
+          <h3 class="mb-5">{{ "upgradePackage.invoiceDetails" | translate }}</h3>
+          <div class="row">
+            <div class="col-md-3 col-sm-6 col-12 mb-3">
+              <label>{{ "upgradePackage.invoiceDate" | translate }}</label>
+              <div class="detail my-2">
+                {{ invoiceDetail?.creationDate | date }}
+              </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-12 mb-3">
+              <label>{{ "upgradePackage.durationPackage" | translate }}</label>
+              <div class="detail my-2">
+                <span class="duration" *ngIf="
+                  invoiceDetail?.durationPackage === DurationPackage.ThreeMonths
+                ">
+                  {{ "upgradePackage.ThreeMonths" | translate }}</span>
+                <span class="duration" *ngIf="invoiceDetail?.durationPackage  === DurationPackage.Month">
+                  {{"package.Month" |translate}}</span>
+                <span class="duration" *ngIf="
+                  invoiceDetail?.durationPackage === DurationPackage.SixMonths
+                ">{{ "upgradePackage.SixMonths" | translate }}</span>
+                <span class="duration" *ngIf="invoiceDetail?.durationPackage === DurationPackage.Year">{{
+                  "upgradePackage.Year" | translate }}</span>
+              </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-12 mb-3">
+              <label>{{ "upgradePackage.clientName" | translate }}</label>
+              <div class="detail my-2">{{ invoiceDetail?.agent }}</div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-12 mb-3">
+              <label>{{ "upgradePackage.serviceName" | translate }}</label>
+              <div class="detail my-2">{{ invoiceDetail?.serviceName }}</div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-12 mb-3">
+              <label>{{ "upgradePackage.agentAddress" | translate }}</label>
+              <div class="detail my-2">{{ invoiceDetail?.agentAddress }}</div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-12 mb-3">
+              <label>{{ "upgradePackage.licenseNumber" | translate }}</label>
+              <div class="detail my-2">
+                {{ invoiceDetail?.commercialRegistrationNo }}
+              </div>
+            </div>
+            <div class="col-md-3 col-sm-6 col-12 mb-3">
+              <label>{{ "upgradePackage.taxNumber" | translate }}</label>
+              <div class="detail my-2">{{ invoiceDetail?.taxNumber }}</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="cost-details bg-white">
+          <ul class="list-unstyled p-0 ">
+
+            <li class="d-flex  justify-content-between align-items-center my-8 col-sm-12 col-lg-6">
+              <div class="ms-2">
+                <div class="fw-bold cost">
+                  {{ "upgradePackage.serviceCost" | translate }}
+                </div>
+              </div>
+              <span class="costValue">{{ invoiceDetail?.price }} {{ "payments.sar" | translate }}</span>
+            </li>
+            <li class="d-flex justify-content-between align-items-center my-8 col-sm-12 col-lg-6">
+              <div class="ms-2">
+                <div class="fw-bold cost">
+                  {{ "upgradePackage.discountRate" | translate }}
+                  ({{ invoiceDetail?.disCountRate }} %)
+                </div>
+              </div>
+              <span class="costValue">-{{ invoiceDetail?.disCountValue }}
+                {{ "payments.sar" | translate }}</span>
+            </li>
+            <li class="d-flex justify-content-between align-items-center my-8 col-sm-12 col-lg-6">
+              <div class="ms-2">
+                <div class="fw-bold cost">
+                  {{ "upgradePackage.priceAfterDiscount" | translate }}
+                </div>
+              </div>
+              <span class="costValue">{{ invoiceDetail?.orderCost }}
+                {{ "payments.sar" | translate }}</span>
+            </li>
+            <li class="d-flex justify-content-between align-items-center my-8 col-sm-12 col-lg-6">
+              <div class="ms-2">
+                <div class="fw-bold cost">
+                  {{ "upgradePackage.taxRate" | translate }}
+                  ({{ invoiceDetail?.rateAddedTax }} %)
+                </div>
+              </div>
+              <span class="costValue">{{ invoiceDetail?.valueAddedTax }}
+                {{ "payments.sar" | translate }}</span>
+            </li>
+            <hr />
+            <li class="d-flex justify-content-between align-items-center my-8 col-12">
+              <div class="ms-2">
+                <div class="fw-bold cost total">
+                  {{ "upgradePackage.total" | translate }}
+                </div>
+              </div>
+              <span class="costValue total ">{{ invoiceDetail?.totalPrice }}
+                {{ "payments.sar" | translate }}</span>
+            </li>
+            <div class="d-flex justify-content-end gap-4 mb-10">
+              <button *ngIf="!isShowButton" class="genral-button" (click)="pay()">
+                <span>{{ "upgradePackage.pay2" | translate }}</span>
+              </button>
+
+              <button *ngIf="!isShowButton" class="genral-button" (click)="PaymentByReceipts()">
+                <span>{{ "payments.bankTransfer" | translate }}</span>
+              </button>
+
+              <button *ngIf="isShowButton" class="genral-button" (click)="buyAlwaysPackage()">
+                <span>{{ "payments.buyPackage" | translate }}</span>
+              </button>
+            </div>
+          </ul>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>

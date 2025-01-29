@@ -1,0 +1,149 @@
+<div class="body-size position-relative">
+  <form
+    class="form w-100 my-5 row"
+    [formGroup]="infoForm"
+    novalidate="novalidate"
+    id="kt_login_signin_form"
+    (ngSubmit)="submit()"
+  >
+    <!-- begin::Alert error-->
+    <ng-container *ngIf="hasError">
+      <div class="mb-lg-15 alert alert-danger">
+        <div class="alert-text font-weight-bold">
+          The login details are incorrect
+        </div>
+      </div>
+    </ng-container>
+    <div class="col-md-4 mb-4">
+      <label for="">{{ "sitting.reportAddress" | translate }} </label>
+      <span class="text-danger mx-2 fs-2">*</span>
+      <input
+        class="form-control bg-transparent"
+        type="text"
+        [placeholder]="'sitting.reportAddress' | translate"
+        name="reportSubject"
+        formControlName="reportSubject"
+        autocomplete="off"
+      />
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['reportSubject']
+        }"
+      ></ng-container>
+    </div>
+    <div class="col-md-4 mb-4">
+      <label>{{ "sitting.reportDate" | translate }} </label>
+      <span class="text-danger mx-2 fs-2">*</span>
+      <div class="iput-sec">
+        <input
+          onfocus="(this.type='date') "
+          class="form-control date"
+          ngbDatepicker
+          #d="ngbDatepicker"
+          aria-label=""
+          id="date1"
+          [(ngModel)]="dateText"
+          (change)="setValueOfDate()"
+          data-toggle="tooltip"
+          data-placement="bottom"
+          title=" enter the start date "
+          placeholder=""
+          [ngModelOptions]="{ standalone: true }"
+        />
+        <!-- <img src="assets/imgs/qyd/date.svg" /> -->
+      </div>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['reportDate']
+        }"
+      ></ng-container>
+    </div>
+
+    <div class="col-md-12 mb-4">
+      <label> {{ "sitting.reportSubject" | translate }} </label>
+      <div class="card mt-4">
+        <div class="card-header">
+          <!-- <span
+            class="header-content"
+            role="button"
+            (click)="getSubjectValue()"
+          >
+            <img src="assets/imgs/qyd/rotate-right.svg" />
+            {{ "addIssue.returnText" | translate }}
+          </span> -->
+          <span class="header-content" role="button" (click)="downloadPDF()">
+            <i class="fa-solid fa-file-pdf text-danger mx-2"></i>
+            {{ "sitting.pdfView" | translate }}
+          </span>
+        </div>
+        <div class="card-body">
+          <!-- <textarea formControlName="reportDetails" class="card-text">
+          </textarea> -->
+          <app-editor formControlName="reportDetails"></app-editor>
+        </div>
+      </div>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['reportDetails']
+        }"
+      ></ng-container>
+    </div>
+  </form>
+  <!--end::Form-->
+  <div class="d-flex button-end">
+    <div class="form-action-btn">
+      <button
+        (click)="Back()"
+        id="kt_sign_in_submit"
+        class="general-outline-button"
+      >
+        <ng-container>
+          <span class="indicator-label">
+            {{ "addIssue.Back" | translate }}
+          </span>
+        </ng-container>
+      </button>
+      <button
+        type="submit"
+        (click)="submit()"
+        id="kt_sign_in_submit"
+        [ngClass]="{ end: lang === 'en', 'end-arabic': lang === 'ar' }"
+        class="genral-button next"
+      >
+        <ng-container class="d-flex">
+          <span class="indicator-label">
+            {{ "addIssue.SaveAndContinue" | translate }}
+          </span>
+          <img src="assets/imgs/qyd/Left-icon.svg" />
+        </ng-container>
+      </button>
+    </div>
+  </div>
+</div>
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert">
+          {{ message }}
+        </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

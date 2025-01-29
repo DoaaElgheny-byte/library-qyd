@@ -1,0 +1,331 @@
+<div *ngIf="!isAuth && !issueDetails">
+  <img
+    style="
+      text-align: center;
+      display: block;
+      margin-left: auto;
+      margin-right: auto;
+      max-width: 250px;
+    "
+    src="assets/imgs/qyd/no-results.svg"
+  />
+
+  <h1 style="text-align: center; padding-top: 15px">
+    {{ "contract.NotAuth" | translate }}
+  </h1>
+</div>
+<div class="body-size position-relative" *ngIf="isAuth && issueDetails">
+  <div class="col-md-12 mb-4 mt-8">
+    <div class="card mt-4">
+      <div class=" position-relative">
+        <div class="col-md-12 mb-4 mt-8">
+          <div class="card mt-4">
+            <div class="card-header">
+              <span> {{ "sitting.CourtSessionDetails" | translate }} </span>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4 col-lg-6 col-sm-12 details">
+                  <div>{{ "sitting.CourtSessionTitle" | translate }}</div>
+                  <div>{{ issueDetails?.name }}</div>
+                </div>
+               <!--Court Type-->
+               <div class="col-md-4 col-lg-6 col-sm-12 details" *ngIf="issueDetails?.courtType && !issueDetails?.otherCourtType">
+                <div>{{ "addIssue.courtType" | translate }}</div>
+                <div *ngFor="let entity of entityList"> 
+                  <span *ngIf="entity.id == issueDetails?.courtType">{{entity.name | translate}}</span>
+                </div>
+              </div>
+               <!--othrt Court type-->
+               <div class="col-md-4 col-lg-6 col-sm-12 details" *ngIf="issueDetails?.otherCourtType ">
+                <div>{{ "addIssue.otherCourtType" | translate }}</div>
+                <div>{{ issueDetails?.otherCourtType }}</div>
+              </div>
+               <!--prison-->
+               <div class="col-md-4 col-lg-6 col-sm-12 details" *ngIf="issueDetails?.subDistrict ">
+                <div>{{ EntityChoosen | translate }}</div>
+                <div>{{ issueDetails?.subDistrict }}</div>
+              </div>
+               <!--Committee-->
+               <div class="col-md-4 col-lg-6 col-sm-12 details" *ngIf="issueDetails?.committee && !issueDetails?.otherCommittee">
+                <div>{{ "addIssue.Committee" | translate }}</div>
+                <div>{{ issueDetails?.committee }}</div>
+              </div>
+               <!--other Committee-->
+               <div class="col-md-4 col-lg-6 col-sm-12 details" *ngIf="issueDetails?.otherCommittee ">
+                <div>{{ "addIssue.otherCommittee" | translate }}</div>
+                <div>{{ issueDetails?.otherCommittee }}</div>
+              </div>
+              <!--Court -->
+              <div class="col-md-4 col-lg-6 col-sm-12 details" *ngIf="issueDetails?.court && !issueDetails?.otherCourt">
+                <label>{{ "addIssue.mainCourt" | translate }}</label>
+                <div>{{ issueDetails?.court }}</div>
+              </div>
+              <!--other Court -->
+              <div class="col-md-4 col-lg-6 col-sm-12 details" *ngIf="issueDetails?.otherCourt ">
+                <div>{{ "addIssue.otherCourt" | translate }}</div>
+                <div>{{ issueDetails?.otherCourt }}</div>
+              </div>
+              <!--sub Court -->
+              <div class="col-md-4 col-lg-6 col-sm-12 details" *ngIf="issueDetails?.subCourt && !issueDetails?.otherSubCourt">
+                <div>{{ "addIssue.subCourt" | translate }}</div>
+                <div>{{ issueDetails?.subCourt }}</div>
+              </div>
+               <!--other sub Court -->
+               <div class="col-md-4 col-lg-6 col-sm-12 details" *ngIf="issueDetails?.otherSubCourt ">
+                <div>{{ "addIssue.otherSubCourt" | translate }}</div>
+                <div>{{ issueDetails?.otherSubCourt }}</div>
+              </div>
+
+                <div class="col-md-4 col-lg-6 col-sm-12 details">
+                  <div>{{ "sitting.startDate" | translate }}</div>
+                  <div>{{ format(startDate) }}</div>
+                </div>
+                <div class="col-md-4 col-lg-6 col-sm-12 details">
+                  <div>{{ "sitting.startTime" | translate }}</div>
+                  <div>{{ issueDetails?.startTime }}</div>
+                </div>
+                <div class="col-md-4 col-lg-6 col-sm-12 details">
+                  <div>{{ "sitting.sittingType" | translate }}</div>
+                  <div>
+                    <span
+                      *ngIf="issueDetails?.sittingType === sittingType.Online"
+                      class="details"
+                    >
+                      {{ "sitting.Online" | translate }}
+                    </span>
+
+                    <span
+                      *ngIf="issueDetails?.sittingType === sittingType.Incourt"
+                      class="details"
+                    >
+                      {{ "sitting.Incourt" | translate }}
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-4 col-lg-6 col-sm-12 details"  *ngIf="issueDetails?.sittingType === sittingType.Online">
+                  <div>{{ "sitting.sittingLink"  | translate }}</div>
+                  <div>
+                    <a [href]=" issueDetails?.sittingLink ?  issueDetails?.sittingLink :'-' " target="_blank"> {{ issueDetails?.sittingLink ?  issueDetails?.sittingLink :'-' }}</a>
+                   </div>
+                </div>
+                <div class="col-md-4 col-lg-6 col-sm-12 details">
+                  <div>{{ "issue.appStatus" | translate }}</div>
+                  <div>
+                    <span
+                      *ngIf="
+                        issueDetails?.sittingStatus === sittingStatus.Active
+                      "
+                      class="badge new-badge-light-green fs-7 fw-bold"
+                    >
+                      {{ "sitting.Active" | translate }}
+                    </span>
+                    <span
+                      *ngIf="
+                        issueDetails?.sittingStatus === sittingStatus.Finished
+                      "
+                      class="badge new-badge-light-red fs-7 fw-bold"
+                    >
+                      {{ "sitting.Finished" | translate }}
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-4 col-lg-6 col-sm-12 details">
+                  <div>{{ "addIssue.Client" | translate }}</div>
+                  <div>{{ issueDetails?.client }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+   
+        <div class="col-md-12 mb-4 mt-8">
+          <div class="card mt-4">
+            <div class="card-header">
+              <span> {{ "issue.issueTeam" | translate }} </span>
+            </div>
+            <div class="card-body table-responsive">
+              <table
+                class="table align-middle"
+                *ngIf="issueDetails?.employees !== null"
+              >
+                <thead>
+                  <tr class="text-center">
+                    <th scope="col">{{ "issue.assignedName" | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    class="text-center"
+                    *ngFor="let employee of issueDetails?.employees"
+                  >
+                    <td>{{ employee.name }}</td>
+                  </tr>
+                </tbody>
+              </table>
+
+              <div
+                class="col-md-12 col-6 details"
+                *ngIf="issueDetails?.employees === null"
+              >
+                <div class="text-center">
+                  {{ "sitting.noAssigned" | translate }}
+                </div>
+              </div>
+            </div>
+            <div class="notify" *ngIf="issueDetails?.employees !== null">
+              <i class="fa-regular fa-bell fa-lg"></i>
+              {{ "contract.remember" | translate }}
+              {{ issueDetails?.noOfDays }}
+              {{ "sitting.timeRemain" | translate }}
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 mb-4 mt-8">
+          <div class="card mt-4">
+            <div class="card-header">
+              <span> {{ "sitting.report" | translate }} </span>
+            </div>
+            <div class="card-body">
+              <div
+                class="row"
+                *ngIf="issueDetails?.reportDate !== '0001-01-01T00:00:00'"
+              >
+                <div class="col-md-4 col-lg-6 col-sm-12 details">
+                  <div>{{ "sitting.reportAddress" | translate }}</div>
+                  <div>{{ issueDetails?.reportSubject }}</div>
+                </div>
+
+                <div class="col-md-4 col-lg-6 col-sm-12 details">
+                  <div>{{ "sitting.reportDate" | translate }}</div>
+                  <div>
+                    {{ issueDetails?.reportDate | date : "dd-MM-yyyy" }}
+                  </div>
+                </div>
+                <div class="col-md-4 col-lg-6 col-sm-12 details">
+                  <div>{{ "sitting.pdfView" | translate }}</div>
+                  <div>
+                    <a
+                      [href]="issueDetails?.reportStorageFileUrl"
+                      target="_blank"
+                    >
+                      <i class="fa-solid fa-file-pdf text-danger fs-1"></i>
+                    </a>
+                  </div>
+                </div>
+                <div class="col-md-12 mb-4 mt-8">
+                  <div class="card mt-4">
+                    <div class="card-header">
+                      <span>{{ "sitting.reportSubject" | translate }} </span>
+                    </div>
+                    <div
+                      class="card-body border"
+                      style="height: 300px; overflow-y: auto"
+                    >
+                      <div
+                        class="card-text"
+                        [innerHtml]="issueDetails?.reportDetails"
+                      ></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex justify-content-end">
+                  <button
+                    (click)="send()"
+                    id="kt_sign_in_submit"
+                    class="general-outline-button width-auto"
+                  >
+                    <ng-container>
+                      <span class="indicator-label">
+                        {{ "sitting.send" | translate }}
+                      </span>
+                    </ng-container>
+                  </button>
+                </div>
+              </div>
+              <div
+                class="col-md-12 col-6 details"
+                *ngIf="issueDetails?.reportDate === '0001-01-01T00:00:00'"
+              >
+                <div class="text-center">
+                  {{ "sitting.noReport" | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 mb-4 mt-8">
+          <div class="card mt-4">
+            <div class="card-header">
+              <span> {{ "issue.attachments" | translate }} </span>
+            </div>
+            <div class="card-body table-responsive">
+              <table
+                class="table align-middle"
+                *ngIf="issueDetails?.files !== null"
+              >
+                <thead>
+                  <tr class="text-center">
+                    <th scope="col">{{ "addIssue.name" | translate }}</th>
+
+                    <th scope="col">{{ "issue.attachments" | translate }}</th>
+                    <th scope="col">{{ "issue.uploadDate" | translate }}</th>
+                    <th scope="col">{{ "issue.uploadBy" | translate }}</th>
+                    <th scope="col">{{ "issue.download" | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr
+                    class="text-center"
+                    *ngFor="let lawsuitFile of issueDetails?.files"
+                  >
+                    <td>{{ lawsuitFile.classificationName }}</td>
+
+                    <td>{{ lawsuitFile.imageName }}</td>
+                    <td>{{ lawsuitFile.date | date }}</td>
+                    <td>{{ lawsuitFile.name }}</td>
+                    <td>
+                      <a
+                        (click)="download(lawsuitFile.imageStorageFileURL)"
+                        target="_blank"
+                      >
+                        <i class="fa-solid fa-file-arrow-down fs-1"></i>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div
+                class="col-md-12 col-6 details"
+                *ngIf="issueDetails?.files === null"
+              >
+                <div class="text-center">
+                  {{ "sitting.noAttachment" | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template
+  #formError
+  let-control="control"
+  let-message="message"
+  let-validation="validation"
+>
+  <ng-container
+    *ngIf="control.hasError(validation) && (control.dirty || control.touched)"
+  >
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert">
+          {{ message }}
+        </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

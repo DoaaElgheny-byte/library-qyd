@@ -1,0 +1,293 @@
+<section class="my-20">
+    <div class="container">
+        <h2># {{ 'projectManagement.projectDetails' | translate }}</h2>
+        <div class="row mt-10 gy-10">
+            <form class="form w-100 my-5 row " [formGroup]="infoForm" novalidate="novalidate" id="kt_login_signin_form"
+                (ngSubmit)="submit()">
+                <!-- Project Type Selection -->
+                <div class="col-md-4 d-flex flex-column gap-6">
+                    <div class="my-2">
+                        <!-- Use flexbox to align the label and asterisk horizontally -->
+                        <div class="d-flex align-items-center">
+                            <p class="text-dark label mb-0 d-flex align-items-center">
+                                {{ 'projectManagement.projectType' | translate }}
+                                <span class="text-danger mx-2 fs-2">*</span>
+                            </p>
+                        </div>
+
+                        <!-- Radio buttons -->
+                        <div class="d-flex align-items-center mt-2">
+                            <input formControlName="projectType" type="radio" id="service" name="projectType" checked
+                                [value]="ProjectType.Service" (change)="serviceOrConsultation(true)" />
+                            <label for="service" class="mx-4">{{ 'projectManagement.service' | translate }}</label>
+                            <span class="text-danger mx-2 fs-2">*</span>
+                            <input formControlName="projectType" type="radio" id="consultation" name="projectType"
+                                [value]="ProjectType.LegalAdvice" (change)="serviceOrConsultation(false)" />
+                            <label for="consultation" class="mx-3">{{ 'projectManagement.consultation' | translate
+                                }}</label>
+                        </div>
+                    </div>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                                                                      validation: 'required',
+                                                                                      message: 'loginPage.thisFieldIsRequired' | translate,
+                                                                                      control: infoForm.controls['projectType']
+                                                                                    }"></ng-container>
+
+                </div>
+
+                <!-- Conditional Fields -->
+                <ng-container *ngIf="!isService">
+                    <div class="col-md-4">
+                        <label for="consultationType" class="text-dark my-3">{{ 'projectManagement.consultationType' |
+                            translate }}</label>
+                        <select (change)="showOtherLegalName()" formControlName="legalAdvice" class="form-select">
+                            <option disabled selected value="">{{ 'projectManagement.selectPlaceholder' | translate }}
+                            </option>
+                            <option *ngFor="let class of legalAdviceType" [value]="class.id">
+                                {{ class.name | translate }}
+                            </option>
+                        </select>
+                    </div>
+                    <div *ngIf="isShowOtherLegalName" class="col-md-4">
+                        <label for="consultationName" class="text-dark my-3">{{ 'projectManagement.consultationName' |
+                            translate }}</label>
+                        <input formControlName="otherLegalAdviceName" id="consultationName" class="form-select">
+
+                    </div>
+                </ng-container>
+
+                <ng-container *ngIf="isService">
+                    <div class="col-md-4">
+                        <label for="projectName" class="text-dark my-3">{{ 'projectManagement.projectName' | translate
+                            }}</label>
+                        <span class="text-danger mx-2 fs-2">*</span>
+
+                        <select (change)="showOtherProjectName()" formControlName="projectName" class="form-select">
+                            <option value="" disabled selected>{{ 'projectManagement.selectPlaceholder' | translate }}
+                            </option>
+                            <option *ngFor="let class of projectNameType" [value]="class.id">
+                                {{ class.name | translate }}
+                            </option>
+
+
+                        </select>
+                        <ng-container [ngTemplateOutlet]="formError"
+                            [ngTemplateOutletContext]="{
+                                                                                                                                  validation: 'required',
+                                                                                                                                  message: 'loginPage.thisFieldIsRequired' | translate,
+                                                                                                                                  control: infoForm.controls['projectName']
+                                                                                                                                }"></ng-container>
+
+                    </div>
+                    <div *ngIf="isShowOtherProjectName" class="col-md-4">
+                        <label for="otherProjectName" class="text-dark my-3">{{ 'projectManagement.Other' |
+                            translate }}</label>
+                        <span class="text-danger mx-2 fs-2">*</span>
+                        <input formControlName="otherProjectName" id="otherProjectName" class="form-select">
+
+                    </div>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                                                                      validation: 'required',
+                                                                                      message: 'loginPage.thisFieldIsRequired' | translate,
+                                                                                      control: infoForm.controls['otherProjectName']
+                                                                                    }"></ng-container>
+
+                </ng-container>
+
+                <!-- Assign Project Manager -->
+                <div class="col-md-4">
+                    <label for="projectMgr" class="text-dark my-3">{{ 'projectManagement.assignProjectManager' |
+                        translate
+                        }}</label>
+                    <select formControlName="projectManagerId" id="projectMgr" class="form-select">
+                        <option value="" disabled selected>{{ 'projectManagement.selectPlaceholder' | translate }}
+                        </option>
+                        <option *ngFor="let item of employees" [value]="item.id">
+                            {{ item.name | translate }}
+                        </option>
+
+                    </select>
+                </div>
+                <ng-container>
+                    <div class="col-md-12">
+                        <label for="description"
+                            class="text-dark mb-4">{{'projectManagement.serviceDescription'|translate}}</label>
+                        <span class="text-danger mx-2 fs-2">*</span>
+                        <textarea formControlName="description" class="form-control" name="" rows="5" id="description"
+                            [placeholder]="'projectManagement.serviceDescription'|translate"></textarea>
+                    </div>
+                    <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'required',
+                        message: 'loginPage.thisFieldIsRequired' | translate,
+                        control: infoForm.controls['description']
+                    }"></ng-container>
+                </ng-container>
+
+                <div class="row my-8">
+                    <!-- Associated Fields -->
+                    <div class="col-lg-3">
+                        <div class="my-2">
+                            <p class="text-dark label">{{ 'projectManagement.associatedWithBranch' | translate }}</p>
+                            <div class="d-flex align-items-center">
+                                <input (change)="changeCaseValue(true)" formControlName="isProjectHaveCase" type="radio"
+                                    id="yesBranch" name="isProjectHaveCase" [value]="true" />
+                                <label for="yesBranch" class="mx-4">{{ 'projectManagement.yes' | translate }}</label>
+                                <input (change)="changeCaseValue(false)" formControlName="isProjectHaveCase"
+                                    type="radio" id="noBranch" name="isProjectHaveCase" checked [value]="false" />
+                                <label for="noBranch" class="mx-3">{{ 'projectManagement.no' | translate }}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- ng select -->
+                    <div *ngIf="isShowLawsuitSelection" class="col-lg-4">
+
+                        <label for="name" class="text-dark mb-4">{{ 'projectManagement.chooseCaseAssociatedWithProject'
+                            |
+                            translate
+                            }}</label>
+                        <span class="text-danger mx-2 fs-2">*</span>
+
+
+                        <ng-select formControlName="lawsuitId" [items]="lawsuits" bindLabel="number" bindValue="id"
+                            [ngModelOptions]="{standalone: true}" [searchable]="true" class="custom-ng-select"
+                            placeholder="{{ 'projectManagement.searchByCaseName' | translate }}"
+                            [dir]="currentLang === 'ar' ? 'rtl' : 'ltr'" [ngClass]="{
+                              'is-invalid': infoForm.controls['lawsuitId'].invalid && infoForm.controls['lawsuitId'].touched,
+                              'is-valid': infoForm.controls['lawsuitId'].valid
+                          }">
+
+                            <!-- Custom Header -->
+                            <ng-template ng-header-tmp>
+                                <label class="fw-bold">{{ 'projectManagement.chooseCaseAssociatedWithProject' |
+                                    translate
+                                    }}</label>
+                            </ng-template>
+
+                            <!-- Custom Option -->
+                            <ng-template ng-option-tmp let-item="item">
+                                <span class="label text-dark">{{ item.number }}</span>
+                            </ng-template>
+
+                            <!-- Custom Footer -->
+                            <ng-template ng-footer-tmp>
+                                <div (click)="addNewCase()"
+                                    class="d-flex align-items-center p-2 justify-content-between">
+                                    <span class="  fw-bold">
+                                        {{ 'projectManagement.unregisteredCase' | translate }}
+                                        <span class="btn-link p-0 text-decoration-none text-primary cursor-pointer">{{
+                                            'projectManagement.addNewCase' | translate }}</span>
+                                    </span>
+                                    <i class="fa fa-plus-circle text-primary mx-2"></i>
+
+                                </div>
+                            </ng-template>
+                            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'required',
+                        message: 'loginPage.thisFieldIsRequired' | translate,
+                        control: infoForm.controls['lawsuitId']
+                    }"></ng-container>
+
+
+                        </ng-select>
+
+                    </div>
+                </div>
+
+                <div class="row my-8">
+                    <div class="col-lg-3">
+                        <div class="my-2">
+                            <p class="text-dark label">{{ 'projectManagement.contractManaged' | translate }}</p>
+                            <div class="d-flex align-items-center">
+                                <input (change)="changeContractValue(true)" formControlName="isProjectHaveContract"
+                                    type="radio" id="yesContract" name="isProjectHaveContract" [value]="true" />
+                                <label for="yesContract" class="mx-4">{{ 'projectManagement.yes' | translate }}</label>
+                                <input (change)="changeContractValue(false)" formControlName="isProjectHaveContract"
+                                    type="radio" id="noContract" name="isProjectHaveContract" checked [value]="false" />
+                                <label for="noContract" class="mx-3">{{ 'projectManagement.no' | translate }}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- ng select -->
+                    <div *ngIf="isShowContractSelection" class="col-lg-4">
+
+                        <label for="name" class="text-dark mb-4">{{ 'projectManagement.selectAssociatedContract'
+                            |
+                            translate
+                            }}</label>
+                        <span class="text-danger mx-2 fs-2">*</span>
+
+                        <ng-select formControlName="contractId" [items]="contracts" bindLabel="name" [searchable]="true"
+                            class="custom-ng-select" bindValue="id"
+                            placeholder="{{ 'projectManagement.searchContractByName' | translate }}"
+                            [dir]="currentLang === 'ar' ? 'rtl' : 'ltr'">
+
+                            <ng-template ng-header-tmp>
+                                {{ 'projectManagement.selectAssociatedContract' |
+                                translate
+                                }}
+                            </ng-template>
+
+                            <!-- Custom Option -->
+                            <ng-template ng-option-tmp let-item="item">
+                                <span class="label text-dark">{{ item.name }}</span>
+                            </ng-template>
+
+                            <!-- Custom Footer -->
+                            <ng-template ng-footer-tmp>
+                                <div (click)="addNewContract()"
+                                    class="d-flex align-items-center p-2 justify-content-between">
+                                    <span class="  fw-bold">
+                                        {{ 'projectManagement.addNewContract' | translate }}
+                                        <span class="btn-link p-0 text-decoration-none text-primary cursor-pointer">{{
+                                            'projectManagement.addNewContract2' | translate }}</span>
+                                    </span>
+                                    <i class="fa fa-plus-circle text-primary mx-2"></i>
+
+                                </div>
+                            </ng-template>
+                            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                                            validation: 'required',
+                                                            message: 'loginPage.thisFieldIsRequired' | translate,
+                                                            control: infoForm.controls['contractId']
+                                                        }"></ng-container>
+                        </ng-select>
+
+                    </div>
+                </div>
+            </form>
+            <ng-template #formError let-control="control" let-message="message" let-validation="validation">
+                <ng-container *ngIf="
+                control.hasError(validation) && (control.dirty || control.touched)
+              ">
+                    <div class="fv-plugins-message-container">
+                        <div class="fv-help-block">
+                            <span role="alert">
+                                {{ message }}
+                            </span>
+                        </div>
+                    </div>
+                </ng-container>
+            </ng-template>
+        </div>
+    </div>
+
+
+    <!-- Navigation Buttons -->
+    <div class="container d-flex justify-content-end mt-20">
+
+        <!-- <button class="back-btn" [routerLink]="['/admin/departments/project-management']">
+            {{ 'projectManagement.back' | translate }}
+        </button> -->
+        <div class="d-flex gap-5">
+            <button class="save-btn" (click)="submitForCompleteLater()">
+                {{ 'projectManagement.saveLater' | translate }}
+                <i class="fa fa-clock"></i>
+            </button>
+            <button class="next-btn" (click)="submit()">
+                {{ 'projectManagement.next' | translate }}
+                <i class="fa fa-arrow-left text-white"></i>
+            </button>
+        </div>
+    </div>
+</section>

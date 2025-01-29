@@ -1,0 +1,396 @@
+<section class="main">
+  <h3>{{ "sitting.CourtSessionManagement" | translate }}</h3>
+  <app-breadcrumb></app-breadcrumb>
+  <!-- Search -->
+  <div class="search">
+    <h3>{{ "contract.search" | translate }}</h3>
+    <div class="row">
+      <div class="col-lg-3 col-md-6 mb-5 mt-2">
+        <label>{{ "sitting.CourtSessionTitle" | translate }} </label>
+        <div class="input-img">
+          <!-- <img src="/assets/imgs/search.svg" alt="" srcset="" /> -->
+          <button *ngIf="sittingName !== ''" (click)="sittingName = ''; getAllUsersData()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <input style="width: 100%" class="form-control" type="text"
+            (keyup)="page = 1; fromSearchInput = true; getAllUsersData()"
+            [placeholder]="'sitting.CourtSessionTitle' | translate" [(ngModel)]="sittingName" />
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 mb-5 mt-2">
+        <label>{{ "sitting.sittingStatus" | translate }}</label>
+        <div class="input-img">
+          <select class="form-select" [(ngModel)]="sittingStatus" aria-label="Default select example"
+            (change)="page = 1; fromSearchInput = true; getAllUsersData()">
+            <option selected disabled value="">
+              {{ "sitting.sittingStatus" | translate }}
+            </option>
+            <option [value]="sittingStatusEnum.All">
+              {{ "issue.All" | translate }}
+            </option>
+            <option value="0">
+              {{ "issue.isDraft" | translate }}
+            </option>
+            <option [value]="sittingStatusEnum.Active">
+              {{ "sitting.Active" | translate }}
+            </option>
+            <option [value]="sittingStatusEnum.Finished">
+              {{ "sitting.Finished" | translate }}
+            </option>
+            <option [value]="sittingStatusEnum.Scheduled">
+              {{ "sitting.Scheduled" | translate }}
+            </option>
+            <option [value]="sittingStatusEnum.Postponed">
+              {{ "sitting.Postponed" | translate }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-6 mb-5 mt-2">
+        <label>{{ "sitting.sittingType" | translate }}</label>
+        <div class="input-img">
+          <select class="form-select" [(ngModel)]="sittingType" aria-label="Default select example"
+            (change)="page = 1; fromSearchInput = true; getAllUsersData()">
+            <option disabled selected value="">
+              {{ "addIssue.select" | translate }}
+            </option>
+            <option [value]="sittingTypeEnum.All">
+              {{ "sitting.All" | translate }}
+            </option>
+            <option [value]="sittingTypeEnum.Online">
+              {{ "sitting.Online" | translate }}
+            </option>
+            <option [value]="sittingTypeEnum.Incourt">
+              {{ "sitting.Incourt" | translate }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <!---->
+
+
+
+      <!--Committee-->
+      <div class="col-lg-3 col-md-6 mb-5 mt-2" *ngIf="isCommittee">
+        <label>{{ "addIssue.Committee" | translate }}</label>
+        <div class="input-img">
+          <select class="form-select" [(ngModel)]="committeeId" aria-label="Default select example"
+            (change)="page = 1; fromSearchInput = true; getAllUsersData();">
+            <option disabled selected value="">
+              {{ "addIssue.Committee" | translate }}
+            </option>
+            <option *ngFor="let item of committeeList" [value]="item?.id">
+              {{ lang === "ar" ? item?.nameAr : item?.nameEn }}
+            </option>
+          </select>
+          <button class="select" *ngIf="committeeId !== ''" (click)="committeeId = ''; getAllUsersData()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!--court-->
+      <div class="col-lg-3 col-md-6 mb-5 mt-2" *ngIf="isCourt">
+        <label>{{ "addIssue.mainCourt" | translate }}</label>
+        <div class="input-img">
+          <select class="form-select" [(ngModel)]="court" aria-label="Default select example"
+            (change)="page = 1; fromSearchInput = true; getAllUsersData();">
+            <option disabled selected value="">
+              <label>{{ "addIssue.mainCourt" | translate }}</label>
+            </option>
+            <option *ngFor="let item of courts" [value]="item?.id">
+              {{ lang === "ar" ? item?.nameAr : item?.nameEn }}
+            </option>
+          </select>
+          <button class="select" *ngIf="court !== ''" (click)="court = ''; getAllUsersData()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+      <!---->
+      <div class="col-lg-3 col-md-4 mb-5 mt-2">
+        <label>{{ "sitting.startDate" | translate }}</label>
+
+        <div class="iput-sec">
+          <input onfocus="(this.type='date') " class="form-control date" ngbDatepicker #d="ngbDatepicker" aria-label=""
+            id="date1" [(ngModel)]="StartDate" data-toggle="tooltip" data-placement="bottom"
+            title=" enter the start date " [placeholder]="'sitting.startDate' | translate"
+            [ngModelOptions]="{ standalone: true }" (ngModelChange)="
+              page = 1; fromSearchInput = true; getAllUsersData()
+            " />
+          <!-- <img src="assets/imgs/qyd/date.svg" /> -->
+        </div>
+      </div>
+      <div class="col-lg-3 col-md-4 mb-5 mt-2">
+        <label>{{ "sitting.startTime" | translate }}</label>
+
+        <div class="input-sec">
+          <ng-template #popTemplate>
+            <ngb-timepicker style="direction: ltr !important" class="form-control" [meridian]="true"
+              [(ngModel)]="startTime" (ngModelChange)="
+                tConvert(returnTime(startTime));
+                page = 1;
+                fromSearchInput = true;
+                getAllUsersData()
+              "></ngb-timepicker>
+          </ng-template>
+          <div class="iput-sec">
+            <button type="button" class="btn btn-outline-secondary btnClass" [ngbPopover]="popTemplate"
+              [autoClose]="'outside'" popoverClass="my-custom-class">
+              {{ time ? time : ("sitting.startTime" | translate) }}
+            </button>
+            <button class="delete" *ngIf="time !== ''" (click)="time = ''; getAllUsersData()">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-3 col-md-6 mb-5 mt-2">
+        <label>{{ "issue.issueType" | translate }}</label>
+
+        <div class="input-img">
+          <select class="form-select" [(ngModel)]="lawsuitType" aria-label="Default select example"
+            (change)="page = 1; fromSearchInput = true; getAllUsersData()">
+            <option selected disabled value="">
+              {{ "issue.issueType" | translate }}
+            </option>
+            <option [value]="issueTypes.All">
+              {{ "issue.All" | translate }}
+            </option>
+            <option [value]="issueTypes.Workers">
+              {{ "addIssue.Workers" | translate }}
+            </option>
+            <option [value]="issueTypes.Criminal">
+              {{ "addIssue.Criminal" | translate }}
+            </option>
+            <option [value]="issueTypes.PersonalConditions">
+              {{ "addIssue.PersonalConditions" | translate }}
+            </option>
+            <option [value]="issueTypes.Civilian">
+              {{ "addIssue.Civilian" | translate }}
+            </option>
+            <option [value]="issueTypes.Administrative">
+              {{ "addIssue.Administrative" | translate }}
+            </option>
+            <option [value]="issueTypes.Commercial">
+              {{ "addIssue.Commercial" | translate }}
+            </option>
+            <option [value]="issueTypes.Other">
+              {{ "addIssue.Other" | translate }}
+            </option>
+          </select>
+          <button class="select" *ngIf="lawsuitType !== ''" (click)="lawsuitType = ''; getAllUsersData()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+      </div>
+      <!-- Branch-->
+      <div class="col-lg-3 col-md-4 mb-5 mt-2" *ngIf="isAgent">
+        <label>{{"branches.name" | translate}}</label>
+
+        <div class="input-img">
+
+          <select class="form-select" [(ngModel)]="BranchId" aria-label="Default select example"
+            (change)="page = 1; fromSearchInput = true; getAllUsersData();getLawistList($any($event).target.value)">
+            <option selected disabled value="">
+              {{ "branches.name" | translate }}
+            </option>
+            <option *ngFor="let branch of branches" [value]="branch.id">
+              {{ branch.name}}
+            </option>
+
+          </select>
+          <button *ngIf="BranchId !== ''" (click)="BranchId = '';LawsuitId = ''; getAllUsersData()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+      <!--  Lawist-->
+      <div class="col-lg-3 col-md-4 mb-5 mt-2" *ngIf="BranchId !== ''">
+        <label> {{ "issue.issueNo" | translate }} </label>
+        <div class="input-img">
+          <select class="form-select" [(ngModel)]="LawsuitId" aria-label="Default select example"
+            (change)="page = 1; fromSearchInput = true; getAllUsersData()">
+            <option selected disabled value="">
+              {{ "addIssue.select" | translate }}
+            </option>
+            <option *ngFor="let item of lawaist" [value]="item?.id">
+              {{ item?.number }}
+            </option>
+          </select>
+          <button *ngIf="LawsuitId !== ''" (click)="LawsuitId = ''; getAllUsersData()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <hr />
+  </div>
+
+  <div class="d-flex justify-content-between align-items-center title">
+    <h3>{{ "sitting.list" | translate }}</h3>
+
+    <!-- <button
+    *ngIf=" !isEmployee"
+      (click)="addNew()"
+      class="general-outline-button d-flex align-items-center justify-content-center"
+    >
+      <i class="fa-solid fa-plus px-2"></i>
+      {{ "sitting.addNew" | translate }}
+    </button> -->
+  </div>
+  <!-- Table-->
+  <div class="card members-page mt-4">
+    <!-- begin::Body -->
+    <div class="card-body">
+      <div *ngIf="allUsers.length === 0">
+        <img style="
+            text-align: center;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            max-width: 250px;
+          " src="assets/imgs/qyd/no-results.svg" />
+
+        <h1 style="text-align: center; padding-top: 15px">
+          {{ "contract.NotFound" | translate }}
+        </h1>
+      </div>
+      <!-- begin::Table container -->
+      <div class="table-responsive">
+        <!-- begin::Table -->
+        <table class="table align-middle gs-0 gy-4" *ngIf="allUsers.length !== 0">
+          <!-- begin::Table head -->
+          <thead>
+            <tr class="text-center bg-light">
+
+              <th class="min-w-125px">
+                {{ "issue.issueNo" | translate }}
+              </th>
+              <th class="min-w-95px">
+                {{ "sitting.CourtSessionTitle" | translate }}
+              </th>
+              <th class="min-w-95px">
+                {{ "sitting.sittingStatus" | translate }}
+              </th>
+              <th class="min-w-95px">
+                {{ "issue.ddd" | translate }}
+              </th>
+
+              <th class="min-w-95px">
+                {{ "issue.issueState" | translate }}
+              </th>
+
+              <th class="min-w-95px">{{ "sitting.startDate" | translate }}</th>
+              <th class="min-w-95px">{{ "sitting.startTime" | translate }}</th>
+              <th class="min-w-125px"></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr class="text-center" *ngFor="let player of allUsers">
+              <td>{{ player.lawsuitNumber }}</td>
+              <td>{{ player.name }}</td>
+              <td *ngIf="player?.isDraft">
+                <span class="badge new-badge-light-light-grey fs-7 fw-bold">
+                  {{ "issue.isDraft" | translate }}
+                </span>
+              </td>
+              <td *ngIf="!player?.isDraft">
+                <span *ngIf="player?.sittingStatus === sittingStatusEnum.Active"
+                  class="badge new-badge-light-green fs-7 fw-bold">
+                  {{ "sitting.Active" | translate }}
+                </span>
+                <span *ngIf="player?.sittingStatus === sittingStatusEnum.Finished"
+                  class="badge new-badge-light-red fs-7 fw-bold">
+                  {{ "sitting.Finished" | translate }}
+                </span>
+                <span *ngIf="player?.sittingStatus === sittingStatusEnum.Scheduled"
+                  class="badge new-badge-light-red fs-7 fw-bold">
+                  {{ "sitting.Scheduled" | translate }}
+                </span>
+                <span *ngIf="player?.sittingStatus === sittingStatusEnum.Postponed"
+                  class="badge new-badge-light-red fs-7 fw-bold">
+                  {{ "sitting.Postponed" | translate }}
+                </span>
+
+              </td>
+              <td>{{ player.courtTypeName }}</td>
+              <td *ngIf="player.committee">{{ player.committee }}</td>
+              <td *ngIf="player.subDistrict">{{ player.subDistrict }}</td>
+              <td *ngIf="player.otherCourtType">{{ player.otherCourtType }}</td>
+
+              <td *ngIf="
+                  !player.subDistrict &&
+                  !player.committee &&
+                  !player.court &&
+                  !player.otherCourtType
+                ">
+                -
+              </td>
+              <td>
+                <div class="d-flex justify-content-center align-items-center">
+                  <div class="form-check form-switch">
+                    <label class="switch form-check-label" [for]="player.id">
+                      <input (change)="changAccountState(player)" class="form-check-input" type="checkbox"
+                        [checked]="player.state === sittingState.Active" [id]="player.id" [disabled]="isEmployee" />
+                      <span class="slider round"></span>
+                    </label>
+                  </div>
+                </div>
+              </td>
+              <td>{{ player.startDate | date : "dd-MM-yyyy" }}</td>
+              <td>{{ player.startTime }}</td>
+
+              <td class="overflow-hidden">
+                <div ngbDropdown container="body">
+                  <button type="button" class="btn btn-sm" ngbDropdownToggle>
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                  </button>
+                  <div ngbDropdownMenu>
+                    <button ngbDropdownItem class="px-3" (click)="view(player.id, 1)">
+                      <i class="fa-regular fa-eye mx-1"></i>
+                      {{ "issue.Details" | translate }}
+                    </button>
+                    <button ngbDropdownItem class="px-3" (click)="edit(player.id)">
+                      <i class="fa-regular fa-pen-to-square mx-1"></i>
+                      {{ "issue.edit" | translate }}
+                    </button>
+                    <button ngbDropdownItem class="px-3" (click)="assigned(player.id)"
+                      *ngIf="(isEmployee && player.isManager) || !isEmployee">
+                      <!-- <img src="assets/imgs/qyd/assigned-icon.svg" class="mx-1" /> -->
+                      <i class="fa-solid fa-users mx-1"></i>
+                      {{ "issue.issueTeam" | translate }}
+                    </button>
+                    <button ngbDropdownItem class="px-3" (click)="report(player.id)">
+                      <!-- <img src="assets/imgs/qyd/assigned-icon.svg" class="mx-1" /> -->
+                      <i class="fa-solid fa-users mx-1"></i>
+                      {{ "sitting.report" | translate }}
+                    </button>
+                    <button ngbDropdownItem class="px-3"
+                      *ngIf="player.reportStorageFileUrl !==null &&player.reportDetails!==null"
+                      (click)="send(player.id)">
+                      <i class="fa-regular fa-envelope mx-1"></i>
+                      {{ "sitting.send" | translate }}
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="mx-5">{{ "contract.total" | translate }}:{{ totalCount }}</p>
+        <ngb-pagination [collectionSize]="totalCount" [(page)]="page" [pageSize]="pageSize"
+          (pageChange)="getAllUsersData()" class="pagination p-0 my-4 d-flex justify-content-center">
+        </ngb-pagination>
+        <!-- end::Table -->
+      </div>
+      <!-- end::Table container -->
+      <!-- begin::Body -->
+    </div>
+  </div>
+</section>

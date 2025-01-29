@@ -1,0 +1,23 @@
+:host {
+  height: 100%;
+  margin: 0;
+
+  .flex-root {
+    height: 100%;
+  }
+}
+
+.page-loaded {
+  app-layout {
+    opacity: 0.8s;
+    transition: opacity 1s ease-in-out;
+  }
+
+  .gggg {
+    width: 100%;
+  }
+}
+
+// .z-200 {
+//   z-index: 999 !important;
+// }

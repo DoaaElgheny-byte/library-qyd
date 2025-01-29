@@ -1,0 +1,9 @@
+<button [type]="type" class="btn" [ngClass]="size === 'lg' ? 'btn-lg' : 'btn-sm'"
+  (click)="output()"
+  (mouseover)="isHovered = true"
+  (mouseleave)="isHovered = false"
+  [ngStyle]="isHovered ? hoverStyle : normalStyle"
+>
+  {{title}}
+  <img *ngIf="btnIcon" [src]="'assets/imgs/library/'+btnIcon+'.svg'" alt="icon">
+</button>

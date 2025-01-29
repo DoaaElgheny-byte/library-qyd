@@ -1,0 +1,171 @@
+<section class="login-page ">
+  <div class="page-content">
+    <div class="container">
+      <div class="row justify-content-center align-items-center">
+        <div class="col-lg-6 col-md-6">
+          <div class="login-content border ">
+            <div class="form-title d-flex justify-content-between">
+              <!-- <img src="/assets/imgs/qyd/login-logo.svg" alt="" srcset="" role="button" (click)="goToHome()" /> -->
+              <a class="fw-bold back" href="/">
+                <!-- {{ "register.back" | translate }} -->
+                <i class="fa-solid " [ngClass]="lang === 'ar' ? 'fa-arrow-right' :'fa-arrow-left' "></i>
+              </a>
+              <div class="switchToggle">
+                <input type="checkbox" id="switch" [(ngModel)]="selectedLanguage" (change)="selectLanguage()">
+                <label for="switch">Toggle</label>
+              </div>
+
+            </div>
+            <div class="text-center">
+              <h2 class="fw-bold m-5">
+                {{ "loginPage.logIn" | translate }}
+              </h2>
+
+
+            </div>
+            <!--begin::Form-->
+            <div class="body-size">
+              <form class="form w-100 my-5" [formGroup]="loginForm" novalidate="novalidate" id="kt_login_signin_form"
+                (ngSubmit)="submit()">
+                <!-- begin::Alert error-->
+                <ng-container *ngIf="hasError">
+                  <div class="mb-lg-15 alert alert-danger">
+                    <div class="alert-text font-weight-bold">
+                      The login details are incorrect
+                    </div>
+                  </div>
+                </ng-container>
+                <!-- end::Alert error-->
+
+                <!--begin::Form group-->
+                <div class="fv-col-6 mb-8">
+                  <label for="">{{ "loginPage.logInEmail" | translate }}</label>
+                  <input class="form-control bg-transparent" type="email"
+                    [placeholder]="'loginPage.enterEmail' | translate" name="email" formControlName="email"
+                    autocomplete="off" [ngClass]="{
+                      'is-invalid': loginForm.controls['email'].invalid && loginForm.controls['email'].touched,
+                      'is-valid': loginForm.controls['email'].valid
+                    }" />
+
+                  <!-- Required Validation -->
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'required',
+                    message: 'Validation.emailRequired' | translate,
+                    control: loginForm.controls['email']
+                  }">
+                  </ng-container>
+
+                  <!-- Email Pattern Validation -->
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'pattern',
+                    message: 'Validation.EmailIsInValid' | translate,
+                    control: loginForm.controls['email']
+                  }">
+                  </ng-container>
+                </div>
+
+                <!--end::Form group-->
+
+                <!--begin::Form group-->
+                <div class="fv-row mb-3">
+                  <!-- <label class="form-label fw-bolder text-dark fs-6 mb-0">{{'SingUp.Password'|translate}}</label> -->
+                  <div class="input-group d-block mb-5">
+                    <label for="">{{ "loginPage.Password" | translate }}</label>
+                    <div class="pass-sec">
+                      <input class="form-control bg-transparent" [placeholder]="'loginPage.enterPassword' | translate"
+                        [type]="showPassword ? 'text' : 'password'" name="password" autocomplete="off"
+                        formControlName="password" [ngClass]="{
+                          'is-invalid': loginForm.controls['password'].invalid && loginForm.controls['password'].touched,
+                          'is-valid': loginForm.controls['password'].valid
+                        }" />
+                      <span class="input-group-text" id="basic-addon1">
+                        <i class="toggle-password fa fa-fw fa-eye-slash"
+                          [ngClass]="showPassword ? ' fa-eye' : ' fa-eye-slash'" (click)="togglePasswordVisibility()"
+                          class="toggle-password fa fa-fw"></i>
+                      </span>
+                    </div>
+                  </div>
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'Validation.passwordRequired' | translate,
+                      control: loginForm.controls['password']
+                    }"></ng-container>
+
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'pattern',
+                      message: 'Validation.invalidPasswordPattern' | translate,
+                      control: loginForm.controls['password']
+                    }"></ng-container>
+                </div>
+                <!-- end::Form group-->
+                <a routerLink="/auth/forgot-password"
+                  class="text-dark  link-primary fw-bold d-flex justify-content-end">
+                  {{ "loginPage.ForgotPassword" | translate }}
+                </a>
+                <!--end::Link-->
+                <!--end::Wrapper -->
+                <div class="recaptcha2">
+                  <label for="">{{'loginPage.CAPTCHA_TITLE' |translate}}</label>
+                  <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" [hl]="lang" formControlName="recaptcha">
+                  </ngx-recaptcha2>
+                  <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'required',
+                    message: 'Validation.thisFieldIsRequired' | translate,
+                    control: loginForm.controls['recaptcha']
+                  }"></ng-container>
+                </div>
+              </form>
+            </div>
+            <!--end::Form-->
+            <div class="form-action-btn">
+              <button type="submit" id="kt_sign_in_submit" class="col-12 genral-button" (click)="submit()">
+                <!-- <ng-container *ngIf="isLoading$ | async">
+                  <span class="indicator-progress" [style.display]="'block'">
+                    {{ "Shared.PleaseWait" | translate }}
+                    <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                  </span>
+                </ng-container> -->
+                <ng-container>
+                  <span class="indicator-label">{{ "loginPage.logIn" | translate }}
+                  </span>
+                </ng-container>
+              </button>
+            </div>
+            <div class="register mt-4 text-center fw-light">
+              <p>
+                {{"loginPage.noAccount" | translate}}
+                <a routerLink="/auth/register" class="text-dark  fw-bold mx-2">
+
+                  {{"loginPage.createAccount" | translate}}
+
+
+                </a>
+              </p>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-6 order-first order-md-last ">
+          <div class="frame">
+            <img src="./assets/imgs/form/signin.webp" class=" d-none d-md-block  " alt=""
+              srcset="./assets/imgs/form/signin.webp 1438w">
+            <img src="./assets/imgs/form/signin-mobile.webp" class=" d-block d-md-none" alt=""
+              srcset="./assets/imgs/form/signin-mobile.webp 1438w">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert">
+          {{ message }}
+        </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

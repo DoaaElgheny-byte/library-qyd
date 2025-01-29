@@ -1,0 +1,284 @@
+<!--begin::Form-->
+<div class="d-flex justify-content-between align-items-center form-title py-5">
+  <h2 class="fw-bold">
+    {{ "register.accountInfo" | translate }}
+  </h2>
+  <a class="fw-bold" [routerLink]="['/admin/departments/dashboard-managment']">
+    {{ "register.back" | translate }}
+    <i class="fa-solid" [ngClass]="lang === 'ar' ? 'fa-arrow-left' : 'fa-arrow-right'"></i>
+  </a>
+</div>
+<div class="body-size position-relative">
+  <form class="form w-100 my-5" [formGroup]="loginForm" novalidate="novalidate" id="kt_login_signin_form"
+    (ngSubmit)="submit()">
+    <!-- begin::Alert error-->
+    <ng-container *ngIf="hasError">
+      <div class="mb-lg-15 alert alert-danger">
+        <div class="alert-text font-weight-bold">
+          The login details are incorrect
+        </div>
+      </div>
+    </ng-container>
+    <!-- end::Alert error-->
+
+    <!--begin::Form group-->
+    <div class="fv-col-6 mb-8">
+      <label for="">{{ "register.institutionName" | translate }}</label>
+      <span class="text-danger mx-2 fs-2">*</span>
+      <input class="form-control bg-transparent" type="email" [placeholder]="'register.institutionName' | translate"
+        name="agentName" formControlName="agentName" autocomplete="off" [ngClass]="{
+          'is-invalid':
+            loginForm.controls['agentName'].invalid &&
+            loginForm.controls['agentName'].touched,
+          'is-valid': loginForm.controls['agentName'].valid
+        }" />
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: loginForm.controls['agentName']
+        }"></ng-container>
+    </div>
+    <!--end::Form group-->
+
+    <!--begin::Form group-->
+    <div class="fv-row mb-3">
+      <!-- <label class="form-label fw-bolder text-dark fs-6 mb-0">{{'SingUp.Password'|translate}}</label> -->
+      <!-- <div class="input-group d-block mb-5">
+        <label for="">{{ "register.licenseNumber" | translate }}</label>
+        <div class="pass-sec">
+          <input class="form-control bg-transparent" [placeholder]="'register.enternumber' | translate"
+            [type]="'number'" name="commercialRegistrationNo" autocomplete="off"
+            formControlName="commercialRegistrationNo" />
+        </div>
+      </div> -->
+    </div>
+    <div class="col-lg-12 mb-5 new-upload">
+      <label>{{ "register.logo" | translate }}</label>
+      <span class="text-danger mx-2 fs-2">*</span>
+      <app-upload-file [acceptedExtensions]="['png', 'gif', 'jpg', 'jpeg']" [flag]="4" [isMultiple]="false"
+        (bindValue)="uploadImg($event,1)" [labelUploaded]="'addIssue.upload' | translate"
+        [fileName]="commercialStorageFileName" [delName]="true">
+      </app-upload-file>
+
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'register.logoRequired' | translate,
+          control: loginForm.controls['logoImageStorageFileName']
+        }"></ng-container>
+    </div>
+    <div class="fv-col-12 mb-4">
+      <label>{{ "register.accountType" | translate }}</label>
+      <span class="text-danger mx-2 fs-2">*</span>
+      <select formControlName="accountType" class="form-select" aria-label="Default select example"
+        (change)="disableSector($any($event).target.value)">
+        <option [value]="null" aria-selected="true" disabled>
+          {{ "register.accountType" | translate }}
+        </option>
+        <option [value]="accountTypes.Advisor">
+          {{ "register.Advisor" | translate }}
+        </option>
+
+        <option [value]="accountTypes.LegalAdministration">
+          {{ "register.LegalAdministration" | translate }}
+        </option>
+        <option [value]="accountTypes.Traininglawyer">
+          {{ "register.Traininglawyer" | translate }}
+        </option>
+        <option [value]="accountTypes.Licensedlawyer">
+          {{ "register.Licensedlawyer" | translate }}
+        </option>
+        <option [value]="accountTypes.LawyerOffice">
+          {{ "register.LawyerOffice" | translate }}
+        </option>
+        <option [value]="accountTypes.LegalDepartment">
+          {{ "register.LegalDepartment" | translate }}
+        </option>
+        <option [value]="accountTypes.RegularRepresentative">
+          {{ "register.RegularRepresentative" | translate }}
+        </option>
+
+      </select>
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'register.accountTypeRequired' | translate,
+          control: loginForm.controls['accountType']
+        }"></ng-container>
+    </div>
+    <div [hidden]="isDisable" class="fv-col-12 mb-4">
+      <label>{{ "register.sector" | translate }}</label>
+      <span class="text-danger mx-2 fs-2">*</span>
+
+      <ng-select formControlName="organizationSectors">
+        <ng-option *ngFor="let sector of sectors" [value]="sector.id">
+          {{ lang === "ar" ? sector?.nameAr : sector?.nameEn }}
+        </ng-option>
+      </ng-select>
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'register.organizationSectorsRequired' | translate,
+          control: loginForm.controls['organizationSectors']
+        }"></ng-container>
+    </div>
+    <div class="fv-col-12 mb-4">
+      <label>{{ "register.employeeNo" | translate }}</label>
+      <span class="text-danger mx-2 fs-2">*</span>
+      <select formControlName="agentSizeId" class="form-select" aria-label="Default select example">
+        <option [value]="null" aria-selected="true" disabled>
+          {{ "register.employeeNo" | translate }}
+        </option>
+        <option *ngFor="let size of employeeNo" [value]="size.id">
+          {{ size.size }}
+        </option>
+      </select>
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'register.employeeNoRequired' | translate,
+          control: loginForm.controls['agentSizeId']
+        }"></ng-container>
+    </div>
+    <div class="fv-col-6 mb-4">
+      <label for="">{{ "register.organizationEmail" | translate }}</label>
+      <span class="text-danger mx-2 fs-2">*</span>
+
+      <input class="form-control bg-transparent" type="email" [placeholder]="'register.organizationEmail' | translate"
+        name="email" formControlName="agentEmail" autocomplete="off" [ngClass]="{
+          'is-invalid':
+            loginForm.controls['agentEmail'].invalid &&
+            loginForm.controls['agentEmail'].touched,
+          'is-valid': loginForm.controls['agentEmail'].valid
+        }" />
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'Validation.EmailIsInValid' | translate,
+          control: loginForm.controls['agentEmail']
+        }"></ng-container>
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'pattern',
+          message: 'Validation.organizationEmailRequired' | translate,
+          control: loginForm.controls['agentEmail']
+        }"></ng-container>
+    </div>
+
+    <!-- ============== VAT QUESTION =====================-->
+    <div class="my-16">
+      <h3>{{ "LogIn.infoTitle" | translate }}</h3>
+      <P>{{ "LogIn.qMessage" | translate }}</P>
+      <div class="btns d-flex justify-content-around  ">
+
+        <div class="form-check">
+          <input class="form-check-input mx-1" (change)="showHideVat(true)" type="radio" name="exampleRadios" id="yes"
+            [value]="true" [checked]="loginForm.get('isSubscribeOnVat')?.value === true">
+          <label class="form-check-label fw-bolder" for="yes">
+            {{ "LogIn.yes" | translate }}
+          </label>
+        </div>
+
+        <div class="form-check">
+          <input class="form-check-input mx-1" (change)="showHideVat(false)" type="radio" checked name="exampleRadios"
+            id="no" [value]="false" [checked]="loginForm.get('isSubscribeOnVat')?.value === false">
+          <label class="form-check-label fw-bolder" for="no">
+            {{ "LogIn.no" | translate }}
+          </label>
+        </div>
+      </div>
+    </div>
+    <!-- ============ VAT Inputs ============ -->
+    <div [hidden]="!vatFlag">
+      <!-- 1- -->
+      <!--begin::Form group-->
+      <div class="fv-row mb-3">
+        <div class="input-group d-block mb-5">
+          <label for="">{{ "register.licenseNumber" | translate }}</label>
+          <span class="text-danger mx-2 fs-2">*</span>
+
+          <div class="pass-sec">
+            <input class="form-control bg-transparent" [placeholder]="'register.enternumber' | translate"
+              [type]="'number'" name="commercialRegistrationNo" autocomplete="off"
+              formControlName="commercialRegistrationNo" />
+          </div>
+
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                      validation: 'required',
+                      message: 'register.enternumber' | translate,
+                      control: loginForm.controls['commercialRegistrationNo']
+                    }"></ng-container>
+        </div>
+      </div>
+
+      <!--begin::Form group-->
+      <div class="fv-row mb-3">
+        <!-- <label class="form-label fw-bolder text-dark fs-6 mb-0">{{'SingUp.Password'|translate}}</label> -->
+        <div class="input-group d-block mb-5">
+          <label for="">{{ "register.VATRegistrationNumber" | translate }}</label>
+          <span class="text-danger mx-2 fs-2">*</span>
+
+          <div class="pass-sec">
+            <input class="form-control bg-transparent" [placeholder]="'register.VATRegistrationNumber' | translate"
+              [type]="'number'" name="vatRegistrationNumber" autocomplete="off"
+              formControlName="vatRegistrationNumber" />
+            <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                          validation: 'required',
+                          message: 'register.VATRegistrationNumber' | translate,
+                          control: loginForm.controls['vatRegistrationNumber']
+                        }"></ng-container>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-12 mb-5 new-upload">
+        <label>{{ "register.CommercialRegistrationCertificate" | translate }}</label>
+        <span class="text-danger mx-2 fs-2">*</span>
+        <app-upload-file [acceptedExtensions]="['png', 'gif', 'jpg', 'jpeg','pdf']" [flag]="4" [isMultiple]="false"
+          (bindValue)="uploadImg($event,2)" [labelUploaded]="'register.CommercialRegistrationCertificate' | translate"
+          [fileName]="commercialStorageFileNameForVat" [delName]="true">
+        </app-upload-file>
+
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'register.CommercialRegistrationCertificate' | translate,
+            control: loginForm.controls['LogoImageStorageFileNameForVat']
+          }"></ng-container>
+      </div>
+
+      <div class="col-lg-12 mb-5 new-upload">
+        <label>{{ "register.VATCertificate" | translate }}</label>
+        <span class="text-danger mx-2 fs-2">*</span>
+
+        <app-upload-file [acceptedExtensions]="['png', 'gif', 'jpg', 'jpeg','pdf']" [flag]="4" [isMultiple]="false"
+          (bindValue)="uploadImg($event,3)" [labelUploaded]="'register.VATCertificate' | translate"
+          [fileName]="commercialStorageFileNameForVatTax" [delName]="true">
+        </app-upload-file>
+
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'register.VATCertificate' | translate,
+            control: loginForm.controls['LogoImageStorageFileNameForVatTax']
+          }"></ng-container>
+      </div>
+    </div>
+
+  </form>
+
+  <!--end::Form-->
+  <div class="col-12">
+    <div class="form-action-btn">
+      <button type="submit" id="kt_sign_in_submit" class="col-12 genral-button" (click)="submit()">
+        <ng-container>
+          <span class="indicator-label">{{ "register.next" | translate }}
+          </span>
+        </ng-container>
+      </button>
+    </div>
+  </div>
+</div>
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert">
+          {{ message }}
+        </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

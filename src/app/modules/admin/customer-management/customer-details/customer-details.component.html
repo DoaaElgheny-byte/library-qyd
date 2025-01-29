@@ -1,0 +1,127 @@
+<section class="main">
+  <h3>
+    {{ "employeeManagement.Details" | translate }}
+  </h3>
+  <app-breadcrumb></app-breadcrumb>
+  <div class="content">
+    <div class="col-md-12 mb-4 mt-8">
+      <div class="card mt-4">
+        <div class="card-header">
+          <span> {{ "emplyeeDetails.details" | translate }} </span>
+        </div>
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-4 col-12 col-sm-6 details">
+              <div class="title">{{ "emplyeeEditAdd.name" | translate }}</div>
+              <div class="data">{{ player?.name }}</div>
+            </div>
+            <div class="col-md-4 col-12 col-sm-6 details">
+              <label for="">{{ "emplyeeEditAdd.JobTitle" | translate }}</label>
+              <div class="data">{{ player?.jobTitle ?? '_'}}</div>
+            </div>
+            <div class="col-md-4 col-12 col-sm-6 details">
+              <div class="title">{{ "emplyeeEditAdd.email" | translate }}</div>
+              <div class="data">{{ player?.email ?? '_' }}</div>
+            </div>
+            <div class="col-md-4 col-12 col-sm-6 details">
+              <div class="title">{{ "emplyeeEditAdd.branch" | translate }}</div>
+              <div class="data">
+                <span *ngFor="let branch of player?.branchs">{{ branch.name ?? '_' }},</span>
+              </div>
+            </div>
+            <div class="col-md-4 col-12 col-sm-6 details">
+              <div class="title">
+                {{ "emplyeeEditAdd.phoneNumber" | translate }}
+              </div>
+              <div class="data">
+                {{ player?.countryCode }}{{ player?.mobileNumber ?? '_' }}
+              </div>
+            </div>
+            <div class="col-md-4 col-12 col-sm-6 details">
+              <div class="title">
+                {{ "emplyeeEditAdd.licenceNo" | translate }}
+              </div>
+              <div class="data">
+                {{ player?.authorizationNo ?? '_'}}
+              </div>
+            </div>
+            <div class="col-md-4 col-12 col-sm-6 details">
+              <div class="title">
+                {{ "emplyeeEditAdd.licenceDate" | translate }}
+              </div>
+              <div class="data">{{ startAuthorizationDate ? format(startAuthorizationDate) : '_' }}</div>
+            </div>
+            <div class="col-md-4 col-12 col-sm-6 details">
+              <div class="title">
+                {{ "emplyeeEditAdd.licenceEndDate" | translate }}
+              </div>
+              <div class="data">{{ endAuthorizationDate ? format(endAuthorizationDate) : '_' }}</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-12 mb-4 mt-8">
+          <div class="card mt-4">
+            <div class="card-header">
+              <span> {{ "issue.attachments" | translate }} </span>
+            </div>
+            <div class="card-body table-responsive">
+              <table class="table align-middle" *ngIf="player?.files">
+                <thead>
+                  <tr class="text-center">
+                    <th scope="col">
+                      {{ "addClient.classification" | translate }}
+                    </th>
+                    <th scope="col">
+                      {{ "addClient.attachment" | translate }}
+                    </th>
+                    <th scope="col">{{ "issue.download" | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="text-center" *ngFor="let File of player?.files">
+                    <td>
+                      {{
+                      File.classificationName
+                      ? File.classificationName
+                      : File.employeeClassificationAttachment
+                      }}
+                    </td>
+                    <td>{{ File.imageName }}</td>
+                    <td>
+                      <a [href]="File.imageURL" target="_blank">
+                        <img src="assets/imgs/qyd/download.svg" />
+                        {{ "addClient.download" | translate }}
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div *ngIf="!player?.files">
+                {{ "contract.NotFound" | translate }}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="button-view">
+          <div class="form-action-btn justify-content-between d-flex">
+            <button (click)="Back()" id="kt_sign_in_submit" class="general-outline-button">
+              <ng-container>
+                <span class="indicator-label">
+                  {{ "client.Back" | translate }}
+                </span>
+              </ng-container>
+            </button>
+            <button type="submit" (click)="submit()" id="kt_sign_in_submit"
+              [ngClass]="{ end: lang === 'en', 'end-arabic': lang === 'ar' }" class="genral-button next">
+              <ng-container class="d-flex">
+                <span class="indicator-label">
+                  {{ "client.editbtton" | translate }}
+                </span>
+              </ng-container>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,146 @@
+
+.card .card-body {
+    padding: 0rem 0rem;
+  }
+  .main {
+      padding: 35px;
+      span {
+          margin-bottom:15px;
+      }
+      .search {
+          background-color: #fff;
+          margin-top: 20px;
+          padding: 19px;
+          border-radius: 5px;
+  
+          h3 {
+              color:#106F6E;
+              margin-bottom:15px;
+          }
+                
+          .input-img {
+            position: relative;
+        
+            input {
+              min-height: 43.56px;
+            }
+        
+            img {
+              position: absolute;
+              top: 9px;
+              right: 12px;
+            }
+        
+            button {
+              position: absolute;
+              top: 9px;
+              outline: none;
+              border: 0;
+            }
+          }
+        
+          hr {
+              color:#E9E9E9
+  
+          }
+        }
+        .title {
+          margin:15px auto
+        }
+        .employee {
+          width: 35px;
+          height: 35px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+        .yellow-circle {
+          background-color: #FFE6A6;
+          color:#DDA617;
+          margin: auto -19px;
+        }
+        .green-circle {
+          background-color: #B1E0E0;
+          color:#106F6E;
+          margin: auto -19px;
+        }
+        .blue-circle {
+          background-color: #B8EDEC;
+          color:#49B6B5;
+          margin: auto 3px;
+        }
+        .grey-circle {
+          background-color: #C9C9C9;
+          color:#575757;
+          margin: auto -19px;
+        }
+        .dropdown-toggle::after {
+          all: unset;
+          cursor: pointer;
+        }
+        
+        .dropdown-item {
+          width: 100% !important;
+          text-align: start !important;
+          border: none !important;
+          padding: 7px !important;
+        }
+        
+        .option li {
+          border-bottom: 1px solid #dcd6d6;
+        
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+        
+        .dropdown-menu {
+          width: 160px;
+        }
+        
+  }
+  .table{
+    tr {
+      margin-bottom: 13px;
+      background: #fff;
+      border-bottom: 6px solid #f9f9f9;
+      border-radius: 5px;
+    }
+    tbody {
+      background-color: #eff2f5;
+    }
+    thead {
+      border-radius: 5px;
+    }
+    
+  }
+  .form-check-input {
+    background-color: #8F979B !important;
+    border: 2px solid #8F979B;
+  }
+  .form-check-input:checked {
+    background-color: #dda617  !important;
+    border: 2px solid #dda617 ;
+  }
+  
+  .form-switch .form-check-input {
+    background-image: url('/assets/imgs/new-moon.png');
+  }
+  ::ng-deep{
+    .ng-dropdown-panel {
+      background-color: #fff !important;
+      padding: 1rem !important;
+    }
+    .dropdown-item {
+      display: flex;
+    }
+    
+  }
+  .general-outline-button {
+    padding:10px 0px !important
+  }
+
+  .badge {
+    margin-bottom: 0 !important;
+  }
+  

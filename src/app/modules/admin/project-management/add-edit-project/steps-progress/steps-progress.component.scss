@@ -1,0 +1,83 @@
+.project-management {
+    margin-top: 30px;
+    padding: 35px;
+
+    .content {
+        padding: 35px;
+    }
+}
+
+
+.progress-bar-custom {
+    width: 100%;
+    position: relative;
+    height: 80px;
+}
+
+.line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background-color: #eaeaea;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.active-line {
+    height: 4px;
+    background-color: #048081;
+    transition: 0.6s;
+}
+
+.step {
+    z-index: 2;
+    text-align: center;
+}
+
+.step .circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #F9FAFB;
+    border: 1.25px solid #CFD6DC;
+    color: #666;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.step .light-circle {
+    border-color: #048081;
+    color: #048081;
+    transition-delay: 0.5s;
+    transition: 0.5;
+
+
+    i {
+        color: #048081;
+        transition-delay: 0.5s;
+        transition: 0.5;
+    }
+
+}
+
+.step.active .circle {
+    background-color: #048081;
+    border-color: #048081;
+    color: #fff;
+    transition-delay: 0s !important;
+    // cursor: pointer;
+
+}
+
+.step .label {
+    font-size: 12px;
+    color: #666;
+}
+
+.step.active .label {
+    color: #048081;
+}

@@ -1,0 +1,427 @@
+<section class="admin-dashboard">
+  <!-- <div *ngIf="!isLoading"> -->
+  <div *ngIf="!isLoading && isShowCompletedForm === false" class="loadingNotes">
+    <div class="message-box">
+      <main class="px-3">
+        <h1>{{ "LogIn.attention" | translate }}</h1>
+        <p class="lead">{{ "LogIn.MessageValidation" | translate }}</p>
+        <p class="lead">
+          <button class="btn btn-primary" (click)="showFinalStep()">{{ "LogIn.clickIn" | translate }} </button>
+        </p>
+      </main>
+      <!-- </div> -->
+    </div>
+  </div>
+  <div>
+    <!-- Start Statics Section -->
+    <section *ngIf="show">
+      <div class="title">
+        <h3>
+          {{ "Dashboard.hello" | translate }}
+          <span class="name fw-bolder">{{ name }} </span>
+        </h3>
+        <div class="desc">{{ "Dashboard.dashboardSubTitle" | translate }}</div>
+      </div>
+      <div class="statics-content mt-7">
+        <div class=" first-grid gap-1">
+          <div class="col-lg-4 col-md-4 col-sm-6 card-of-first">
+            <div class="static-card bg1">
+              <div class="d-flex justify-content-between align-items-center mx-0">
+                <div>
+                  <img width="50" src="./assets/imgs/dhashboard/f1.svg" alt="">
+                </div>
+                <div class="m-0">
+                  <h2 class="m-0">{{ "Dashboard.lawsuits" | translate }}</h2>
+                </div>
+              </div>
+              <div class="border-top mt-3 m-0  d-flex justify-content-between align-items-center">
+                <p class="total-laws m-0">
+                  {{ "Dashboard.totalLawsuit" | translate }}
+                </p>
+                <p class="text-danger fw-bolder ps-3">
+                  {{ lawisute?.lawsuits.totalNo }}
+                </p>
+
+              </div>
+              <div class="d-flex m-0 p-0" style="justify-content: space-between">
+                <p class="m-0">
+                  {{ lawisute?.lawsuits.totalCompleted }}
+                  {{ "Dashboard.lawsuitCompleted" | translate }}
+                </p>
+                <p class="text-dark fw-bolder">{{ precentage(lawisute?.lawsuits.percentage) }} %</p>
+              </div>
+              <!-- <div class="progress-bar">
+                <div class="progress" [style.width.%]="lawisute?.lawsuits.percentage"></div>
+              </div> -->
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 card-of-first">
+            <div class="static-card bg1">
+              <div class="d-flex justify-content-between align-items-center mx-0">
+                <div>
+                  <img width="50" src="./assets/imgs/dhashboard/f2.svg" alt="">
+                </div>
+                <div class="m-0">
+                  <h2 class="m-0">{{ "Dashboard.contract" | translate }}</h2>
+                </div>
+              </div>
+              <div class="border-top mt-3 m-0  d-flex justify-content-between align-items-center">
+                <p class="total-laws m-0">
+                  {{ "Dashboard.totalContract" | translate }}
+                </p>
+                <p class="text-danger fw-bolder ps-3">
+                  {{ contracts?.totalNo }}
+                </p>
+
+              </div>
+              <div class="d-flex m-0 p-0" style="justify-content: space-between">
+                <p>
+                  {{ contracts?.totalCompleted }}
+                  {{ "Dashboard.contractCompleted" | translate }}
+                </p>
+                <p class="fw-bolder text-dark">{{ precentage(contracts?.percentage) }}%</p>
+              </div>
+              <!-- <div class="progress-bar2">
+                <div class="progress2" [style.width.%]="contracts?.percentage"></div>
+              </div> -->
+            </div>
+          </div>
+          <div class="col-lg-4 col-md-4 col-sm-6 card-of-first">
+            <div class="static-card bg1">
+              <div class="d-flex justify-content-between align-items-center mx-0">
+                <div>
+                  <img width="50" src="./assets/imgs/dhashboard/f3.svg" alt="">
+                </div>
+                <div class="m-0">
+                  <h2 class="m-0">{{ "Dashboard.sittings" | translate }}</h2>
+                </div>
+              </div>
+
+              <div class="border-top mt-3 m-0  d-flex justify-content-between align-items-center">
+                <p class="total-laws m-0">
+                  {{ "Dashboard.totalSittings" | translate }}
+                </p>
+                <p class="text-danger fw-bolder ps-3">
+                  {{ sitting?.totalNo }}
+                </p>
+
+              </div>
+              <div></div>
+              <div class="d-flex m-0 p-0" style="justify-content: space-between">
+                <p>
+                  {{ sitting?.totalCompleted }}
+                  {{ "Dashboard.sittingCompleted" | translate }}
+                </p>
+                <p class="fw-bolder text-dark">{{ precentage(sitting?.percentage) }}%</p>
+              </div>
+              <!-- <div class="progress-bar3">
+                <div class="progress3" [style.width.%]="sitting?.percentage"></div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Statics Section -->
+
+    <!-- Start Charts Section -->
+    <section class="charts">
+      <div class="row">
+        <div class="col-lg-8 my-3">
+          <div class="chart-sec">
+            <div class="title">
+              <div class="d-flex" style="justify-content: space-between">
+                <h2>{{ "Dashboard.lawsuits" | translate }}</h2>
+              </div>
+            </div>
+            <div class="view">
+              <canvas min-width="700" min-height="300" id="piechart"></canvas>
+
+              <!-- <div class="chart-label">
+                <div>{{ lawisute?.lawsuits?.totalNo }}</div>
+                <div class="labele">{{ "Dashboard.Lawsuit" | translate }}</div>
+              </div> -->
+            </div>
+          </div>
+        </div>
+
+        <!-- <div class="col-lg-4 my-3" *ngIf="currentUser.roles[0] !== allRoles.employee &&currentUser.roles[1] !== this.allRoles.employee
+      &&currentUser.roles[0] !== allRoles.qYDManager &&currentUser.roles[1] !== allRoles.qYDManager">
+          <div class="chart-sec">
+            <div class="title">
+              <div class="info d-flex bg3" style="justify-content: space-between">
+                <h2> {{ "Dashboard.branches" | translate }}</h2>
+
+              </div>
+              <div>
+                <p>
+                  {{ branch?.totalNo }}
+                  {{ "Dashboard.totalBranches" | translate }}
+                </p>
+              </div>
+            </div>
+            <div class="view">
+              <canvas min-width="700" min-height="300" id="circlechart"></canvas>
+              <div class="chart-label">
+                <div>{{ branch?.totalNo }}</div>
+                <div class="labele">{{ "Dashboard.branch" | translate }}</div>
+              </div>
+            </div>
+          </div>
+        </div> -->
+        <div class="col-lg-4 my-3">
+          <div class="chart-sec">
+            <div class="title">
+              <div class="info d-flex" style="justify-content: space-between">
+                <h2> {{ "Dashboard.clients" | translate }}</h2>
+
+              </div>
+              <!-- <div>
+                <p>
+                  {{ clients?.totalNo }}
+                  {{ "Dashboard.totalclient" | translate }}
+                </p>
+              </div> -->
+            </div>
+            <div class="view">
+              <canvas min-width="700" class="clients" min-height="300" id="linechart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- End Charts Section -->
+    <section class="infoTable">
+      <div class="buttonInfo">
+        <div role="button" (click)="changeButton(false)" [ngClass]="{
+          buttonInfoIsActive: isSitting === false,
+          buttonInfoNotActive: isSitting === true
+        }">
+          {{ "issue.workDuy" | translate }}
+        </div>
+        <div role="button" (click)="changeButton(true)" [ngClass]="{
+          buttonInfoIsActive: isSitting === true,
+          buttonInfoNotActive: isSitting === false
+        }">
+          {{ "issue.glsat" | translate }}
+        </div>
+      </div>
+
+      <!-- Table-->
+      <div class="card members-page mt-4" *ngIf="isSitting">
+        <!-- begin::Body -->
+        <div class="card-body" style="padding: 0px;">
+          <div *ngIf="allSitting?.length === 0">
+            <img style="
+              text-align: center;
+              display: block;
+              margin-left: auto;
+              margin-right: auto;
+              max-width: 250px;
+            " src="assets/imgs/qyd/no-results.svg" />
+
+            <h1 style="text-align: center; padding-top: 15px">
+              {{ "contract.NotFound" | translate }}
+            </h1>
+          </div>
+          <!-- begin::Table container -->
+          <div class="table-responsive">
+            <!-- begin::Table -->
+            <table class="table align-middle gs-0 gy-4" *ngIf="allSitting?.length !== 0">
+              <!-- begin::Table head -->
+              <thead>
+                <tr class="text-center bg-light">
+                  <th class="min-w-125px">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path
+                        d="M8 5H9M8 7H9M4 9H9M4 11H9M11 5H13.25C13.664 5 14 5.336 14 5.75V12C14 12.3978 13.842 12.7794 13.5607 13.0607C13.2794 13.342 12.8978 13.5 12.5 13.5M11 5V12C11 12.3978 11.158 12.7794 11.4393 13.0607C11.7206 13.342 12.1022 13.5 12.5 13.5M11 5V3.25C11 2.836 10.664 2.5 10.25 2.5H2.75C2.336 2.5 2 2.836 2 3.25V12C2 12.3978 2.15804 12.7794 2.43934 13.0607C2.72064 13.342 3.10218 13.5 3.5 13.5H12.5M4 5H6V7H4V5Z"
+                        stroke="#111827" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    {{ "issue.issueNo" | translate }}
+                  </th>
+                  <th class="min-w-95px">
+
+                    {{ "sitting.CourtSessionTitle" | translate }}
+                  </th>
+                  <th class="min-w-95px">
+
+                    {{ "sitting.sittingStatus" | translate }}
+                  </th>
+                  <th class="min-w-95px">
+                    {{ "sitting.CourtSessionplace" | translate }}
+                  </th>
+
+                  <th class="min-w-95px">
+
+                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
+                      <path
+                        d="M6.50016 0.666992V2.00033H10.5002V0.666992H11.8335V2.00033H14.5002C14.8684 2.00033 15.1668 2.29881 15.1668 2.66699V13.3337C15.1668 13.7019 14.8684 14.0003 14.5002 14.0003H2.50016C2.13198 14.0003 1.8335 13.7019 1.8335 13.3337V2.66699C1.8335 2.29881 2.13198 2.00033 2.50016 2.00033H5.16683V0.666992H6.50016ZM13.8335 7.33366H3.16683V12.667H13.8335V7.33366ZM5.16683 3.33366H3.16683V6.00033H13.8335V3.33366H11.8335V4.66699H10.5002V3.33366H6.50016V4.66699H5.16683V3.33366Z"
+                        fill="black" />
+                    </svg>
+                    {{ "sitting.startDate" | translate }}
+                  </th>
+                  <th class="min-w-95px">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path
+                        d="M5.99967 0.666992V2.00033H9.99967V0.666992H11.333V2.00033H13.9997C14.3679 2.00033 14.6663 2.29881 14.6663 2.66699V13.3337C14.6663 13.7019 14.3679 14.0003 13.9997 14.0003H1.99967C1.63149 14.0003 1.33301 13.7019 1.33301 13.3337V2.66699C1.33301 2.29881 1.63149 2.00033 1.99967 2.00033H4.66634V0.666992H5.99967ZM13.333 7.33366H2.66634V12.667H13.333V7.33366ZM4.66634 3.33366H2.66634V6.00033H13.333V3.33366H11.333V4.66699H9.99967V3.33366H5.99967V4.66699H4.66634V3.33366Z"
+                        fill="black" />
+                    </svg>
+                    {{ "sitting.startTime" | translate }}
+                  </th>
+                  <th class="min-w-125px"></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr class="text-center" *ngFor="let player of allSitting">
+                  <td>{{ player.lawsuitNumber }}</td>
+                  <td>{{ player.name }}</td>
+                  <td *ngIf="player?.isDraft">
+                    <span class="badge new-badge-light-light-grey fs-7 fw-bold">
+                      {{ "issue.isDraft" | translate }}
+                    </span>
+                  </td>
+                  <td *ngIf="!player?.isDraft">
+                    <span *ngIf="player?.sittingStatus === sittingStatusEnum.Active"
+                      class="badge new-badge-light-green fs-7 fw-bold">
+                      {{ "sitting.Active" | translate }}
+                    </span>
+                    <span *ngIf="player?.sittingStatus === sittingStatusEnum.Finished"
+                      class="badge new-badge-light-red fs-7 fw-bold">
+                      {{ "sitting.Finished" | translate }}
+                    </span>
+
+
+                  </td>
+                  <td>
+                    {{ getPlace(player.courtType) | translate }}
+                  </td>
+
+                  <td>{{ player.startDate | date : "dd-MM-yyyy" }}</td>
+                  <td>{{ player.startTime }}</td>
+
+                  <td class="overflow-hidden text-table">
+                    <a role="button" (click)="sittingDetails(player)"><u>{{ "Dashboard.details" | translate }}</u></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <!-- end::Table container -->
+        </div>
+      </div>
+
+      <div class="card members-page mt-4" *ngIf="isSitting === false">
+        <!-- begin::Body -->
+        <div class="card-body " style="padding: 0px;">
+          <div *ngIf="allWorkDuty?.length === 0">
+            <img style="
+              text-align: center;
+              display: block;
+              margin-left: auto;
+              margin-right: auto;
+              max-width: 250px;
+            " src="assets/imgs/qyd/no-results.svg" />
+
+            <h1 style="text-align: center; padding-top: 15px">
+              {{ "workDuty.NotFound" | translate }}
+            </h1>
+          </div>
+          <!-- begin::Table container -->
+          <div class="table-responsive">
+            <!-- begin::Table -->
+            <table class="table align-middle gs-0 gy-4" *ngIf="allWorkDuty?.length !== 0">
+              <!-- begin::Table head -->
+              <thead>
+                <tr class="text-center bg-light">
+                  <!-- <th class="">#</th> -->
+                  <th class="min-w-125px">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path
+                        d="M8 5H9M8 7H9M4 9H9M4 11H9M11 5H13.25C13.664 5 14 5.336 14 5.75V12C14 12.3978 13.842 12.7794 13.5607 13.0607C13.2794 13.342 12.8978 13.5 12.5 13.5M11 5V12C11 12.3978 11.158 12.7794 11.4393 13.0607C11.7206 13.342 12.1022 13.5 12.5 13.5M11 5V3.25C11 2.836 10.664 2.5 10.25 2.5H2.75C2.336 2.5 2 2.836 2 3.25V12C2 12.3978 2.15804 12.7794 2.43934 13.0607C2.72064 13.342 3.10218 13.5 3.5 13.5H12.5M4 5H6V7H4V5Z"
+                        stroke="#111827" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+                    </svg>
+                    {{ "workDuty.workDutyName" | translate }}
+
+                  </th>
+                  <th class="min-w-125px">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
+                      <path
+                        d="M7.83343 1.36621L7.8335 3.38054C5.57196 3.70404 3.8335 5.64897 3.8335 7.99996C3.8335 10.5773 5.92284 12.6666 8.50016 12.6666C9.54836 12.6666 10.5159 12.321 11.295 11.7376L12.7194 13.1618C11.5702 14.1024 10.1011 14.6666 8.50016 14.6666C4.81826 14.6666 1.8335 11.6818 1.8335 7.99996C1.8335 4.54308 4.46458 1.70072 7.83343 1.36621ZM15.1339 8.66669C15.0008 10.0074 14.4705 11.2312 13.6624 12.2188L12.2378 10.7948C12.6952 10.1839 13.0065 9.45722 13.1196 8.66662L15.1339 8.66669ZM9.16756 1.36628C12.3168 1.6793 14.8212 4.18388 15.1339 7.33322L13.1196 7.33316C12.8272 5.28964 11.2109 3.67324 9.1675 3.38064L9.16756 1.36628Z"
+                        fill="black" />
+                    </svg>
+                    {{ "workDuty.workDutyStatus" | translate }}
+                  </th>
+                  <th class="min-w-125px">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="17" height="16" viewBox="0 0 17 16" fill="none">
+                      <path
+                        d="M6.50016 0.666992V2.00033H10.5002V0.666992H11.8335V2.00033H14.5002C14.8684 2.00033 15.1668 2.29881 15.1668 2.66699V13.3337C15.1668 13.7019 14.8684 14.0003 14.5002 14.0003H2.50016C2.13198 14.0003 1.8335 13.7019 1.8335 13.3337V2.66699C1.8335 2.29881 2.13198 2.00033 2.50016 2.00033H5.16683V0.666992H6.50016ZM13.8335 7.33366H3.16683V12.667H13.8335V7.33366ZM5.16683 3.33366H3.16683V6.00033H13.8335V3.33366H11.8335V4.66699H10.5002V3.33366H6.50016V4.66699H5.16683V3.33366Z"
+                        fill="black" />
+                    </svg>
+                    {{ "workDuty.startDate" | translate }}
+                  </th>
+                  <th class="min-w-125px">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
+                      <path
+                        d="M5.99967 0.666992V2.00033H9.99967V0.666992H11.333V2.00033H13.9997C14.3679 2.00033 14.6663 2.29881 14.6663 2.66699V13.3337C14.6663 13.7019 14.3679 14.0003 13.9997 14.0003H1.99967C1.63149 14.0003 1.33301 13.7019 1.33301 13.3337V2.66699C1.33301 2.29881 1.63149 2.00033 1.99967 2.00033H4.66634V0.666992H5.99967ZM13.333 7.33366H2.66634V12.667H13.333V7.33366ZM4.66634 3.33366H2.66634V6.00033H13.333V3.33366H11.333V4.66699H9.99967V3.33366H5.99967V4.66699H4.66634V3.33366Z"
+                        fill="black" />
+                    </svg>
+                    {{ "workDuty.endDate" | translate }}
+                  </th>
+
+                  <th class="min-w-95px"></th>
+                </tr>
+              </thead>
+
+              <tbody>
+                <tr class="text-center" *ngFor="let player of allWorkDuty">
+                  <td>{{ player.name }}</td>
+                  <td *ngIf="player?.isDraft">
+                    <span class="badge new-badge-light-light-grey fs-7 fw-bold">
+                      {{ "issue.isDraft" | translate }}
+                    </span>
+                  </td>
+                  <td *ngIf="!player?.isDraft">
+                    <span *ngIf="player?.dutyStatus === workDutyStatus.Active"
+                      class="badge new-badge-light-green fs-7 fw-bold">
+                      {{ "workDuty.Active" | translate }}
+                    </span>
+                    <span *ngIf="player?.dutyStatus === workDutyStatus.Deferred"
+                      class="badge new-badge-light-light-yellow fs-7 fw-bold">
+                      {{ "workDuty.Deferred" | translate }}
+                    </span>
+                    <span *ngIf="player?.dutyStatus === workDutyStatus.Finished"
+                      class="badge new-badge-light-red fs-7 fw-bold">
+                      {{ "workDuty.Finished" | translate }}
+                    </span>
+                    <span *ngIf="player?.dutyStatus === workDutyStatus.Canceled"
+                      class="badge new-badge-light-grey fs-7 fw-bold">
+                      {{ "workDuty.Canceled" | translate }}
+                    </span>
+                    <span *ngIf="player?.dutyStatus === workDutyStatus.Pending"
+                      class="badge new-badge-light-dark-yellow fs-7 fw-bold">
+                      {{ "workDuty.Pending" | translate }}
+                    </span>
+                  </td>
+
+                  <td>{{ player.startDate | date : "dd-MM-yyyy" }}</td>
+                  <td>{{ player.endDate | date : "dd-MM-yyyy" }}</td>
+
+                  <td class="fw-bold  text-table">
+                    <a class="text-primary fw-bolder" role="button" (click)="dutyDetails(player)"><u>{{
+                        "Dashboard.details" |
+                        translate }}</u></a>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <!-- end::Table -->
+          </div>
+          <!-- end::Table container -->
+          <!-- begin::Body -->
+        </div>
+      </div>
+    </section>
+  </div>
+</section>

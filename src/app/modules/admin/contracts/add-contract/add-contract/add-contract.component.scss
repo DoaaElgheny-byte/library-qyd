@@ -1,0 +1,85 @@
+
+
+
+.user-management {
+    margin-top: 30px;
+    padding: 35px;
+   
+    .page-title {
+      h3 {
+        color: #333232;
+        font-size: 20px;
+        margin-bottom: 15px;
+        span {
+          border-bottom:4px solid #DDA617;
+  
+        }
+      }
+    }
+    
+    .content {
+      box-shadow: 0 10px 60px rgba(226, 236, 249, 0.5);
+      padding: 35px;
+      background-color: #FFF !important;
+      h5 {
+        margin: 15px auto;
+      }
+
+      article {
+        .btns-tab {
+          margin-top: 20px;
+          border-bottom: 1px solid rgba(166, 166, 166, 1);
+          button {
+            text-align: start;
+            border:none;
+            color: rgba(166, 166, 166, 1);
+
+            background: #FFF;
+            padding: 12px 5px;
+            font-weight: 700;
+            font-size: 17px;
+            min-width: 130px;
+  
+            &.active {
+              background: transparent;
+              color:  rgba(16, 111, 110, 1);
+              border-bottom: 4px solid rgba(16, 111, 110, 1);
+             
+            }
+          }
+        }
+        .step {
+            display: inline-block;
+            height: 22px;
+            width: 22px;
+            line-height: 22px;
+            text-align: center;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            background: rgba(166, 166, 166, 1);
+            color: #FFF;
+            font-size: 12px;
+            font-weight: 500;
+          }
+           .active .step {
+            background:  rgba(16, 111, 110, 1);
+          }
+        .tabs-content {
+          border-radius: 10px;
+         
+          // padding: 35px;
+  
+        }
+      }
+    }
+  }
+  @media  (max-width: 400px) {
+    .btns-tab {
+      display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    }
+    
+  }

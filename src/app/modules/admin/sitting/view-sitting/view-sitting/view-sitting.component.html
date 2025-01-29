@@ -1,0 +1,47 @@
+<section class="main">
+  <h3>
+    {{ "sitting.CourtSessionDetails" | translate }}
+    <span> # {{ issueDetails?.name }}</span>
+  </h3>
+  <app-breadcrumb></app-breadcrumb>
+  <div class="content">
+    <article>
+      <div class="btns-tab d-flex justify-content-between">
+        <div>
+          <button [ngClass]="{ active: tabNum === 1 }" (click)="changeTab(1)">
+            <span> {{ "sitting.CourtSessionDetails" | translate }} </span>
+          </button>
+
+          <button [ngClass]="{ active: tabNum === 2 }" (click)="changeTab(2)">
+            <span> {{ "sitting.log" | translate }} </span>
+          </button>
+        </div>
+        <div>
+          <span
+            *ngIf="issueDetails?.sittingStatus === issueState.Active"
+            class="badge new-badge-light-green fs-7 fw-bold"
+          >
+            {{ "sitting.Active" | translate }}
+          </span>
+          <span
+            *ngIf="issueDetails?.sittingStatus === issueState.Finished"
+            class="badge new-badge-light-red fs-7 fw-bold"
+          >
+            {{ "sitting.Finished" | translate }}
+          </span>
+
+       
+        </div>
+      </div>
+      <div class="tabs-content">
+        <div *ngIf="tabNum === 1">
+          <app-view-details [sittingId]="issueId"></app-view-details>
+        </div>
+
+        <div *ngIf="tabNum === 2">
+          <app-view-history [issueId]="issueId"></app-view-history>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>

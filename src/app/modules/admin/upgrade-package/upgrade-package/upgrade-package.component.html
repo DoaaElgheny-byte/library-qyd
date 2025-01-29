@@ -1,0 +1,32 @@
+<section class="user-management">
+  <!-- begin::Header -->
+  <div class="page-title">
+    <div class="d-flex justify-content-between align-items-center">
+      <h3>{{ "upgradePackage.upgradePackage" | translate }}</h3>
+    </div>
+    <app-breadcrumb></app-breadcrumb>
+  </div>
+  <div class="content" *ngIf="!isEmployee">
+    <article>
+      <!-- <h3>{{"upgradePackage.accountType" | translate}}</h3> -->
+      <div class=" accountType align-items-center my-5 mx-5">
+
+        <div class="switchToggle">
+          <input type="checkbox" id="switch" [(ngModel)]="selectedPackageType" (change)="filterPackagesByType()">
+          <label for="switch">Toggle </label>
+        </div>
+      </div>
+      <!-- <button (click)="openCalendlyPopup()">Schedule a Meeting</button> -->
+      <div class="row justify-content-center gy-5">
+        <div class="col-md-4 col-sm-6 col-12" *ngFor="let package of packages; let i = index">
+          <app-package-card [removeSubBtn]="false" [isActive]="i === activeDivIndex" (cardClicked)="setActiveDiv(i)"
+            [data]="package" [isFromHomePage]="isFromHomePage" [isExpiration]="isExpiration"></app-package-card>
+        </div>
+      </div>
+      <p>{{ "employeeManagement.total" | translate }}:{{ totalCount }}</p>
+      <ngb-pagination [collectionSize]="totalCount" [(page)]="page" [pageSize]="pageSize"
+        (pageChange)="getAllPackages()" class="pagination p-0 my-4 d-flex justify-content-center">
+      </ngb-pagination>
+    </article>
+  </div>
+</section>

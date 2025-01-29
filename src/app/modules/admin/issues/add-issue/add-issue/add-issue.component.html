@@ -1,0 +1,73 @@
+<section class="user-management">
+  <!-- begin::Header -->
+  <div class="page-title">
+    <div class="d-flex justify-content-between align-items-center">
+      <h3 *ngIf="!issueId">
+        <span>{{ "addIssue.Add" | translate }} </span>
+
+        {{ "addIssue.addNewCase" | translate }}
+      </h3>
+      <h3 *ngIf="issueId">
+        <span>{{ "addIssue.edit" | translate }} </span>
+        {{ "addIssue.Case" | translate }}
+      </h3>
+    </div>
+  </div>
+  <app-breadcrumb></app-breadcrumb>
+  <div class="content">
+    <article>
+      <div class="btns-tab">
+        <button [ngClass]="{ active: tabNum === 1 }">
+          <span class="step">1</span>
+          <span> {{ "addIssue.issueDetail" | translate }}</span>
+        </button>
+        <!-- <button [ngClass]="{ active: tabNum === 2 }">
+          <span class="step">2</span>
+          <span> {{ "addIssue.issueTeam" | translate }} </span>
+        </button> -->
+        <button [ngClass]="{ active: tabNum === 2 }">
+          <span class="step">2</span>
+          <span> {{ "addIssue.Plaintiff" | translate }} </span>
+        </button>
+        <button [ngClass]="{ active: tabNum === 3 }">
+          <span class="step">3</span>
+          <span> {{ "addIssue.Defendant" | translate }} </span>
+        </button>
+        <button [ngClass]="{ active: tabNum === 4 }">
+          <span class="step">4</span>
+          <span> {{ "addIssue.attachments" | translate }} </span>
+        </button>
+        <button [ngClass]="{ active: tabNum === 5 }">
+          <span class="step">5</span>
+          <span> {{ "addIssue.ApplicationReview" | translate }} </span>
+        </button>
+      </div>
+
+
+      <div class="tabs-content">
+        <div *ngIf="tabNum === 1">
+          <app-issue-info [newStep1]="newStep1" (bindValue)="getId($event)" [isAuth]="isAuth"></app-issue-info>
+        </div>
+        <!-- <div *ngIf="tabNum === 2">
+          <app-assigned
+            [newStep2]="newStep2"
+            (bindValue)="stepThree($event)"
+          ></app-assigned>
+        </div> -->
+        <div *ngIf="tabNum === 2">
+          <app-claimant [newStep2]="newStep2" [newStep1]="newStep1" (bindValue)="stepThree($event)"></app-claimant>
+        </div>
+        <div *ngIf="tabNum === 3">
+          <app-defendant [newStep3]="newStep3" [newStep1]="newStep1" (bindValue)="stepFour($event)"></app-defendant>
+        </div>
+        <div *ngIf="tabNum === 4">
+          <app-attachment [newStep4]="newStep4" (bindValue)="stepFive($event)"></app-attachment>
+        </div>
+        <div *ngIf="tabNum === 5">
+          <app-review-request [newStep1]="newStep1" [newStep2]="newStep2" [newStep3]="newStep3" [newStep4]="newStep4"
+            (bindValue)="stepReview($event)"></app-review-request>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>

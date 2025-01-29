@@ -1,0 +1,13 @@
+.dropdown-toggle::after {
+  display: none;
+}
+.btn:hover,.btn:first-child:active{
+  background-color: transparent;
+}
+.table tr {
+  border-bottom: 1px solid #E7E7ED;
+
+}
+.selectedRow {
+  background-color: #f5f8fb !important;
+}

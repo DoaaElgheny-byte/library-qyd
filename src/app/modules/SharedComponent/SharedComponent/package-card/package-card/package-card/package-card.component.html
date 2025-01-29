@@ -1,0 +1,181 @@
+<div class="package h-100" [class.active-card]="isActive" (click)="onCardClick()" *ngIf="!data.customPackage"
+  [ngClass]="data.isSelected ? 'isMain' :''">
+  <div class="d-flex flex-row  justify-content-between align-items-center mb-5">
+    <div class="packageName">
+      <svg xmlns="http://www.w3.org/2000/svg" width="38" height="39" viewBox="0 0 38 39" fill="none">
+        <path
+          d="M35.828 19.5009C35.828 28.8493 28.2497 36.4276 18.9013 36.4276C9.55295 36.4276 1.97461 28.8493 1.97461 19.5009C1.97461 10.1526 9.55295 2.57422 18.9013 2.57422M28.305 19.5009C28.305 24.6945 24.0949 28.9047 18.9013 28.9047C13.7078 28.9047 9.49759 24.6945 9.49759 19.5009C9.49759 14.3074 13.7078 10.0972 18.9013 10.0972M24.0882 14.52L31.534 15.302L35.5702 9.65132L30.7268 8.03684L29.1123 3.19339L23.4616 7.2296L24.0882 14.52ZM24.0882 14.52L18.9014 19.5008"
+          stroke="#106F6E" stroke-width="3.22413" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    </div>
+    <div class="" [class.period]="data.durationFreeTrialPackage  !== DurationFreeTrialPackage.Zero">
+
+      <span class="duration" *ngIf="data.durationFreeTrialPackage  === DurationFreeTrialPackage.Seven">
+        {{"package.Seven" |translate}} فترة تجربيية</span>
+      <span class="duration" *ngIf="data.durationFreeTrialPackage  === DurationFreeTrialPackage.fourteenDays">
+        {{"package.fourteenDays" |translate}} فترة تجربيية</span>
+      <span class="duration" *ngIf="data.durationFreeTrialPackage  === DurationFreeTrialPackage.ThirtyDays">
+        {{"package.ThirtyDays" |translate}} فترة تجربيية</span>
+      <span class="duration" *ngIf="data.durationFreeTrialPackage  === DurationFreeTrialPackage.Always">
+        اشتراك مجاني</span>
+    </div>
+  </div>
+  <h2 class="name"> {{data.name}}</h2>
+  <div class="packagePrice  mb-3 d-flex  text-center">
+    <span class="mainPrice mx-1" *ngIf="!data.isMain && data.totalCost !==0 ">
+      <span *ngIf="cloneTotalCost !== 0 && cloneTotalCost !== undefined">
+        {{ cloneTotalCost | number:'1.1-1' }}
+      </span>
+      <span *ngIf="cloneTotalCost === 0 || cloneTotalCost === undefined">
+        {{ data.totalCost | number:'1.1-1' }}
+      </span>
+
+      {{"payments.sar" | translate}}
+    </span>
+    <span class="mainPrice mx-1" *ngIf="data.isMain||data.totalCost ===0"> {{"payments.free" | translate}} </span>
+    <span> / {{"package.Month" |translate}} </span>
+  </div>
+  <div class="d-flex align-items-center ">
+    <span class="duration" style="text-decoration: line-through;" *ngIf="data.disCountRate > 0">
+      <div *ngIf="clonePrice !== 0 && clonePrice !== undefined">
+        {{ clonePrice }}
+      </div>
+      <div *ngIf="clonePrice === 0 || clonePrice === undefined">
+        {{ data.price }}
+      </div>
+      {{"payments.sar" | translate}}
+    </span>
+    <div class="packageDisount text-center mx-3 align-items-center" *ngIf="data.disCountRate > 0">
+      {{data.disCountRate}} %
+    </div>
+  </div>
+  <div class="valueAddedTax mb-3  d-flex  text-center">
+    <span class="duration">
+      <div *ngIf="cloneValueAddedTax !== 0 && cloneValueAddedTax !== undefined">
+        + {{ cloneValueAddedTax | number:'1.2-2'}} {{"payments.sar" | translate}} {{"payments.valueAddedTaxng" |
+        translate}}
+      </div>
+      <div *ngIf="cloneValueAddedTax === 0 || cloneValueAddedTax === undefined">
+        + {{ data.valueAddedTax | number:'1.2-2' }} {{"payments.valueAddedTaxng" | translate}}
+      </div>
+    </span>
+  </div>
+  <hr />
+  <h4 *ngIf="data.storageSizeType  === storageSize.OneGB">سعة التخزين السحابية 1 جيجابايت </h4>
+  <h4 *ngIf="data.storageSizeType  === storageSize.TwoGB">سعة التخزين السحابية 2 جيجابايت </h4>
+  <h4 *ngIf="data.storageSizeType  === storageSize.ThreeGB">سعة التخزين السحابية 3 جيجابايت </h4>
+  <h4 *ngIf="data.storageSizeType  === storageSize.FourGB">سعة التخزين السحابية 4 جيجابايت </h4>
+  <h4 *ngIf="data.storageSizeType  === storageSize.FiveGB">سعة التخزين السحابية 5 جيجابايت </h4>
+  <h4 *ngIf="data.storageSizeType  === storageSize.SexGB">سعة التخزين السحابية 6 جيجابايت </h4>
+  <h4 *ngIf="data.storageSizeType  === storageSize.SevenGB">سعة التخزين السحابية 7 جيجابايت </h4>
+  <h4 *ngIf="data.storageSizeType  === storageSize.EightGB">سعة التخزين السحابية 8 جيجابايت </h4>
+  <h4 *ngIf="data.storageSizeType  === storageSize.NineGB">سعة التخزين السحابية 9 جيجابايت </h4>
+  <h4 *ngIf="data.storageSizeType  === storageSize.TenGB">سعة التخزين السحابية 10 جيجابايت </h4>
+  <h4 *ngIf="data.storageSizeType  === storageSize.ElevenGB">سعة التخزين السحابية 11 جيجابايت </h4>
+  <h4 *ngIf="data.storageSizeType  === storageSize.TwelveGB">سعة التخزين السحابية 12 جيجابايت </h4>
+  <h4 *ngIf="data.storageSizeType  === storageSize.ThirteenGB">سعة التخزين السحابية 13 جيجابايت </h4>
+  <h4 *ngIf="data.storageSizeType  === storageSize.FourteenGB">سعة التخزين السحابية 14 جيجابايت </h4>
+  <h4 *ngIf="data.storageSizeType  === storageSize.FiveteenGB">سعة التخزين السحابية 15 جيجابايت </h4>
+
+  <ul class="condition list-unstyled" [dir]="lang === 'ar'? 'rtl' :'ltr' ">
+    <li *ngFor="let condition of conditionList">
+      <i *ngIf="isChecked(condition)" class="fa-solid fa-circle-check"></i>
+      <i *ngIf="!isChecked(condition)" class="fa-solid fa-circle-xmark"></i>
+      <span>
+        {{condition.name | translate}}
+        <!-- <span class="text-muted" *ngIf="(data.maxEmployeeNo>0) && (condition.name ==='menu.employeeManagement')">
+          ({{data.maxEmployeeNo}}
+          {{"upgradePackage.employees"| translate}})
+        </span> -->
+        <span class="text-muted"
+          *ngIf="data.maxBranchNo>0 && (condition.name ==='upgradePackage.BranchManagement')">({{data.maxBranchNo}}
+          {{"upgradePackage.branches"| translate }})</span>
+      </span>
+    </li>
+
+  </ul>
+
+  <!-- counter -->
+  <div class="counter-container">
+    <div class="counter align-items-center">
+      <button *ngIf="userCount!=1" (click)="decrease()" class="counter-btn">-</button>
+      <p class="mx-3 fw-bold  my-0">{{ 'auth.userCount' | translate }}</p>
+      <span>{{ userCount | number:'2.0-0' }}</span>
+      <button *ngIf="userCount!=this.data.maxCustomerNo" (click)="increase()" class="counter-btn">+</button>
+    </div>
+  </div>
+  <div *ngIf="!removeSubBtn">
+    <div *ngIf="isAuth">
+      <div *ngIf=" (data.price !== 0 || data.isSelected )">
+        <button class=" col-12 genral-button" *ngIf="((data.isSelected && !data.isMain  && !isExpiration)  
+          && !data.isTakeFreeTrialPackage )">
+          <span>{{"upgradePackage.currentPackage" | translate}}</span>
+        </button>
+      </div>
+      <div *ngIf=" (data.price !== 0 ) ">
+        <button class=" col-12 genral-button" *ngIf="((!data.isSelected && !data.isMain && data.price !== 0) 
+          || (data.isSelected && isExpiration  && data.price !== 0)) 
+          || (data.isTakeFreeTrialPackage )" role="button" (click)="choosePackage()">
+          <span>{{"upgradePackage.choosePackage" | translate}}</span>
+        </button>
+      </div>
+    </div>
+    <div *ngIf="!isAuth">
+      <button class=" col-12 genral-button" role="button" (click)="register()">
+        <span>{{"upgradePackage.choosePackage" | translate}}</span>
+      </button>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+
+
+<div class="package h-100" *ngIf="data.customPackage">
+  <div>
+    <div class="d-flex justify-content-center  py-5">
+      <div class="packageName">
+        <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 14 14" fill="none">
+          <path
+            d="M12.7002 7C12.7002 10.3137 10.0139 13 6.7002 13C3.38649 13 0.700195 10.3137 0.700195 7C0.700195 3.68629 3.38649 1 6.7002 1M10.0335 7C10.0335 8.84095 8.54114 10.3333 6.7002 10.3333C4.85925 10.3333 3.36686 8.84095 3.36686 7C3.36686 5.15905 4.85925 3.66667 6.7002 3.66667M8.53878 5.23442L11.1781 5.51161L12.6088 3.50862L10.892 2.93633L10.3197 1.21948L8.31667 2.65019L8.53878 5.23442ZM8.53878 5.23442L6.70021 6.99994"
+            stroke="#106F6E" stroke-width="1.14286" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        {{data.name}}
+      </div>
+    </div>
+    <hr />
+
+    <ul class="condition list-unstyled mt-5">
+      <li>
+        <i class="fa-solid fa-circle-check"></i>
+        <span> {{"upgradePackage.Unlimited" | translate}} </span>
+      </li>
+      <!-- <li>
+        <i class="fa-solid fa-circle-check"></i>
+        <span> {{"upgradePackage.CustomerManagement" | translate}} </span>
+      </li> -->
+      <!-- <li>
+        <i class="fa-solid fa-circle-check"></i>
+        <span> {{'upgradePackage.ContractManagement'|translate}} </span>
+      </li> -->
+      <li style="margin: 10px 0;" *ngFor="let condition of conditionList">
+        <i *ngIf="isChecked(condition)" class="fa-solid fa-circle-check"></i>
+        <i *ngIf="!isChecked(condition)" class="fa-solid fa-circle-check"></i>
+        <span>{{condition.name | translate}} </span>
+      </li>
+    </ul>
+  </div>
+
+  <div>
+    <div>
+      <button (click)="openCalendlyPopup()" class=" col-12 genral-button" role="button">
+        <span>{{"upgradePackage.contactUs2" | translate}}</span>
+      </button>
+    </div>
+  </div>
+</div>

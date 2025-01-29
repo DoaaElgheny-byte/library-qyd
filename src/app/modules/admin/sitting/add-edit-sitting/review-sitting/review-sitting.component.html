@@ -1,0 +1,219 @@
+<div class="body-size position-relative">
+  <h5>{{ "attorny.reviewTitle" | translate }}</h5>
+  <span class="sub-title">{{ "attorny.reviewSubTitle" | translate }}</span>
+  <div class="col-md-12 mb-4 mt-8">
+    <div class="card mt-4">
+      <div class="body-size position-relative">
+        <div class="col-md-12 mb-4 mt-8">
+          <div class="card mt-4">
+            <div class="card-header">
+              <span> {{ "sitting.CourtSessionDetails" | translate }} </span>
+            </div>
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-4 col-sm-12 col-lg-6 details">
+                  <div>{{ "sitting.CourtSessionTitle" | translate }}</div>
+                  <div>{{ issueDetails?.name }}</div>
+                </div>
+                <!--Court Type-->
+                <div class="col-md-4 col-sm-12 col-lg-6 details" *ngIf="
+                    issueDetails?.courtType && !issueDetails?.otherCourtType
+                  ">
+                  <div>{{ "addIssue.courtType" | translate }}</div>
+                  <div *ngFor="let entity of entityList">
+                    <span *ngIf="entity.id == issueDetails?.courtType">{{
+                      entity.name | translate
+                      }}</span>
+                  </div>
+                </div>
+                <!--othrt Court type-->
+                <div class="col-md-4 col-sm-12 col-lg-6 details" *ngIf="issueDetails?.otherCourtType">
+                  <div>{{ "addIssue.otherCourtType" | translate }}</div>
+                  <div>{{ issueDetails?.otherCourtType }}</div>
+                </div>
+                <!--prison-->
+                <div class="col-md-4 col-sm-12 col-lg-6 details" *ngIf="issueDetails?.subDistrict">
+                  <div>{{ EntityChoosen | translate }}</div>
+                  <div>{{ issueDetails?.subDistrict }}</div>
+                </div>
+                <!--Committee-->
+                <div class="col-md-4 col-sm-12 col-lg-6 details" *ngIf="
+                    issueDetails?.committee && !issueDetails?.otherCommittee
+                  ">
+                  <div>{{ "addIssue.Committee" | translate }}</div>
+                  <div>{{ issueDetails?.committee }}</div>
+                </div>
+                <!--other Committee-->
+                <div class="col-md-4 col-sm-12 col-lg-6 details" *ngIf="issueDetails?.otherCommittee">
+                  <div>{{ "addIssue.otherCommittee" | translate }}</div>
+                  <div>{{ issueDetails?.otherCommittee }}</div>
+                </div>
+                <!--Court -->
+                <div class="col-md-4 col-sm-12 col-lg-6 details"
+                  *ngIf="issueDetails?.court && !issueDetails?.otherCourt">
+                  <label>{{ "addIssue.mainCourt" | translate }}</label>
+                  <div>{{ issueDetails?.court }}</div>
+                </div>
+                <!--other Court -->
+                <div class="col-md-4 col-sm-12 col-lg-6 details" *ngIf="issueDetails?.otherCourt">
+                  <div>{{ "addIssue.otherCourt" | translate }}</div>
+                  <div>{{ issueDetails?.otherCourt }}</div>
+                </div>
+                <!--sub Court -->
+                <div class="col-md-4 col-sm-12 col-lg-6 details"
+                  *ngIf="issueDetails?.subCourt && !issueDetails?.otherSubCourt">
+                  <div>{{ "addIssue.subCourt" | translate }}</div>
+                  <div>{{ issueDetails?.subCourt }}</div>
+                </div>
+                <!--other sub Court -->
+                <div class="col-md-4 col-sm-12 col-lg-6 details" *ngIf="issueDetails?.otherSubCourt">
+                  <div>{{ "addIssue.otherSubCourt" | translate }}</div>
+                  <div>{{ issueDetails?.otherSubCourt }}</div>
+                </div>
+                <div class="col-md-4 col-sm-12 col-lg-6 details">
+                  <div>{{ "sitting.startDate" | translate }}</div>
+                  <div>{{ format(startDate) }}</div>
+                </div>
+                <div class="col-md-4 col-sm-12 col-lg-6 details">
+                  <div>{{ "sitting.startTime" | translate }}</div>
+                  <div>{{ issueDetails?.startTime }}</div>
+                </div>
+                <div class="col-md-4 col-sm-12 col-lg-6 details">
+                  <div>{{ "sitting.sittingType" | translate }}</div>
+                  <div>
+                    <span *ngIf="issueDetails?.sittingType === sittingType.Online" class="details">
+                      {{ "sitting.Online" | translate }}
+                    </span>
+
+                    <span *ngIf="issueDetails?.sittingType === sittingType.Incourt" class="details">
+                      {{ "sitting.Incourt" | translate }}
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-4 col-sm-12 col-lg-6 details"
+                  *ngIf="issueDetails?.sittingType === sittingType.Online">
+                  <div>{{ "sitting.sittingLink" | translate }}</div>
+                  <div>
+                    {{
+                    issueDetails?.sittingLink
+                    ? issueDetails?.sittingLink
+                    : "-"
+                    }}
+                  </div>
+                </div>
+                <div class="col-md-4 col-sm-12 col-lg-6 details">
+                  <div>{{ "issue.appStatus" | translate }}</div>
+                  <div>
+                    <span *ngIf="
+                        issueDetails?.sittingStatus === sittingStatus.Active
+                      " class="badge new-badge-light-green fs-7 fw-bold">
+                      {{ "sitting.Active" | translate }}
+                    </span>
+                    <span *ngIf="
+                        issueDetails?.sittingStatus === sittingStatus.Finished
+                      " class="badge new-badge-light-red fs-7 fw-bold">
+                      {{ "sitting.Finished" | translate }}
+                    </span>
+                    <span *ngIf="
+                                              issueDetails?.sittingStatus === sittingStatus.Scheduled
+                                            " class="badge new-badge-light-red fs-7 fw-bold">
+                      {{ "sitting.Scheduled" | translate }}
+                    </span>
+                    <span *ngIf="
+                                                issueDetails?.sittingStatus === sittingStatus.Postponed
+                                              " class="badge new-badge-light-red fs-7 fw-bold">
+                      {{ "sitting.Postponed" | translate }}
+                    </span>
+                  </div>
+                </div>
+                <div class="col-md-4 col-sm-12 col-lg-6 details">
+                  <div>{{ "addIssue.Client" | translate }}</div>
+                  <div>{{ issueDetails?.client }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-12 mb-4 mt-8">
+          <div class="card mt-4">
+            <div class="card-header">
+              <span> {{ "issue.attachments" | translate }} </span>
+            </div>
+            <div class="card-body table-responsive">
+              <table class="table align-middle" *ngIf="
+                  issueDetails?.files !== null && issueDetails?.files.length > 0
+                ">
+                <thead>
+                  <tr class="text-center">
+                    <th scope="col">{{ "addIssue.name" | translate }}</th>
+
+                    <th scope="col">{{ "issue.attachments" | translate }}</th>
+                    <th scope="col">{{ "issue.uploadDate" | translate }}</th>
+                    <th scope="col">{{ "issue.uploadBy" | translate }}</th>
+                    <th scope="col">{{ "issue.download" | translate }}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr class="text-center" *ngFor="let lawsuitFile of issueDetails?.files">
+                    <td>{{ lawsuitFile.classificationName }}</td>
+
+                    <td>{{ lawsuitFile.imageName }}</td>
+                    <td>{{ lawsuitFile.date | date }}</td>
+                    <td>{{ lawsuitFile.name }}</td>
+                    <td>
+                      <a [href]="lawsuitFile.imageStorageFileURL" target="_blank">
+                        <i class="fa-solid fa-file-arrow-down fs-1"></i>
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="col-md-12 col-6 details" *ngIf="
+                  issueDetails?.files === null ||
+                  issueDetails?.files.length === 0
+                ">
+                <div class="text-center">
+                  {{ "sitting.noAttachment" | translate }}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!--end::Form-->
+  <div class="d-flex button-end">
+    <div class="form-action-btn">
+      <button (click)="Back()" id="kt_sign_in_submit" class="general-outline-button">
+        <ng-container>
+          <span class="indicator-label">
+            {{ "addIssue.Back" | translate }}
+          </span>
+        </ng-container>
+      </button>
+      <button (click)="submit()" type="submit" id="kt_sign_in_submit" class="genral-button"
+        [ngClass]="{ end: lang === 'en', 'end-arabic': lang === 'ar' }">
+        <ng-container class="d-flex">
+          <span class="indicator-label">
+            {{ "addIssue.save" | translate }}
+          </span>
+          <img src="assets/imgs/qyd/Left-icon.svg" />
+        </ng-container>
+      </button>
+    </div>
+  </div>
+</div>
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert">
+          {{ message }}
+        </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

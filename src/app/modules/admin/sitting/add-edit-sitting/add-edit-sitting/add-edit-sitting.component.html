@@ -1,0 +1,78 @@
+<section class="user-management">
+  <!-- begin::Header -->
+  <div class="page-title">
+    <div class="d-flex justify-content-between align-items-center">
+      <h3 *ngIf="!issueId">
+        <span>{{ "addIssue.Add" | translate }} </span>
+
+        {{ "sitting.CourtSession" | translate }}
+      </h3>
+      <h3 *ngIf="issueId">
+        <span>{{ "addIssue.edit" | translate }} </span>
+        {{ "sitting.CourtSession" | translate }}
+      </h3>
+    </div>
+    <app-breadcrumb></app-breadcrumb>
+  </div>
+  <div class="content">
+    <article>
+      <div class="btns-tab">
+        <button [ngClass]="{ active: tabNum === 1 }">
+          <span class="step">1</span>
+          <span> {{ "sitting.CourtSessionDetails" | translate }}</span>
+        </button>
+        <!-- <button [ngClass]="{ active: tabNum === 2 }">
+          <span class="step">2</span>
+          <span> {{ "addIssue.issueTeam" | translate }} </span>
+        </button>
+        <button [ngClass]="{ active: tabNum === 3 }">
+          <span class="step">3</span>
+          <span> {{ "sitting.report" | translate }} </span>
+        </button> -->
+
+        <button [ngClass]="{ active: tabNum === 2 }">
+          <span class="step">2</span>
+          <span> {{ "addIssue.attachments" | translate }} </span>
+        </button>
+        <button [ngClass]="{ active: tabNum === 3 }">
+          <span class="step">3</span>
+          <span> {{ "sitting.ApplicationReview" | translate }} </span>
+        </button>
+      </div>
+      <div class="tabs-content">
+        <div *ngIf="tabNum === 1">
+          <app-sitting-info
+            [newStep1]="newStep1"
+            (bindValue)="getId($event)"
+          ></app-sitting-info>
+        </div>
+        <!-- <div *ngIf="tabNum === 2">
+          <app-assigned-sitting
+            [newStep2]="newStep2"
+            (bindValue)="stepThree($event)"
+          ></app-assigned-sitting>
+        </div>
+        <div *ngIf="tabNum === 3">
+          <app-sitting-record
+            [newStep3]="newStep3"
+            (bindValue)="stepFour($event)"
+          ></app-sitting-record>
+        </div> -->
+
+        <div *ngIf="tabNum === 2">
+          <app-attachment-sitting
+            [newStep4]="newStep4"
+            (bindValue)="stepThree($event)"
+          ></app-attachment-sitting>
+        </div>
+        <div *ngIf="tabNum === 3">
+          <app-review-sitting
+            [newStep1]="newStep1"
+            [newStep2]="newStep2"
+            (bindValue)="stepReview($event)"
+          ></app-review-sitting>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>

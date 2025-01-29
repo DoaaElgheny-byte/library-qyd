@@ -1,0 +1,62 @@
+<section class="user-management">
+  <!-- begin::Header -->
+  <div class="page-title">
+    <div class="d-flex justify-content-between align-items-center">
+      <h3 *ngIf="!issueId">
+        {{ "addWorkDuty.Add" | translate }}
+        {{ "addWorkDuty.workDuty" | translate }}
+      </h3>
+      <h3 *ngIf="issueId">
+        {{ "addWorkDuty.edit" | translate }}
+        {{ "addWorkDuty.workDuty" | translate }}
+      </h3>
+    </div>
+    <app-breadcrumb></app-breadcrumb>
+  </div>
+  <div class="content">
+    <article>
+      <div class="btns-tab">
+        <button [ngClass]="{ active: tabNum === 1 }">
+          <span class="step">1</span>
+          <span> {{ "addWorkDuty.workDutyDetail" | translate }}</span>
+        </button>
+        <!-- <button [ngClass]="{ active: tabNum === 2 }">
+            <span class="step">2</span>
+            <span> {{ "addWorkDuty.workDutyTeam" | translate }} </span>
+          </button>
+  
+          <button [ngClass]="{ active: tabNum === 3 }">
+            <span class="step">3</span>
+            <span> {{ "addIssue.attachments" | translate }} </span>
+          </button> -->
+        <button [ngClass]="{ active: tabNum === 2 }">
+          <span class="step">2</span>
+          <span> {{ "addWorkDuty.ApplicationReview" | translate }} </span>
+        </button>
+      </div>
+
+
+      <button class="genral-button mt-7" *ngIf="isAddNewTaskFromProject=='true'"
+        (click)="backToProject()">{{'projectManagement.backToProjectDetails'|translate}}</button>
+
+
+
+      <div class="tabs-content">
+        <div *ngIf="tabNum === 1">
+          <app-add-all-workduty (bindValue)="getId($event)"></app-add-all-workduty>
+
+        </div>
+        <!-- <div *ngIf="tabNum === 2">
+            <app-work-duty-assigned (bindValue)="stepThree($event)"></app-work-duty-assigned>
+          </div>
+  
+          <div *ngIf="tabNum === 3">
+            <app-work-duty-attachment (bindValue)="stepFour($event)"></app-work-duty-attachment>
+          </div> -->
+        <div *ngIf="tabNum === 2">
+          <app-work-dty-review (bindValue)="stepReview($event)"></app-work-dty-review>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>

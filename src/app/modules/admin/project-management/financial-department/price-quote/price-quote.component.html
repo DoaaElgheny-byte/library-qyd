@@ -1,0 +1,64 @@
+<div class="d-flex justify-content-end mb-3">
+    <button (click)="nextToPdf()" class=" me-2"><i class="fas fa-download"></i> {{ 'projectManagement.download_quote' |
+        translate }}
+    </button>
+    <button (click)="editData()" class=" me-2"><i class="fas fa-edit"></i> {{ 'projectManagement.edit_data' | translate
+        }}
+    </button>
+    <button (click)="ViewDetails()" class=" me-2"><i class="fas fa-eye"></i> {{ 'projectManagement.view_details' |
+        translate }}
+    </button>
+    <button (click)="viewSimplifiedInvoicePdf()" class="addBillBtn border-0 me-2 d-flex align-items-center"> {{
+        'projectManagement.add_invoice' | translate
+        }} <i class="fas fa-plus text-white mx-2"></i></button>
+</div>
+
+<div class="card bg-white py-5 my-10">
+
+    <strong class="price-quote mx-5">{{ 'projectManagement.price_quote_data' | translate }}</strong>
+    <hr>
+
+    <div class="card-body">
+        <div class="row mb-3">
+            <div class="col-md-4">
+                <label for="projectSerial" class="form-label">{{ 'projectManagement.project_serial_number' |
+                    translate }}</label>
+                <input id="projectSerial" type="text" class="form-control" [value]="serialNumber" disabled />
+            </div>
+            <div class="col-md-4">
+                <label for="offerDate" class="form-label">{{ 'projectManagement.offer_date' | translate }}</label>
+                <input id="offerDate" type="text" class="form-control" [value]="startDate" disabled />
+            </div>
+            <div class="col-md-4">
+                <label for="offerEndDate" class="form-label">{{ 'projectManagement.offer_end_date' | translate
+                    }}</label>
+                <input id="offerEndDate" type="text" class="form-control" [value]="endDate" disabled />
+            </div>
+        </div>
+        <div class="row my-10">
+            <div class="col-md-4">
+                <label for="clientName" class="form-label">{{ 'projectManagement.client_name' | translate }}</label>
+                <input id="clientName" type="text" class="form-control" [value]="clientName" disabled />
+            </div>
+            <div class="col-md-4">
+                <label for="totalWithTax" class="form-label">{{ 'projectManagement.total_with_tax' | translate
+                    }}</label>
+                <input id="totalWithTax" type="text" class="form-control" disabled [value]="totalTax" />
+            </div>
+            <div class="col-md-4">
+                <label for="offerApproved" class="form-label">{{ 'projectManagement.is_offer_approved' | translate
+                    }}</label>
+                <select id="offerApproved" class="form-select" [(ngModel)]="offerApproved">
+                    <option [value]="false">{{ 'projectManagement.no' | translate }}</option>
+                    <option [value]="true">{{ 'projectManagement.yes' | translate }}</option>
+                </select>
+            </div>
+            <div class="btns my-7 d-flex justify-content-between">
+                <button class="back-btn addBtn px-10" (click)="updateDataOfPriceProject()">
+                    {{ 'projectManagement.submit' | translate }}
+                </button>
+
+            </div>
+        </div>
+    </div>
+</div>

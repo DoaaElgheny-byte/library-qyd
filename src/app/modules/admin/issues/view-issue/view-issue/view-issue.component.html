@@ -1,0 +1,77 @@
+<section class="main">
+  <h3>
+    {{"issue.issueDetail" | translate}}
+    <span> {{ issueDetails?.number === 0 ? '' : issueDetails?.number }}</span>
+  </h3>
+  <app-breadcrumb></app-breadcrumb>
+  <div class="content">
+    <article>
+      <div class="btns-tab d-flex justify-content-between">
+        <div>
+          <button [ngClass]="{ active: tabNum === 1 }" (click)="changeTab(1)">
+            <span> {{"issue.issueDetail" | translate}} </span>
+          </button>
+          <button [ngClass]="{ active: tabNum === 2 }" (click)="changeTab(2)">
+            <span> {{"issue.glsat" | translate}} </span>
+          </button>
+          <button [ngClass]="{ active: tabNum === 3 }" (click)="changeTab(3)">
+            <span> {{"issue.workDuy" | translate}} </span>
+          </button>
+          <button [ngClass]="{ active: tabNum === 4 }" (click)="changeTab(4)">
+            <span> {{"issue.log" | translate}} </span>
+          </button>
+        </div>
+        <div>
+
+
+          <span *ngIf="
+         issueDetails?.lawsuitStatus === issueState.Inprogress
+       " class="badge new-badge-light-green  fs-7 fw-bold">
+            {{ "addIssue.Inprogress" | translate }}
+          </span>
+          <span *ngIf="
+               issueDetails?.lawsuitStatus === issueState.Finished
+             " class="badge new-badge-light-red fs-7 fw-bold">
+            {{ "addIssue.Finished" | translate }}
+          </span>
+          <span *ngIf="
+           issueDetails?.lawsuitStatus === issueState.Pending
+           " class="badge new-badge-light-yellow fs-7 fw-bold">
+            {{ "addIssue.Pending" | translate }}
+          </span>
+          <span *ngIf="
+           issueDetails?.lawsuitStatus === issueState.Approval
+           " class="badge new-badge-light-purple fs-7 fw-bold">
+            {{ "addIssue.Approval" | translate }}
+          </span>
+          <span *ngIf="
+           issueDetails?.lawsuitStatus === issueState.Canceled
+           " class="badge new-badge-light-pink fs-7 fw-bold">
+            {{ "addIssue.Canceled" | translate }}
+          </span>
+          <span *ngIf="
+           issueDetails?.lawsuitStatus === issueState.UnderReview
+           " class="badge new-badge-light-blue fs-7 fw-bold">
+            {{ "addIssue.UnderReview" | translate }}
+          </span>
+
+        </div>
+      </div>
+      <div class="tabs-content">
+        <div *ngIf="tabNum === 1">
+          <app-issue-details [issueId]="issueId" [isAuth]="isAuth"></app-issue-details>
+        </div>
+        <div *ngIf="tabNum === 2">
+          <app-issue-session [issueId]="issueId" [isAuth]="isAuth"></app-issue-session>
+        </div>
+        <div *ngIf="tabNum === 3">
+          <app-issue-workduty [issueId]="issueId" [isAuth]="isAuth"></app-issue-workduty>
+        </div>
+        <div *ngIf="tabNum === 4">
+          <app-issue-log [issueId]="issueId" [isAuth]="isAuth"></app-issue-log>
+        </div>
+
+      </div>
+    </article>
+  </div>
+</section>

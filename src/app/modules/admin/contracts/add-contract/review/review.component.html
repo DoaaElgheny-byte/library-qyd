@@ -1,0 +1,230 @@
+<div class="body-size position-relative">
+  <div class="col-md-12 mb-4 mt-8">
+    <div class="card mt-4">
+      <div class="card-header">
+        <span> {{ "contract.contractInfo" | translate }} </span>
+      </div>
+      <div class="card-body border rounded mt-5">
+        <div class="row">
+          <div class="col-md-4 col-sm-12 col-lg-6 details">
+            <div>{{ "contract.contractAddress" | translate }}</div>
+            <div>{{ contractDetails?.address }}</div>
+          </div>
+          <div class="col-md-4 col-sm-12 col-lg-6  details">
+            <div>{{ "contract.contractStatus" | translate }}</div>
+            <div class="col-6 p-0">
+              <span *ngIf="contractDetails?.contarctStatus === contractStatus.Active"
+                class="badge new-badge-light-green fs-7 fw-bold">
+                {{ "contract.Active" | translate }}
+              </span>
+
+              <span *ngIf="contractDetails?.contarctStatus === contractStatus.Finished"
+                class="badge new-badge-light-red fs-7 fw-bold">
+                {{ "contract.Finished" | translate }}
+              </span>
+              <span *ngIf="contractDetails?.contarctStatus === contractStatus.Canceled"
+                class="badge new-badge-light-grey fs-7 fw-bold">
+                {{ "contract.Canceled" | translate }}
+              </span>
+              <span *ngIf="contractDetails?.contarctStatus === contractStatus.Pending"
+                class="badge new-badge-light-dark-yellow fs-7 fw-bold">
+                {{ "contract.Pending" | translate }}
+              </span>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-12 col-lg-6  details">
+            <div>{{ "contract.startDate" | translate }}</div>
+            <div>{{ format(startDate) }}</div>
+          </div>
+          <div class="col-md-4 col-sm-12 col-lg-6  details">
+            <div>{{ "contract.endDate" | translate }}</div>
+            <div>{{ format(endDate) }}</div>
+          </div>
+          <div class="col-md-4 col-sm-12 col-lg-6  details">
+            <div>{{ "contract.branch" | translate }}</div>
+            <div>{{ contractDetails?.branch}}</div>
+          </div>
+          <div class="col-md-4 col-sm-12 col-lg-6  details">
+            <div>{{ "contract.user" | translate }}</div>
+            <div>{{ contractDetails?.client }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12 mb-4 mt-8">
+    <div class="card mt-4">
+      <div class="card-header">
+        <span> {{ "contract.contractSubject" | translate }} </span>
+      </div>
+      <div class="card-body border">
+        <p class="card-text">
+          {{ contractDetails?.details }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+
+
+  <!-- <div class="col-md-12 mb-4 mt-8">
+    <div class="card mt-4">
+      <div class="card-header">
+        <span> {{ "contract.contractSubject" | translate }} </span>
+      </div>
+      <div class="card-body border">
+        <div class="row">
+          <div class="col-md-4 col-sm-12 col-lg-6 details">
+            <div>{{ "contract.contractAddress" | translate }}</div>
+            <div>{{ contractDetails?.address }}</div>
+          </div>
+          <div class="col-md-4 col-sm-12 col-lg-6  details">
+            <div>{{ "contract.contractStatus" | translate }}</div>
+            <div class="col-6 p-0">
+              <span *ngIf="contractDetails?.contarctStatus === contractStatus.Active"
+                class="badge new-badge-light-green fs-7 fw-bold">
+                {{ "contract.Active" | translate }}
+              </span>
+
+              <span *ngIf="contractDetails?.contarctStatus === contractStatus.Finished"
+                class="badge new-badge-light-red fs-7 fw-bold">
+                {{ "contract.Finished" | translate }}
+              </span>
+              <span *ngIf="contractDetails?.contarctStatus === contractStatus.Canceled"
+                class="badge new-badge-light-grey fs-7 fw-bold">
+                {{ "contract.Canceled" | translate }}
+              </span>
+              <span *ngIf="contractDetails?.contarctStatus === contractStatus.Pending"
+                class="badge new-badge-light-dark-yellow fs-7 fw-bold">
+                {{ "contract.Pending" | translate }}
+              </span>
+            </div>
+          </div>
+          <div class="col-md-4 col-sm-12 col-lg-6  details">
+            <div>{{ "contract.startDate" | translate }}</div>
+            <div>{{ format(startDate) }}</div>
+          </div>
+          <div class="col-md-4 col-sm-12 col-lg-6  details">
+            <div>{{ "contract.endDate" | translate }}</div>
+            <div>{{ format(endDate) }}</div>
+          </div>
+          <div class="col-md-4 col-sm-12 col-lg-6  details">
+            <div>{{ "contract.branch" | translate }}</div>
+            <div>{{ contractDetails?.branch}}</div>
+          </div>
+          <div class="col-md-4 col-sm-12 col-lg-6  details">
+            <div>{{ "contract.user" | translate }}</div>
+            <div>{{ contractDetails?.client }}</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div> -->
+
+  <div *ngIf=" !contractDetails?.isRequiredFees" class="col-md-12 mb-4 mt-8">
+    <div class="card mt-4">
+      <div class="card-header">
+        <span> {{ "AddEditcontract.contractDetails" | translate }} </span>
+      </div>
+      <div class="card-body border rounded mt-5">
+        <div class="row">
+          <div class="col-md-4  col-sm-12 details">
+            <div>{{ "AddEditcontract.ContractValue" | translate }}</div>
+            <div>{{ contractDetails?.contractValue }}</div>
+          </div>
+
+          <div class="col-md-4  col-sm-12 details">
+            <div>{{ "AddEditcontract.deposit" | translate }}</div>
+            <div>{{ contractDetails?.advancevalue}}</div>
+          </div>
+
+          <div class="col-md-4  col-sm-12 details">
+            {{ "AddEditcontract.FinalAmount" | translate }}
+            <div>{{ contractDetails?.backvalue}}</div>
+          </div>
+
+
+          <div class="col-md-12">
+            <div class="row table-grid table-striped table-responsive">
+              <div class="col-md-12 my-6">
+                <h2>{{"AddEditcontract.installments"|translate}}</h2>
+              </div>
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th scope="col">{{"AddEditcontract.installmentNumber"|translate}}</th>
+                    <th scope="col">{{"AddEditcontract.installmentAmount"|translate}}</th>
+
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of contractDetails.payments">
+                    <td>{{ item.paymentNumber }}</td>
+                    <td>{{ item.value }}</td>
+
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12 mb-4 mt-8">
+    <div class="card mt-4">
+      <div class="card-header">
+        <span> {{ "issue.attachments" | translate }} </span>
+      </div>
+      <div class="card-body table-responsive">
+        <table class="table align-middle" *ngIf="contractDetails?.contarctFiles">
+          <thead>
+            <tr class="text-center">
+              <th scope="col">{{ "issue.attachments" | translate }}</th>
+              <th scope="col">{{ "issue.uploadDate" | translate }}</th>
+              <th scope="col">{{ "issue.uploadBy" | translate }}</th>
+              <th scope="col">{{ "issue.download" | translate }}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="text-center" *ngFor="let lawsuitFile of contractDetails?.contarctFiles">
+              <td>{{ lawsuitFile.imageName }}</td>
+              <td>{{ lawsuitFile.date | date : "yyyy-MM-dd" }}</td>
+              <td>{{ lawsuitFile.name }}</td>
+              <td>
+                <a [href]="lawsuitFile.imageStorageFileURL" target="_blank">
+                  <i class="fa-solid fa-file-arrow-down fs-1"></i>
+                </a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div *ngIf="!contractDetails?.contarctFiles">{{"contract.NotFound" | translate}}</div>
+      </div>
+    </div>
+  </div>
+
+  <!--end::Form-->
+  <div class="d-flex button-end">
+    <div class="form-action-btn">
+      <button (click)="Back()" id="kt_sign_in_submit" class="general-outline-button">
+        <ng-container>
+          <span class="indicator-label">
+            {{ "addIssue.Back" | translate }}
+          </span>
+        </ng-container>
+      </button>
+      <button (click)="submit()" type="submit" id="kt_sign_in_submit" class="genral-button"
+        [ngClass]="{ end: lang === 'en', 'end-arabic': lang === 'ar' }">
+        <ng-container class="d-flex">
+          <span class="indicator-label">
+            {{ "addIssue.save" | translate }}
+          </span>
+          <img src="assets/imgs/qyd/Left-icon.svg" />
+        </ng-container>
+      </button>
+    </div>
+  </div>
+</div>

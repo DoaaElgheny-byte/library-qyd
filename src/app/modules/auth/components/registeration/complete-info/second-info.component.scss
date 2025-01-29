@@ -1,0 +1,38 @@
+label {
+  font-size: 16px;
+  font-weight: 500;
+  color: #0d0d0d;
+  margin-bottom: 10px;
+}
+a.link-primary {
+  color: #0d0d0d !important;
+  text-decoration: underline;
+}
+.genral-button {
+  background-color: #0d0d0d;
+}
+.input-group-text {
+  color: #0d0d0d;
+  background-color: transparent;
+  border-right: 1px solid var(--kt-input-group-addon-border-color);
+  font-weight: bold;
+}
+.form-check-label {
+  font-size: 12px;
+}
+.form-title {
+  margin-top: 60px;
+  margin-bottom: 20px;
+}
+h2 {
+  color: #106f6e;
+}
+a {
+  color: #0d0d0d !important;
+}
+::ng-deep {
+  .ng-dropdown-panel {
+    background: white !important;
+    border: 1px solid #ddd !important;
+  }
+}

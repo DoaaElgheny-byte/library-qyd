@@ -1,0 +1,206 @@
+ <!--begin::Form-->
+ <div class="d-flex justify-content-between align-items-center form-title">
+    <h2 class="fw-bold">
+      {{ "register.accountInfo" | translate }}
+    </h2>
+    <a class="fw-bold" [routerLink]="['/auth/register/complete-info']">
+      {{ "register.back" | translate }}
+      <i class="fa-solid " [ngClass]="lang === 'ar' ? 'fa-arrow-left' :'fa-arrow-right' "></i>
+    </a>
+  </div>
+   <div class="body-size position-relative">
+      <form class="form w-100 my-5" [formGroup]="loginForm" novalidate="novalidate" id="kt_login_signin_form"
+        (ngSubmit)="submit()">
+        <!-- begin::Alert error-->
+        <ng-container *ngIf="hasError">
+          <div class="mb-lg-15 alert alert-danger">
+            <div class="alert-text font-weight-bold">
+              The login details are incorrect
+            </div>
+          </div>
+        </ng-container>
+        <!-- end::Alert error-->
+  
+        <!--begin::Form group-->
+        <div class="fv-col-12 mb-4">
+            <label>{{ "register.country" | translate }}</label>
+            <span class="text-danger mx-2 fs-2">*</span>
+            <select
+              formControlName="countryId"
+              class="form-select"
+              aria-label="Default select example"
+            >
+            <option [value]="null" aria-selected="true" disabled>
+              {{'register.country' | translate}}
+            </option>
+              <option [value]="1">
+                {{ "register.saudi" | translate }}
+              </option>
+              
+            </select>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'register.countryIdRequired' | translate,
+                control: loginForm.controls['countryId']
+              }"
+            ></ng-container>
+        </div>
+
+        <div class="fv-col-12 mb-4">
+            <label>{{ "register.region" | translate }}</label>
+            <span class="text-danger mx-2 fs-2">*</span>
+            <select
+              formControlName="regionId"
+              class="form-select"
+              aria-label="Default select example"
+              (change)="getCity($event)"
+            >
+            <option [value]="null" aria-selected="true" disabled>
+              {{'register.region' | translate}}
+            </option>
+              <option *ngFor="let region of regions" [value]="region.id">
+                {{
+                    lang === "ar" ? region?.nameAr : region?.nameEn
+                  }}
+              </option>
+              
+            </select>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'register.regionIdRequired' | translate,
+                control: loginForm.controls['regionId']
+              }"
+            ></ng-container>
+        </div>
+
+        <div class="fv-col-12 mb-4">
+            <label>{{ "register.city" | translate }}</label>
+            <span class="text-danger mx-2 fs-2">*</span>
+            <select
+              formControlName="cityId"
+              class="form-select"
+              aria-label="Default select example"
+            >
+            <option [value]="null" aria-selected="true" disabled>
+              {{'register.city' | translate}}
+            </option>
+              <option *ngFor="let cit of city" [value]="cit.id">
+                {{
+                    lang === "ar" ? cit?.nameAr : cit?.nameEn
+                  }}
+              </option>
+              
+            </select>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'register.cityIdRequired' | translate,
+                control: loginForm.controls['cityId']
+              }"
+            ></ng-container>
+        </div>
+
+        <!-- <div class="fv-col-12 mb-4">
+            <label>{{ "register.currency" | translate }}</label>
+            <span class="text-danger mx-2 fs-2">*</span>
+            <select
+              formControlName="currencyId"
+              class="form-select"
+              aria-label="Default select example"
+            >
+            <option [value]="null" aria-selected="true" disabled>
+              {{'register.currency' | translate}}
+            </option>
+              <option *ngFor="let currenc of currency" [value]="currenc.id">
+                {{
+                    lang === "ar" ? currenc?.nameAr : currenc?.nameEn
+                  }}
+              </option>
+              
+            </select>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'register.currencyIdRequired' | translate,
+                control: loginForm.controls['currencyId']
+              }"
+            ></ng-container>
+        </div> -->
+
+        <div class="fv-col-6 mb-8">
+          <label for="">{{ "register.agentAddress" | translate }}</label>
+          <span class="text-danger mx-2 fs-2">*</span>
+          <input class="form-control bg-transparent" type="text"
+            [placeholder]="'register.agentAddress' | translate" name="agentAddress" formControlName="agentAddress"
+            autocomplete="off" [ngClass]="{
+              'is-invalid': loginForm.controls['agentAddress'].invalid && loginForm.controls['agentAddress'].touched,
+              'is-valid': loginForm.controls['agentAddress'].valid
+            }" />
+          <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'register.agentAddressIsRequired' | translate,
+              control: loginForm.controls['agentAddress']
+            }"></ng-container>
+        </div>
+        <div class="fv-col-12 mb-4">
+            <label>{{ "register.NotificationLanguage" | translate }}</label>
+            <span class="text-danger mx-2 fs-2">*</span>
+            <select
+              formControlName="language"
+              class="form-select"
+              aria-label="Default select example"
+            >
+            <option [value]="null" aria-selected="true" disabled>
+              {{'register.NotificationLanguage' | translate}}
+            </option>
+              <option [value]="1">
+                {{ "register.arabic" | translate }}
+              </option>
+              <option [value]="2">
+                {{ "register.english" | translate }}
+              </option>
+              
+            </select>
+            <ng-container
+              [ngTemplateOutlet]="formError"
+              [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'register.NotificationLanguageIsRequired' | translate,
+                control: loginForm.controls['language']
+              }"
+            ></ng-container>
+        </div>
+        
+        
+      </form>
+    
+      <!--end::Form-->
+     <div class="col-12">
+      <div class="form-action-btn">
+        <button type="submit" id="kt_sign_in_submit" class="col-12 genral-button" (click)="submit()">
+          <ng-container >
+            <span class="indicator-label">{{ "register.save" | translate }}
+            </span>
+          </ng-container>
+        </button>
+      </div>
+      
+     </div>
+    </div>
+    <ng-template #formError let-control="control" let-message="message" let-validation="validation">
+      <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+        <div class="fv-plugins-message-container">
+          <div class="fv-help-block">
+            <span role="alert">
+              {{ message }}
+            </span>
+          </div>
+        </div>
+      </ng-container>
+    </ng-template>

@@ -1,0 +1,25 @@
+span.num {
+  background: #f1416c;
+  color: #fff;
+  position: absolute;
+  top: 0px;
+  left: -8px;
+  display: inline-flex;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+}
+.branch-btn {
+  border: 0px !important;
+  background: transparent !important;
+}
+.dropdown-toggle::after {
+  display: none !important;
+}
+.disabled-div {
+  pointer-events: none; /* Prevent all click, state and cursor actions */
+  opacity: 0.5; /* Fade the div to show it is disabled */
+  cursor: not-allowed; /* Change cursor to indicate it is not interactable */
+}

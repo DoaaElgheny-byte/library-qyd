@@ -1,0 +1,261 @@
+<div class="body-size position-relative">
+  <form class="form w-100 my-5 row align-items-end" [formGroup]="infoForm" novalidate="novalidate"
+    id="kt_login_signin_form">
+    <!-- begin::Alert error-->
+    <ng-container *ngIf="hasError">
+      <div class="mb-lg-15 alert alert-danger">
+        <div class="alert-text font-weight-bold">
+          The login details are incorrect
+        </div>
+      </div>
+    </ng-container>
+    <!-- <div class="col-md-4   col-12 mb-5 mt-2">
+      <label>{{ "addWorkDuty.workDutyName" | translate }}</label>
+      <span class="text-danger mx-2 fs-2">*</span>
+      <input class="form-control bg-transparent" type="text" [placeholder]="'addWorkDuty.workDutyName'| translate"
+        name="name" formControlName="dutyNameId" autocomplete="off" [ngClass]="{
+                    'is-invalid':
+                      infoForm.controls['dutyNameId'].invalid &&
+                      infoForm.controls['dutyNameId'].touched,
+                    'is-valid': infoForm.controls['dutyNameId'].valid
+                  }" />
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'required',
+                    message: 'loginPage.thisFieldIsRequired' | translate,
+                    control: infoForm.controls['dutyNameId']
+                  }"></ng-container>
+    </div> -->
+
+    <div class="col-md-4   col-12 mb-4" *ngIf="!disableName">
+      <label for="">{{ "addWorkDuty.workDutyNameAnother" | translate }} </label>
+      <span class="text-danger mx-2 fs-2">*</span>
+      <input class="form-control bg-transparent position-relative" type="text"
+        [placeholder]="'addWorkDuty.WriteworkDutyNameAnother'| translate" name="name" formControlName="name"
+        autocomplete="off" [ngClass]="{
+            'is-invalid':
+              infoForm.controls['name'].invalid &&
+              infoForm.controls['name'].touched,
+            'is-valid': infoForm.controls['name'].valid
+          }" />
+
+      <div class="position-absolute">
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+        validation: 'required',
+        message: 'loginPage.thisFieldIsRequired' | translate,
+        control: infoForm.controls['name']
+      }"></ng-container>
+      </div>
+
+    </div>
+    <div class="col-md-4   col-12 mb-4" *ngIf="edit">
+      <label>{{ "addWorkDuty.workDutyStatus" | translate }} </label>
+      <span class="text-danger mx-2 fs-2">*</span>
+      <select formControlName="dutyStatus" class="form-select" aria-label="Default select example">
+        <option disabled value="null">
+          {{ "addIssue.select" | translate }}
+        </option>
+        <option [value]="workDutyStatus.Active">
+          {{ "contract.Active" | translate }}
+        </option>
+        <option [value]="workDutyStatus.Deferred">
+          {{ "contract.Deferred" | translate }}
+        </option>
+        <option [value]="workDutyStatus.Finished">
+          {{ "contract.Finished" | translate }}
+        </option>
+        <option [value]="workDutyStatus.Canceled">
+          {{ "contract.Canceled" | translate }}
+        </option>
+        <option [value]="workDutyStatus.Pending">
+          {{ "contract.Pending" | translate }}
+        </option>
+      </select>
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'loginPage.thisFieldIsRequired' | translate,
+            control: infoForm.controls['dutyStatus']
+          }"></ng-container>
+    </div>
+    <div class="col-md-4   col-12 mb-4">
+      <label>{{ "addWorkDuty.startDate" | translate }} </label>
+      <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+      <div class="iput-sec">
+        <hijri-gregorian-datepicker style="direction: ltr" [label]="'expirationDate'" [(selectedDate)]="expirationDate"
+          [readonly]="true" [GregLabel]="'shared.Greg' | translate" [hijriLabel]="'shared.Hijri' | translate"
+          [placeHolder]="'shared.place' | translate" [showLabel]="false" [minHijri]="minDateH" [minGreg]="minDateG"
+          [selectedDateType]="selectedDateType" (selectedDateChange)="selectedDateChange($event)" #expirationDatePicker>
+        </hijri-gregorian-datepicker>
+
+      </div>
+      <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'loginPage.thisFieldIsRequired' | translate,
+            control: infoForm.controls['startDate']
+          }"></ng-container> -->
+      <div *ngIf="!endAfterStart" _ngcontent-ebq-c229="" class="fv-plugins-message-container ng-star-inserted">
+        <div _ngcontent-ebq-c229="" class="fv-help-block">
+          <span _ngcontent-ebq-c229="" role="alert">
+            {{ "AddEditcontract.endAfterStart" | translate }}
+          </span>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4   col-12 mb-4">
+      <label> {{ "addWorkDuty.endDate" | translate }} </label>
+      <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+      <div class="iput-sec">
+        <hijri-gregorian-datepicker style="direction: ltr" [label]="'EndDate'" [(selectedDate)]="EndDate"
+          [readonly]="true" [GregLabel]="'shared.Greg' | translate" [hijriLabel]="'shared.Hijri' | translate"
+          [placeHolder]="'shared.place' | translate" [showLabel]="false" [minHijri]="minDateH" [minGreg]="minDateG"
+          [selectedDateType]="selectedEndDateType" (selectedDateChange)="selectedDateChangeEnd($event)" #EndDatePicker>
+        </hijri-gregorian-datepicker>
+
+      </div>
+      <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'loginPage.thisFieldIsRequired' | translate,
+            control: infoForm.controls['endDate']
+          }"></ng-container> -->
+      <div *ngIf="!endAfterStart" _ngcontent-ebq-c229="" class="fv-plugins-message-container ng-star-inserted">
+        <div _ngcontent-ebq-c229="" class="fv-help-block">
+          <span _ngcontent-ebq-c229="" role="alert">
+            {{ "AddEditcontract.endAfterStart" | translate }}
+          </span>
+        </div>
+      </div>
+    </div>
+    <!--Branch-->
+    <div class="col-md-12 my-9">
+      <label>{{"branches.BranchOrOffice" | translate}}</label>
+      <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+      <div class="input-img">
+
+        <select class="form-select" formControlName="branchId" aria-label="Default select example"
+          (change)="getLawsuitList($any($event).target.value)" *ngIf="!isEmployee">
+          <option disabled value="null">
+            {{ "branches.select" | translate }}
+          </option>
+          <option *ngFor="let branch of branches" [value]="branch.id">
+            {{ branch.name}}
+          </option>
+
+        </select>
+        <input class="form-control bg-transparent" *ngIf="isEmployee" readonly type="text" formControlName="branch"
+          style="background-color: #e4e6ef  !important; ">
+
+      </div>
+    </div>
+
+    <!-- <div class="col-md-6   col-12 mb-4">
+        <div> {{"addWorkDuty.workDutyType" | translate}}</div>
+
+        <div class="d-flex mt-4">
+          <div class="form-check">
+            <input
+              formControlName="dutyKind"
+              [value]="dutyKind.General"
+              class="form-check-input"
+              type="radio"
+              id="flexRadioDefault1"
+              (change)="checkOfType()"
+            />
+            <label class="form-check-label" for="flexRadioDefault1">
+              {{ "addWorkDuty.general" | translate }}
+            </label>
+          </div>
+          <div class="form-check">
+            <input
+              formControlName="dutyKind"
+              [value]="dutyKind.RelatedLawsuit"
+              class="form-check-input"
+              type="radio"
+              id="flexRadioDefault2"
+              checked
+              (change)="checkOfType()"
+            />
+            <label class="form-check-label" for="flexRadioDefault2">
+              {{ "addWorkDuty.relatedCase" | translate }}
+            </label>
+          </div>
+        </div>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'loginPage.thisFieldIsRequired' | translate,
+            control: infoForm.controls['dutyKind']
+          }"
+        ></ng-container>
+
+      </div> -->
+    <div class="col-md-12   col-12 mb-4" *ngIf="fromIssue !=='false'">
+      <label> {{ "addWorkDuty.caseNo" | translate }} </label>
+      <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+      <input class="form-control bg-transparent" type="text" [placeholder]="'addWorkDuty.caseNo'| translate" name="name"
+        formControlName="lawsuitNumber" autocomplete="off" readonly style="background-color: #e4e6ef  !important; " />
+      <!-- <select
+          class="form-select"
+          formControlName="lawsuitId"
+          aria-label="Default select example"
+        >
+          <option value="null" disabled>{{ "addIssue.select" | translate }}</option>
+          <option *ngFor="let item of lawsuitList" [value]="item?.id">
+            {{ item?.number }}
+          </option>
+        </select>
+        <ng-container
+          [ngTemplateOutlet]="formError"
+          [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'loginPage.thisFieldIsRequired' | translate,
+            control: infoForm.controls['lawsuitId']
+          }"
+        ></ng-container> -->
+    </div>
+    <div class="col-md-12 mb-4">
+      <label> {{ "addWorkDuty.Subject" | translate }} </label>
+      <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+      <textarea formControlName="details" rows="5" class="form-control bg-transparent"
+        [placeholder]="'addWorkDuty.WriteSubject'| translate">
+        </textarea>
+      <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'loginPage.thisFieldIsRequired' | translate,
+            control: infoForm.controls['details']
+          }"></ng-container> -->
+    </div>
+  </form>
+
+  <!--end::Form-->
+  <!-- <div class="d-flex button-end">
+      <div
+        class="form-action-btn"
+        [ngClass]="{ end: lang === 'en', 'end-arabic': lang === 'ar' }"
+      >
+        <button
+          type="submit"
+          (click)="submit()"
+          id="kt_sign_in_submit"
+          class="genral-button"
+        >
+          <ng-container class="d-flex">
+            <span class="indicator-label">
+              {{ "addIssue.SaveAndContinue" | translate }}
+            </span>
+            <img src="assets/imgs/qyd/Left-icon.svg" />
+          </ng-container>
+        </button>
+      </div>
+    </div> -->
+</div>
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert">
+          {{ message }}
+        </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

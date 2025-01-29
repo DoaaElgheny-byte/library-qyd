@@ -1,0 +1,117 @@
+<i class="fa fa-solid fa-times fs-2x float-start m-4" (click)="close()"></i>
+<div style="clear: both;"></div>
+<div class="container my-5">
+    <div class="card border border-dark border-2" id="contentToDownload">
+        <div class="card-body">
+            <div *ngIf="!PriceToProjectDetails.isHaveVatNumber" class="position-relative ">
+                <h6 class=" quote-preview">{{ 'projectManagement.simplified_tax_invoice' | translate }}</h6>
+            </div>
+            <div *ngIf="PriceToProjectDetails.isHaveVatNumber" class="position-relative ">
+                <h6 class=" quote-preview">{{ 'projectManagement.TaxInvoice' | translate }}</h6>
+            </div>
+            <div class="position-relative">
+                <div class="row mb-3 invoice-details">
+                    <div class="col-md-12 d-flex justify-content-between my-7 align-items-center ">
+                        <p class="vat-number p-2" style="text-wrap: nowrap;"><strong>{{ 'projectManagement.vat_number' |
+                                translate }}:</strong> {{PriceToProjectDetails.taxNumberForAgent}}</p>
+                        <span *ngIf="!PriceToProjectDetails.isHaveVatNumber">.</span>
+
+                        <img crossorigin="anonymous" lazy="true" width="90" height="54"
+                            [src]="PriceToProjectDetails.logoImageStorageFileURL?PriceToProjectDetails.logoImageStorageFileURL:'./assets/imgs/qyd/logo-blue.svg'"
+                            alt="">
+
+                    </div>
+
+                </div>
+                <div class="row invoice-details mt-7">
+                    <div class="col-md-4">
+                        <p><strong>{{ 'projectManagement.invoice_issue_date' | translate }}:</strong>
+                            {{PriceToProjectDetails.startDate|date}} </p>
+                    </div>
+                    <!-- <div class="col-md-4">
+                        <p><strong>{{ 'projectManagement.invoice_due_date' | translate }}:</strong>
+                            {{PriceToProjectDetails.endDate|date}} </p>
+                    </div> -->
+                </div>
+
+                <hr />
+
+                <div class="row invoice-details mt-7">
+                    <div class="col-md-6">
+                        <!-- <p><strong>{{ 'projectManagement.payment_reference' | translate }}:</strong> ---</p> -->
+                        <!-- <p><strong>{{ 'projectManagement.product_name' | translate }}:</strong> ---</p> -->
+
+                        <p class="fw-bolder">الرقم التسلسلي:
+                            {{PriceToProjectDetails.serialNumber}}</p>
+
+
+                    </div>
+                    <div *ngIf="PriceToProjectDetails.isHaveVatNumber" class="col-md-6">
+                        <!-- <p><strong>{{ 'projectManagement.unified_id' | translate }}:</strong> ---</p> -->
+                        <p><strong>{{ 'projectManagement.client_tax_number' | translate }}:</strong>
+                            {{PriceToProjectDetails.vatNumber||'---'}}</p>
+                    </div>
+                </div>
+
+
+
+            </div>
+            <hr />
+            <table class="table table-bordered text-center">
+                <thead class="table-light">
+                    <tr>
+                        <!-- <th>{{ 'projectManagement.item_number' | translate }}</th> -->
+                        <!-- <th>{{ 'projectManagement.service' | translate }}</th> -->
+                        <th>{{ 'projectManagement.description' | translate }}</th>
+                        <th>{{ 'projectManagement.unit_price' | translate }}</th>
+                        <th>{{ 'projectManagement.taxable_amount' | translate }}</th>
+                        <th>{{ 'projectManagement.tax_rate' | translate }}</th>
+                        <th>{{ 'projectManagement.tax_amount' | translate }}</th>
+                        <th>{{ 'projectManagement.total_with_tax' | translate }}</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <!-- <td>مرافعة</td> -->
+                        <td> {{PriceToProjectDetails.description}} </td>
+                        <td> {{PriceToProjectDetails.unitPrice||PriceToProjectDetails.price}} </td>
+                        <td>{{PriceToProjectDetails.taxAmount||PriceToProjectDetails.price}}</td>
+                        <td>15%</td>
+                        <td>{{PriceToProjectDetails.vat || PriceToProjectDetails.price * (15 / 100) }}</td>
+
+                        <td>{{PriceToProjectDetails.totalTax || (PriceToProjectDetails.price +
+                            (PriceToProjectDetails.price * (15 / 100)))}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="text-end mt-7 mb-4">
+                <p><strong>{{ 'projectManagement.subtotal' | translate }}:</strong>
+                    {{PriceToProjectDetails.taxAmount||PriceToProjectDetails.price}}
+                </p>
+                <p><strong>{{ 'projectManagement.tax_total' | translate }}:</strong> {{PriceToProjectDetails.vat ||
+                    PriceToProjectDetails.price * (15 / 100) }}</p>
+                <p><strong>{{ 'projectManagement.total_amount' | translate }}:</strong>
+                    {{PriceToProjectDetails.totalTax|| (PriceToProjectDetails.price +
+                    (PriceToProjectDetails.price * (15 / 100)))}}</p>
+            </div>
+
+            <hr>
+            <div class="text-start my-6">
+
+                <img crossorigin="anonymous" lazy="true" width="174.522" height="97.4715"
+                    [src]="PriceToProjectDetails.logoStampImageStorageFileURL?PriceToProjectDetails.logoStampImageStorageFileURL:'./assets/imgs/qyd/logo-blue.svg'"
+                    alt="">
+            </div>
+
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center gap-3 mt-4">
+        <button class="btn btn-pdf" (click)="downloadPDF()">
+            {{ 'projectManagement.download_invoice2' | translate }} <i class="fas fa-file-download"></i>
+        </button>
+        <button class="btn btn-dark" (click)="close()">
+            {{ 'projectManagement.cancel' | translate }}
+        </button>
+    </div>
+</div>

@@ -1,0 +1,130 @@
+
+.main {
+  padding: 35px;
+  span {
+      margin-bottom:15px;
+  }
+  .title {
+    color: #828282;
+    font-size: 16px;
+    font-weight: 400;
+
+  }
+  .data {
+    color:#4C4C4C;
+    font-size: 16px;
+    margin-bottom: 25px;
+    font-weight: 400;
+  }
+  .card .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: stretch;
+    flex-wrap: wrap;
+    min-height: 45px;
+    padding: 0 1.25rem;
+    background: linear-gradient(0deg, #E7F1F1, #E7F1F1),
+      linear-gradient(0deg, #E4E4E4, #E4E4E4);
+    border: 1px solid rgba(228, 228, 228, 1);
+    span {
+   
+      padding: 12px 5px;
+      font-weight: 700;
+      font-size: 20px;
+      min-width: 130px;
+  
+        color:  rgba(16, 111, 110, 1);
+      
+  }}
+  .address {
+    height:100px;
+    padding:1rem
+  }
+  .card-body {
+    border-bottom: 4px solid #f1f1f1;
+  }
+  .button-view {
+    margin-top: 20px
+  }
+    
+    .content {
+      box-shadow: 0 10px 60px rgba(226, 236, 249, 0.5);
+      padding: 20px;
+      background-color: #FFF;
+      margin-top: 20px;
+      h5 {
+        margin: 15px auto;
+      }
+
+      article {
+        .btns-tab {
+          border-bottom: 1px solid #EBEBEB;
+          button {
+            
+            border:none;
+            color: rgba(166, 166, 166, 1);
+
+            background: #FFF;
+            padding: 12px 5px;
+            font-weight: 700;
+            font-size: 17px;
+            min-width: 130px;
+  
+            &.active {
+              background: transparent;
+              color:  rgba(16, 111, 110, 1);
+              border-bottom: 4px solid rgba(16, 111, 110, 1);
+             
+            }
+          }
+        }
+        .step {
+            display: inline-block;
+            height: 22px;
+            width: 22px;
+            line-height: 22px;
+            text-align: center;
+            -webkit-border-radius: 50%;
+            -moz-border-radius: 50%;
+            border-radius: 50%;
+            background: rgba(166, 166, 166, 1);
+            color: #FFF;
+            font-size: 12px;
+            font-weight: 500;
+            margin-right: 10px;
+          }
+           .active .step {
+            background:  rgba(16, 111, 110, 1);
+          }
+        .tabs-content {
+          border-radius: 10px;
+  
+        }
+      }
+    }
+  }
+  .table {
+    thead {
+      border-bottom: 1px solid #E7F1F1;
+      tr {
+        th {
+          color:#0E6463 !important;
+          font-weight: bold;
+          background-color: transparent !important;
+        }
+      }
+    }
+    tbody {
+      tr {
+        border-bottom: 1px solid #E7F1F1;
+        td {
+          color:#4C4C4C;
+
+        }
+        i {
+          color: #152222;
+        }
+      }
+    }
+  }
+  

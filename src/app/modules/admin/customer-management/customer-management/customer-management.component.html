@@ -1,0 +1,173 @@
+<section class="main">
+  <!-- Header Section -->
+  <div class="d-md-flex d-sm-block justify-content-between align-items-center">
+    <h3>{{ "customerManagement.management" | translate }} {{ "customerManagement.employee" | translate }}</h3>
+  </div>
+  <app-breadcrumb></app-breadcrumb>
+
+  <!-- Search Section -->
+  <div class="search">
+    <h3>{{ "contract.search" | translate }}</h3>
+    <div class="row">
+
+      <!-- Player Name Search -->
+      <div class="col-lg-4 mb-3">
+        <label>{{ "customerManagement.playerName" | translate }}</label>
+        <div class="input-img">
+          <button *ngIf="searchText" (click)="searchText = ''; getAllCustomersData()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <input class="form-control" type="text" [(ngModel)]="searchText"
+            [placeholder]="'employeeManagement.search' | translate"
+            (keyup)="page = 1; fromSearchInput = true; getAllCustomersData()" style="width: 100%" />
+        </div>
+      </div>
+
+      <!-- Mobile Number Search -->
+      <div class="col-lg col-md-4 mb-3">
+        <label>{{ "customerManagement.mobileNumber" | translate }}</label>
+        <div class="input-img">
+          <button *ngIf="MobileNumber" (click)="MobileNumber = ''; getAllCustomersData()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+          <input class="form-control" type="text" [(ngModel)]="MobileNumber"
+            [placeholder]="'employeeManagement.phonesearch' | translate"
+            (keyup)="page = 1; fromSearchInput = true; getAllCustomersData()" (keypress)="keyPressNumbers($event)"
+            style="width: 100%" />
+        </div>
+      </div>
+
+      <!-- Account Status Filter -->
+      <div class="col-lg col-md-4 mb-3">
+        <label>{{ "customerManagement.accountStatus" | translate }}</label>
+        <div class="input-img">
+          <select class="form-select" [(ngModel)]="State"
+            (change)="page = 1; fromSearchInput = true; getAllCustomersData()">
+            <option selected disabled value="">
+              {{ "customerManagement.accountStatus" | translate }}
+            </option>
+            <option [value]="userAccountState.All">{{ "customerManagement.All" | translate }}</option>
+            <option [value]="userAccountState.Active">{{ "customerManagement.active" | translate }}</option>
+            <option [value]="userAccountState.Inactive">{{ "customerManagement.inActive" | translate }}</option>
+          </select>
+          <button *ngIf="State" (click)="State = ''; getAllCustomersData()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Email Status Filter -->
+      <div class="col-lg col-md-4 mb-3">
+        <label>{{ "customerManagement.emailStatus" | translate }}</label>
+        <div class="input-img">
+          <select class="form-select" [(ngModel)]="emailStatus"
+            (change)="page = 1; fromSearchInput = true; getAllCustomersData()">
+            <option selected disabled value="">
+              {{ "customerManagement.emailStatus" | translate }}
+            </option>
+            <option [value]="theEmailState.All">{{ "customerManagement.All" | translate }}</option>
+            <option [value]="theEmailState.Confirmed">{{ "customerManagement.Confirmed" | translate }}</option>
+            <option [value]="theEmailState.NotConfirmed">{{ "customerManagement.NotConfirmed" | translate }}</option>
+          </select>
+          <button *ngIf="emailStatus" (click)="emailStatus = ''; getAllCustomersData()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Employee List Section -->
+  <div class="d-flex justify-content-between align-items-center title">
+    <h3>{{ "customerManagement.employeeList" | translate }}</h3>
+    <button *ngIf="currentUser?.customerType === customerType.SuperAdministrator" [disabled]="residual === 0"
+      (click)="addNew()" class="general-outline-button d-flex align-items-center text-nowrap justify-content-center">
+      <span class="m-0">{{ "customerManagement.addNew" | translate }}</span>
+      <i class="fa-solid fa-plus px-2"></i>
+    </button>
+  </div>
+  <p>{{ "auth.userCount" | translate }}{{ residual }} / {{ maxEmployees }}</p>
+
+  <!-- Card Section -->
+  <div class="card members-page mt-4">
+    <!-- Employee Table -->
+    <div class="card-body py-3">
+      <div *ngIf="allUsers.length === 0" class="text-center">
+        <img src="assets/imgs/qyd/no-results.svg" style="max-width: 250px; margin: auto;" />
+        <h1 class="pt-3">{{ "customerManagement.NotFound" | translate }}</h1>
+      </div>
+
+      <div *ngIf="allUsers.length !== 0" class="table-responsive">
+        <table class="table align-middle gs-0 gy-4">
+          <thead>
+            <tr class="text-center bg-light">
+              <th class="min-w-125px">{{ "customerManagement.playerName" | translate }}</th>
+              <th class="min-w-125px">{{ "emplyeeEditAdd.UserRole" | translate }}</th>
+              <th class="min-w-125px">{{ "customerManagement.Email" | translate }}</th>
+              <th class="min-w-95px">{{ "customerManagement.mobileNumber" | translate }}</th>
+              <th class="min-w-125px">{{ "customerManagement.emailStatus" | translate }}</th>
+              <th class="min-w-125px">{{ "customerManagement.accountStatus" | translate }}</th>
+              <th class="min-w-125px">{{ "customerManagement.Details" | translate }}</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr class="text-center" *ngFor="let player of allUsers">
+              <td class="fw-bold">{{ player.name }}</td>
+              <td class="fw-bold">
+                <span *ngIf="player?.type === customerType.Employee" class="badge new-badge-light-green fs-7 fw-bold">
+                  {{ "emplyeeEditAdd.Employee" | translate }}
+                </span>
+                <span *ngIf="player?.type === customerType.SystemAdministrator"
+                  class="badge new-badge-light-green fs-7 fw-bold">
+                  {{ "emplyeeEditAdd.SystemAdministrator" | translate }}
+                </span>
+              </td>
+
+              <td>{{ player.email }}</td>
+              <td>{{ player.mobileNumber ?? '_' }}</td>
+              <td>
+                <span *ngIf="player?.emailState === theEmailState.Confirmed"
+                  class="badge new-badge-light-green fs-7 fw-bold">
+                  {{ "customerManagement.Confirmed" | translate }}
+                </span>
+                <span *ngIf="player?.emailState === theEmailState.NotConfirmed"
+                  class="badge new-badge-light-red fs-7 fw-bold">
+                  {{ "customerManagement.NotConfirmed" | translate }}
+                </span>
+              </td>
+              <td>
+                <div class="form-check form-switch">
+                  <label class="switch form-check-label" [for]="player.id">
+                    <input  [disabled]="player.type === customerType.SuperAdministrator" class="form-check-input"  type="checkbox" [checked]="player.state === userAccountState.Active"
+                      [id]="player.id" (change)="changAccountState(player)" />
+                    <span class="slider round"></span>
+                  </label>
+                </div>
+              </td>
+              <td>
+                <div ngbDropdown container="body">
+                  <button type="button" [disabled]="player.type === customerType.SuperAdministrator"  class="btn btn-outline-primary btn-sm" ngbDropdownToggle>
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                  </button>
+                  <div ngbDropdownMenu>
+                    <button  ngbDropdownItem class="px-3"
+                      (click)="edit(player.id)">
+                      <i class="fa-regular fa-pen-to-square mx-1"></i> {{ "customerManagement.edit" | translate }}
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p>{{ "customerManagement.total" | translate }}: {{ totalCount }}</p>
+        <ngb-pagination [collectionSize]="totalCount" [(page)]="page" [pageSize]="pageSize"
+          (pageChange)="getAllCustomersData()"
+          class="pagination p-0 my-4 d-flex justify-content-center"></ngb-pagination>
+      </div>
+    </div>
+  </div>
+</section>

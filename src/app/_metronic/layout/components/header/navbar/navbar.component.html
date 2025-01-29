@@ -1,0 +1,94 @@
+<div class="app-navbar-item" [ngClass]="itemClass" *ngIf="showBranches">
+  <div class="d-flex justify-content-between align-items-center px-2 py-2" *ngIf="branches.length <=1">
+    <div class="d-flex align-items-center px-2">
+      <img src="assets/imgs/qyd/user.svg" width="33px" />
+      <div class="user-info mx-3">
+        <div>
+          {{ notActiveBranches?.name }}
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ngbDropdown class="btn-group" *ngIf="branches.length > 1">
+    <div id="dropdownBasic2" ngbDropdownToggle>
+      <button class="branch-btn">
+        <div class="d-flex justify-content-between align-items-center px-2 py-2">
+          <div class="d-flex align-items-center px-2">
+            <img src="assets/imgs/qyd/user.svg" width="33px" />
+
+            <div class="user-info mx-3">
+              <div>
+                {{ notActiveBranches?.name }}
+              </div>
+            </div>
+          </div>
+          <i class="fa-solid fa-chevron-down" *ngIf="branches.length > 1"></i>
+        </div>
+      </button>
+    </div>
+
+    <div ngbDropdownMenu aria-labelledby="dropdownBasic2">
+      <ul class="option p-0 list-unstyled m-0 px-2">
+
+        <li role="menuitem" *ngFor="let branch of branches">
+          <div role="button" class="py-2 branch" (click)="onItemSelect(branch)" *ngIf="!branch.isActive">
+            {{ branch.name }}
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+<div class="app-navbar-item mx-3" [ngClass]="{'disabled-div': !isNotifactionDisabled, 'itemClass': true}">
+
+  <a [ngClass]="btnClass" data-kt-menu-trigger="{default: 'click', lg: 'hover'}" data-kt-menu-attach="parent"
+    data-kt-menu-placement="bottom-end" class=" rounded px-2 py-2 position-relative"
+    [routerLink]="['/agent/notification']" routerLinkActive="router-link-active" (click)="resetCount()">
+    <span class="num" *ngIf="messageNo > 0">{{ messageNo }}</span>
+    <span [inlineSVG]="'./assets/imgs/Notifications.svg'" class="svg-icon" [ngClass]="btnIconClass"></span>
+  </a>
+
+</div>
+
+
+<div class="app-navbar-item" [ngClass]="itemClass">
+  <!--begin::Menu wrapper-->
+  <div class="cursor-pointer symbol" [ngClass]="userAvatarClass" data-kt-menu-trigger="hover"
+    data-kt-menu-attach="parent" data-kt-menu-placement="bottom-end">
+    <!-- <img src="/assets/imgs/user.svg" /> -->
+    <div class="d-flex justify-content-between align-items-center px-2 py-2  rounded">
+      <div class="d-flex align-items-center px-2">
+        <img src="assets/imgs/qyd/user.svg" *ngIf="currentUser.roles[0] !== allRoles.qydAgent" />
+
+        <img
+          [src]="profileData?.logoImageStorageFileURL ? profileData.logoImageStorageFileURL :'assets/imgs/home/form-background-colors.svg.png'"
+          width="37px" height="37px" *ngIf="currentUser.roles[0] === allRoles.qydAgent && profileData"
+          class="border rounded-circle" />
+
+        <div class="user-info mx-3">
+          <div style="direction: ltr">
+            {{
+            currentUser.userName.length > 15
+            ? (currentUser.userName | slice : 0 : 15) + "..."
+            : currentUser.userName
+            }}
+          </div>
+
+          <div class="user-title">
+            {{ userType | translate }}
+          </div>
+        </div>
+      </div>
+      <svg width="20" height="21" viewBox="0 0 20 21" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect y="0.5" width="20" height="20" rx="10" fill="#008EA5" fill-opacity="0.05" />
+        <path
+          d="M9.46094 14.5391L4.96094 10.0391C4.65625 9.75781 4.65625 9.26562 4.96094 8.98438C5.24219 8.67969 5.73438 8.67969 6.01562 8.98438L10 12.9453L13.9609 8.98438C14.2422 8.67969 14.7344 8.67969 15.0156 8.98438C15.3203 9.26562 15.3203 9.75781 15.0156 10.0391L10.5156 14.5391C10.2344 14.8438 9.74219 14.8438 9.46094 14.5391Z"
+          fill="#106F6E" />
+      </svg>
+
+    </div>
+  </div>
+  <app-user-inner data-kt-menu="true"></app-user-inner>
+
+</div>

@@ -1,0 +1,193 @@
+<section class="main">
+  <h3>{{ "payments.payment" | translate }}</h3>
+  <app-breadcrumb></app-breadcrumb>
+  <div class="search">
+    <h3>{{ "attorny.search" | translate }}</h3>
+    <div class="row">
+      <div [hidden]="isShowMoyaserPayments" class="col-lg-3 col-md-4  mb-5">
+        <label>{{ "payments.invoiceStatus" | translate }}</label>
+        <div class="input-img">
+          <select class="form-select" [(ngModel)]="PaymentStatus" aria-label="Default select example"
+            (change)="searchIncombinedInvoices()">
+            <option selected disabled value="">
+              {{ "payments.requestStatus" | translate }}
+            </option>
+            <option [value]="paymentStatus.All">
+              {{ "payments.All" | translate }}
+            </option>
+            <option [value]="paymentStatus.NotPaied">
+              {{ "payments.NotPaied" | translate }}
+            </option>
+            <option [value]="paymentStatus.WaitingForApproval">
+              {{ "payments.WaitingForApproval" | translate }}
+            </option>
+            <option [value]="paymentStatus.Paied">
+              {{ "payments.Paied" | translate }}
+            </option>
+            <option [value]="paymentStatus.Rejected">
+              {{ "payments.Rejected" | translate }}
+            </option>
+            <option [value]="paymentStatus.Cancelled">
+              {{ "payments.Cancelled" | translate }}
+            </option>
+          </select>
+          <button class="select" *ngIf="PaymentStatus !== ''" (click)="PaymentStatus = ''; searchIncombinedInvoices()">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <hr />
+  </div>
+
+  <!-- Table-->
+  <div class="card members-page mt-4">
+    <!-- begin::Body -->
+    <h3>{{ "payments.PaymentReceipts2" | translate }}</h3>
+    <div class="card-body py-3">
+      <div *ngIf="cloneCombinedInvoices.length === 0">
+        <img style="
+                  text-align: center;
+                  display: block;
+                  margin-left: auto;
+                  margin-right: auto;
+                  max-width: 250px;
+                " src="assets/imgs/qyd/no-results.svg" />
+
+        <h1 style="text-align: center; padding-top: 15px">
+          {{ "attorny.NotFound" | translate }}
+        </h1>
+      </div>
+      <!-- begin::Table container -->
+      <div class="table-responsive">
+        <!-- begin::Table -->
+        <table class="table align-middle gs-0 gy-4" *ngIf="cloneCombinedInvoices.length !== 0">
+          <!-- begin::Table head -->
+          <thead>
+            <tr class="text-center bg-light">
+              <th class="min-w-125px">
+                {{ "payments.invoiceNo" | translate }}
+              </th>
+              <th class="min-w-125px">
+                {{ "payments.invoiceValue" | translate }}
+              </th>
+              <th class="min-w-125px">
+                {{ "payments.invoiceDate" | translate }}
+              </th>
+              <th class="min-w-125px">
+                {{ "payments.packageName" | translate }}
+              </th>
+              <th class="min-w-125px">
+                {{ "payments.endDate" | translate }}
+              </th>
+              <th class="min-w-125px">
+                {{ "payments.paymentWay" | translate }}
+              </th>
+              <th class="min-w-125px">
+                {{ "payments.invoiceStatus" | translate }}
+              </th>
+              <th class="min-w-95px"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr class="text-center" *ngFor="let payment of combinedInvoices">
+              <td>{{ payment.invoiceNo || '_' }}</td>
+              <td>{{ payment.totalPrice || payment.amount || '_' }}</td>
+              <td>{{ (payment.startDate| date) || (payment.createdAt| date) || '_' }}</td>
+              <td>{{ payment.packageName || payment.packageArabicName || '_' }}</td>
+              <td>{{ (payment.endDate| date) || (payment.finishDate| date) || '_' }}</td>
+              <td>
+                <span *ngIf="payment.type === 0">
+                  {{ "payments.bankTransfer" | translate }}
+                </span>
+                <span *ngIf="payment.type === 1">
+                  {{ "payments.electronicPayment" | translate }}
+                </span>
+              </td>
+
+              <td>
+                <span *ngIf="payment?.paymentStatus === paymentStatus.NotPaied"
+                  class="badge new-badge-light-light-grey fs-7 fw-bold ">
+                  {{ "payments.NotPaied" | translate }}
+                </span>
+                <span *ngIf="payment?.paymentStatus === paymentStatus.WaitingForApproval"
+                  class="badge new-badge-light-yellow  fs-7 fw-bold">
+                  {{ "payments.WaitingForApproval" | translate }}
+                </span>
+                <span *ngIf="payment?.paymentStatus === paymentStatus.Paied"
+                  class="badge new-badge-light-green fs-7 fw-bold">
+                  {{ "payments.Paied" | translate }}
+                </span>
+                <span *ngIf="payment?.paymentStatus === paymentStatus.Rejected"
+                  class="badge new-badge-light-dark-red fs-7 fw-bold">
+                  {{ "payments.Rejected" | translate }}
+                </span>
+                <span *ngIf="payment?.paymentStatus === paymentStatus.Cancelled"
+                  class="badge new-badge-light-red fs-7 fw-bold">
+                  {{ "payments.Cancelled" | translate }}
+                </span>
+                <span *ngIf="payment?.status === 'initiated'" class="badge new-badge-light-light-grey fs-7 fw-bold ">
+                  {{ "payments.WaitingForApproval" | translate }}
+                </span>
+                <span *ngIf="payment?.status === paymentStatus.WaitingForApproval"
+                  class="badge new-badge-light-yellow  fs-7 fw-bold">
+                </span>
+                <span *ngIf="payment?.status === 'paid'" class="badge new-badge-light-green fs-7 fw-bold">
+                  {{ "payments.Paied" | translate }}
+                </span>
+              </td>
+
+              <td class="overflow-hidden">
+                <div ngbDropdown container="body">
+                  <button type="button" class="btn btn-sm" ngbDropdownToggle
+                    *ngIf="payment?.paymentStatus !== paymentStatus.Cancelled">
+                    <i class="fa-solid fa-ellipsis-vertical"></i>
+                  </button>
+                  <div ngbDropdownMenu>
+                    <button *ngIf="(payment?.type === 1)" ngbDropdownItem class="px-3" (click)="view(payment.id)">
+                      <img src=" /assets/imgs/qyd/view-invoice.svg" class="mx-2">
+                      {{ "payments.viewInvoice" | translate }}
+                    </button>
+
+                    <button *ngIf="(payment?.type === 0 && payment?.paymentStatus === paymentStatus.Paied)"
+                      ngbDropdownItem class="px-3" (click)="viewRecepit(payment.id)">
+                      <img src=" /assets/imgs/qyd/view-invoice.svg" class="mx-2">
+                      {{ "payments.viewInvoice" | translate }}
+                    </button>
+                    <button ngbDropdownItem class="px-3" *ngIf="(payment?.paymentStatus === paymentStatus.Paied) || (payment?.paymentStatus === paymentStatus.Rejected)
+                          || (payment?.paymentStatus === paymentStatus.WaitingForApproval)">
+                      <a target="_blank" [href]="payment?.receiptFileStorageUrl" download>
+                        <img src="/assets/imgs/qyd/download-receipt.svg" class="mx-2">
+                        {{ "payments.downloadReceipt" | translate }}
+                      </a>
+                    </button>
+                    <button ngbDropdownItem class="px-3" (click)="rejection(payment.rejectionReason)"
+                      *ngIf="payment?.paymentStatus === paymentStatus.Rejected">
+                      <img src="/assets/imgs/qyd/rejection.svg" class="mx-2">
+                      {{ "payments.ViewRejection" | translate }}
+                    </button>
+                    <button ngbDropdownItem class="px-3" (click)="sendReceipt(payment.id)"
+                      *ngIf="payment?.paymentStatus === paymentStatus.NotPaied">
+                      <img src="/assets/imgs/qyd/invoice-payment.svg" class="mx-2">
+                      {{ "payments.invoicePayment" | translate }}
+                    </button>
+                  </div>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <p class="mx-5">{{ "attorny.total" | translate }}:{{ totalCountForRecit }}</p>
+        <ngb-pagination [collectionSize]="totalCountForRecit" [(page)]="pageForRecitPayment"
+          [pageSize]="pageSizeForRecitPayment" (pageChange)="getForReciphtAllPayments()"
+          class="pagination p-0 my-4 d-flex justify-content-center">
+        </ngb-pagination>
+        <!-- end::Table -->
+      </div>
+      <!-- end::Table container -->
+      <!-- begin::Body -->
+    </div>
+  </div>
+
+</section>

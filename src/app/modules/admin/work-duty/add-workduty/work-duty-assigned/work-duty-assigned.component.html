@@ -1,0 +1,152 @@
+<div class="body-size  content">
+  <h3>{{"issue.issueTeam" | translate}}</h3>
+  <form class="form w-100 my-5 row align-items-end" [formGroup]="infoForm" novalidate="novalidate"
+    id="kt_login_signin_form">
+
+
+    <div class="d-flex gap-3">
+      <div class="d-flex gap-2 my-5">
+        <label class="fw-bolder" for="employee1">{{"employeeManagement.employee1" | translate}}</label>
+        <input formControlName='assignType' [value]="false" (change)="isTeamOrEmp(false)" type="radio"
+          class="form-check-input" checked id="employee1" name="assignType">
+      </div>
+      <div class="d-flex gap-2 my-5">
+        <label class="fw-bolder" for="team">{{"employeeManagement.team" | translate}}</label>
+        <input formControlName='assignType' [value]="true" (change)="isTeamOrEmp(true)" type="radio"
+          class="form-check-input" id="team" name="assignType">
+      </div>
+
+    </div>
+
+    <div class="col-md-5 mb-4 " *ngIf="!isTeam">
+      <label> {{ "employeeManagement.employee3" | translate }} </label>
+      <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+      <select class="form-select" formControlName="employee" aria-label="Default select example">
+        <option disabled value="null">
+          {{ "addIssue.select" | translate }}
+        </option>
+        <option *ngFor="let item of employees" [ngValue]="item">
+          {{ item?.name }}
+        </option>
+      </select>
+    </div>
+    <div class="col-md-5 mb-4 " *ngIf="isTeam">
+
+      <label> {{ "employeeManagement.employee2" | translate }} </label>
+      <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+      <select formControlName="teamId" class="form-select mx-3" style=" width: fit-content;"
+        (change)="onChangeTeamSelect()">
+        <option value="null"> {{ "emplyeeEditAdd.SelectOption" | translate }}</option>
+        <option *ngFor="let service of servicesForSearch" [ngValue]="service.id">
+          {{ service.name }}
+        </option>
+      </select>
+
+    </div>
+    <div *ngIf="!isTeam" class="col-md-4 mb-4 d-flex align-items-end h-100 ">
+      <button type="submit" (click)="addEmployee()" id="kt_sign_in_submit" class="genral-button add">
+        <ng-container class="d-flex">
+          <img src="assets/imgs/qyd/Right-icon.svg" />
+          <span class="indicator-label">
+            {{ "addIssue.Add" | translate }}
+          </span>
+        </ng-container>
+      </button>
+    </div>
+    <div *ngIf="isTeam" class="col-md-4 mb-4 d-flex align-items-end h-100 ">
+      <button type="submit" (click)="addTeam()" id="kt_sign_in_submit" class="genral-button add">
+        <ng-container class="d-flex">
+          <img src="assets/imgs/qyd/Right-icon.svg" />
+          <span class="indicator-label">
+            {{ "addIssue.AddTeam" | translate }}
+          </span>
+        </ng-container>
+      </button>
+    </div>
+    <div class="col-md-12 table-grid table-striped table-responsive" *ngIf="newTeam.length && isTeam">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">{{ "addIssue.assignedName" | translate }}</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of newTeam">
+            <td>{{ item.name }}</td>
+            <td class="deleteCol" (click)="deleteTeamEmployeeRow(item)" role="button">
+              <img src="assets/imgs/qyd/delete-icon.svg" />
+              {{ "addIssue.delete" | translate }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="col-md-12 table-grid table-striped table-responsive" *ngIf="newAssigned.length && !isTeam">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">{{ "addIssue.assignedName" | translate }}</th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr *ngFor="let item of newAssigned">
+            <td>{{ item.name }}</td>
+            <td class="deleteCol" (click)="deleteRow(item)" role="button">
+              <img src="assets/imgs/qyd/delete-icon.svg" />
+              {{ "addIssue.delete" | translate }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </form>
+
+  <!-- <div
+      *ngIf="fieldRequired"
+      _ngcontent-ebq-c229=""
+      class="fv-plugins-message-container ng-star-inserted m-t-15"
+    >
+      <div _ngcontent-ebq-c229="" class="fv-help-block">
+        <span _ngcontent-ebq-c229="" role="alert">
+          {{ "addIssue.atLeastOne" | translate }}
+        </span>
+      </div>
+    </div> -->
+  <!--end::Form-->
+  <!-- <div class="row button-end">
+      <div class="form-action-btn d-flex justify-content-between align-items-center">
+          <button (click)="Back()" id="kt_sign_in_submit" class="general-outline-button">
+              <ng-container>
+              <span class="indicator-label">
+                  {{ "addIssue.Back" | translate }}
+              </span>
+              </ng-container>
+          </button>
+
+          <button type="submit" (click)="submit()" id="kt_sign_in_submit"
+              [ngClass]="{ end: lang === 'en', 'end-arabic': lang === 'ar' }" class="genral-button next">
+              <ng-container class="d-flex">
+              <span class="indicator-label">
+                  {{ "addIssue.Save" | translate }}
+              </span>
+              <img src="assets/imgs/qyd/Left-icon.svg"  />
+              </ng-container>
+          </button>
+      </div>
+    </div> -->
+</div>
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert">
+          {{ message }}
+        </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

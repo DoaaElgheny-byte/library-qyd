@@ -1,0 +1,110 @@
+.text-success {
+    font-size: 24px;
+    font-weight: bold;
+    color: #048081 !important;
+}
+
+.quote-preview {
+    color: #133E58;
+    text-align: right;
+    font-size: 33.15px;
+    font-style: normal;
+    font-weight: 900;
+    line-height: normal;
+}
+
+.table th,
+.table td {
+    vertical-align: middle;
+    font-size: 14px;
+}
+
+.card {
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.btn {
+    min-width: 180px;
+    font-size: 14px;
+}
+
+i {
+    cursor: pointer;
+}
+
+.vat-number {
+    border-radius: 8px;
+    background: #E9F0FC;
+    color: #323232;
+}
+
+.simple-invoice h1,
+.standard-invoice h1 {
+    color: #133e58;
+    font-family: Tajawal;
+    font-size: 33.15px;
+    font-weight: 900;
+    font-family: "Tajawal", sans-serif;
+    position: relative;
+}
+
+.quote-preview::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 0;
+
+    width: 42%;
+    height: 8px;
+
+    background-color: #133e58;
+    clip-path: polygon(1% 0, 100% 0, 100% 100%, 0% 100%);
+}
+
+
+.invoice-details::after {
+    content: "";
+    position: absolute;
+    top: 20px;
+    right: -21px;
+    width: 8px;
+    height: 87%;
+    background-color: #133e58;
+}
+
+
+table,
+th,
+td {
+    border: 0.5px solid #5b5b5b !important;
+    color: var(--Primary-Base-Black, #000);
+    font-family: "Tajawal", sans-serif;
+    font-size: 12.216px;
+    font-weight: 700;
+    line-height: 130%;
+    padding: 7px;
+}
+
+th {
+    background: rgba(226, 226, 226, 0.4);
+}
+
+.btn-next {
+    border-radius: 6px;
+    background: #048081;
+    color: #fff;
+}
+
+.btn-pdf {
+    border-radius: 6px;
+    border: 1px solid #E4E4E7 !important;
+    background: #FFF;
+}
+
+#contentToDownload {
+    margin: 0 auto;
+    width: 90%;
+    /* Adjust to fit within the margins */
+}

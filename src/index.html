@@ -1,13 +1,208 @@
-<!doctype html>
-<html lang="ar" dir="rtl">
+<!DOCTYPE html>
+<html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <title>LibraryQyd</title>
-  <base href="/">
+  <!-- Start cookieyes banner -->
+  <script id="cookieyes" type="text/javascript"
+    src="https://cdn-cookieyes.com/client_data/c5ccfa7866a06a54c549aaf1/script.js"></script>
+
+  <!-- End cookieyes banner -->
+
+  <!-- Google Tag Manager -->
+  <script>(function (w, d, s, l, i) {
+      w[l] = w[l] || []; w[l].push({
+        'gtm.start':
+          new Date().getTime(), event: 'gtm.js'
+      }); var f = d.getElementsByTagName(s)[0],
+        j = d.createElement(s), dl = l != 'dataLayer' ? '&l=' + l : ''; j.async = true; j.src =
+          'https://www.googletagmanager.com/gtm.js?id=' + i + dl; f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-P23D8R6C');</script>
+  <!-- End Google Tag Manager -->
+  <meta charset="utf-8" />
+  <title>Qyd</title>
+  <base href="/" />
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+
+  <meta property="og:title" content="QYD | قيد" />
+  <meta property="og:description" content="الشريك الرقمي لإدارة أعمالك القانونية" />
+  <meta property="og:url" content="https://qyd.sa" />
+  <meta property="og:image" content="https://qyd.sa/assets/imgs/home/qyd.png" />
+  <meta property="og:image:secure_url" content="https://qyd.sa/assets/imgs/home/qyd.png">
+  <meta name="twitter:image" content="https://qyd.sa/assets/imgs/home/qyd.png">
+
+
+
+
+
+  <link rel="shortcut icon" href="./assets/media/logos/favicon.ico" />
+
+
+  <link rel="preconnect" href="https://www.googletagmanager.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+
+  <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+  <!-- font family -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&display=swap"
+    rel="stylesheet">
+
+
+
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css"
+    integrity="sha512-vKMx8UnXk60zUwyUnUPM3HbQo8QfmNx7+ltw8Pm5zLusl1XIfwcxo8DbWCqMGKaWeNxWA8yrx5v3SaVpMvR3CA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ng-pick-datetime@7.0.0/assets/style/picker.min.css">
+
+  <link href="https://assets.calendly.com/assets/external/widget.css" rel="stylesheet">
+
+
+  <style>
+    .loader {
+      animation: rotate 1s infinite;
+      height: 50px;
+      width: 50px;
+    }
+
+    .loader:before,
+    .loader:after {
+      border-radius: 50%;
+      content: "";
+      display: block;
+      height: 20px;
+      width: 20px;
+    }
+
+    .loader:before {
+      animation: ball1 1s infinite;
+      background-color: #fff;
+      box-shadow: 30px 0 0 #106F6E;
+      margin-bottom: 10px;
+    }
+
+    .loader:after {
+      animation: ball2 1s infinite;
+      background-color: #106F6E;
+      box-shadow: 30px 0 0 #fff;
+    }
+
+    @keyframes rotate {
+      0% {
+        transform: rotate(0deg) scale(0.8)
+      }
+
+      50% {
+        transform: rotate(360deg) scale(1.2)
+      }
+
+      100% {
+        transform: rotate(720deg) scale(0.8)
+      }
+    }
+
+    @keyframes ball1 {
+      0% {
+        box-shadow: 30px 0 0 #106F6E;
+      }
+
+      50% {
+        box-shadow: 0 0 0 #106F6E;
+        margin-bottom: 0;
+        transform: translate(15px, 15px);
+      }
+
+      100% {
+        box-shadow: 30px 0 0 #106F6E;
+        margin-bottom: 10px;
+      }
+    }
+
+    @keyframes ball2 {
+      0% {
+        box-shadow: 30px 0 0 #fff;
+      }
+
+      50% {
+        box-shadow: 0 0 0 #fff;
+        margin-top: -20px;
+        transform: translate(15px, 15px);
+      }
+
+      100% {
+        box-shadow: 30px 0 0 #fff;
+        margin-top: 0;
+      }
+    }
+  </style>
+  <!-- Start Microsoft Clarity -->
+  <script type="text/javascript">
+    (function(c,l,a,r,i,t,y){
+        c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+        t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+        y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+    })(window, document, "clarity", "script", "phuxuxzpq3");
+  </script>
+  <!-- End Microsoft Clarity -->
 </head>
-<body>
-  <app-root></app-root>
+
+<body root id="kt_body" class="mat-typography">
+  <!-- Google Tag Manager (noscript) -->
+  <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-P23D8R6C" height="0" width="0"
+      style="display:none;visibility:hidden"></iframe></noscript>
+  <!-- End Google Tag Manager (noscript) -->
+  <script>
+    if (document.documentElement) {
+      var defaultThemeMode = "system";
+
+      var hasKTName = document.body.hasAttribute("data-kt-name");
+      var lsKey = "kt_" + (hasKTName ? name + "_" : "") + "theme_mode_value";
+      var themeMode = localStorage.getItem(lsKey);
+      if (!themeMode) {
+        if (defaultThemeMode === "system") {
+          themeMode = window.matchMedia("(prefers-color-scheme: dark)")
+            .matches
+            ? "light"
+            : "light";
+        } else {
+          themeMode = defaultThemeMode;
+        }
+      }
+
+      document.documentElement.setAttribute("data-theme", themeMode);
+    }
+  </script>
+  <!--end::Theme mode setup on page load-->
+  <div id="splash-screen" style="background-color: #0a2c46;color:#fff"
+    class="splash-screen h-100 d-flex justify-content-center align-items-center flex-column">
+    <span class="loader"></span>
+    <!-- <h2 class="text-white">Loading ...</h2> -->
+  </div>
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"
+    async></script>
+
+  <script src="https://assets.calendly.com/assets/external/widget.js" async></script>
+  <script src="https://unpkg.com/aos@next/dist/aos.js" async></script>
+  
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-D0SS2MWNQZ"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-D0SS2MWNQZ');
+  </script>
+  <!-- End Google Analytics -->
+
 </body>
+
 </html>

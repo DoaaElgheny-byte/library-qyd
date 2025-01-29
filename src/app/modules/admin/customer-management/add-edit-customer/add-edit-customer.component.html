@@ -1,0 +1,332 @@
+<section class="user-management">
+  <!-- Header -->
+  <div class="page-title">
+    <div class="d-flex justify-content-between align-items-center">
+      <h3>{{ id ? ("customerManagement.editEmployee" | translate) : ("customerManagement.addEmployee" | translate) }}
+      </h3>
+    </div>
+    <app-breadcrumb></app-breadcrumb>
+  </div>
+
+  <div class="content mt-5">
+    <article>
+      <div class="body-size position-relative">
+        <div *ngIf="successLoad" [formGroup]="form" id="kt_login_signin_form" novalidate (ngSubmit)="submit()">
+          <h3>{{ "customerManagement.details" | translate }}</h3>
+
+          <div class="row gy-4">
+            <!-- Name Field -->
+            <div class="col-md-4 col-sm-6 col-12 mb-3 position-relative">
+              <label for="name">{{ "customerManagement.name" | translate }}</label>
+              <span class="text-danger mx-2 fs-2 position-absolute">*</span>
+              <input id="name" class="form-control bg-transparent" type="text"
+                [placeholder]="'customerManagement.writeName' | translate" formControlName="name" autocomplete="off"
+                [ngClass]="{
+                  'is-invalid': form.controls['name'].invalid && form.controls['name'].touched,
+                  'is-valid': form.controls['name'].valid
+                }" />
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'required',
+                  message: 'Validation.thisFieldIsRequired' | translate,
+                  control: form.controls['name']
+                }"></ng-container>
+            </div>
+
+            <!-- Email Field -->
+            <div class="col-md-4 col-sm-6 col-12 mb-3 position-relative">
+              <label for="email">{{ "customerManagement.email" | translate }}</label>
+              <span class="text-danger mx-2 fs-2 position-absolute">*</span>
+              <input id="email" class="form-control bg-transparent" type="text"
+                [placeholder]="'customerManagement.email' | translate" formControlName="email" autocomplete="off"
+                [ngClass]="{
+                  'is-invalid': form.controls['email'].invalid && form.controls['email'].touched,
+                  'is-valid': form.controls['email'].valid
+                }" />
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'required',
+                  message: 'Validation.thisFieldIsRequired' | translate,
+                  control: form.controls['email']
+                }"></ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'pattern',
+                  message: 'Validation.EmailIsInValid' | translate,
+                  control: form.controls['email']
+                }"></ng-container>
+            </div>
+
+            <!-- Phone Field -->
+            <div class="col-md-4 col-sm-6 col-12 mb-4">
+              <label for="phoneNumber">{{ "addClient.clientPhoneNumber" | translate }}</label>
+              <div class="phone form-control bg-transparent"
+                style="direction: ltr; height: 41px; display: flex; padding: 0;">
+
+                <intl-telephone-input [preferredCountries]="[CountryISO.SaudiArabia]" [enablePlaceholder]="true"
+                  [searchCountryFlag]="true" [separateDialCode]="false" [enableAutoCountrySelect]="true"
+                  [searchCountryField]="SearchCountryField.All" [phoneValidation]="true"
+                  [numberFormat]="PhoneNumberFormat.International" [inputId]="'phoneNumber'"
+                  [customPlaceholder]="mobileNumber" [selectedCountryISO]="CountryISO[selectedCountryIso]"
+                  (onChange)="onInputChange($event)"></intl-telephone-input>
+              </div>
+            </div>
+
+            <!--JobTitle-->
+            <div class="col-md-4 col-sm-6 col-12 mb-3 mt-3">
+              <label for="">{{ "emplyeeEditAdd.JobTitle" | translate }}</label>
+              <input class="form-control bg-transparent" type="text"
+                [placeholder]="'emplyeeEditAdd.JobTitleWrite' | translate" formControlName="jobTitle"
+                autocomplete="off" />
+            </div>
+
+            <!--branch-->
+            <div class="col-md-4 col-sm-6 col-12 mb-4">
+              <label>{{ "branches.BranchOrOffice" | translate }}</label>
+              <span class="text-danger mx-2 fs-2">*</span>
+              <ng-select [placeholder]="'branches.select' | translate" [multiple]="true" [items]="Branches"
+                bindLabel="name" formControlName="branchs" bindValue="branchId" (change)="getBranchesChanged($event)"
+                (remove)="getRemovedBranch($event)">
+              </ng-select>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'required',
+                    message: 'Validation.thisFieldIsRequired' | translate,
+                    control: form.controls['branchs']
+                  }"></ng-container>
+            </div>
+
+            <!--licence No-->
+            <div class="col-md-4 col-sm-6 col-12 mb-3">
+              <label for="">{{
+                "emplyeeEditAdd.licenceNo" | translate
+                }}</label>
+              <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+              <input formControlName="authorizationNo" type="text" class="form-control"
+                [placeholder]="'emplyeeEditAdd.licenceNo' | translate" />
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'required',
+                        message: 'Validation.thisFieldIsRequired' | translate,
+                        control: form.controls['authorizationNo']
+                      }"></ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                        validation: 'pattern',
+                        message: 'Validation.numberonly' | translate,
+                        control: form.controls['authorizationNo']
+                      }"></ng-container>
+            </div>
+            <!-- Start Date-->
+            <div class="col-md-6 mb-4">
+              <label> {{ "emplyeeEditAdd.licenceDate" | translate }} </label>
+              <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+              <div class="iput-sec">
+                <hijri-gregorian-datepicker style="direction: ltr" [label]="'expirationDate'"
+                  [(selectedDate)]="expirationDate" [readonly]="true" [isRequired]="true"
+                  [GregLabel]="'shared.Greg' | translate" [hijriLabel]="'shared.Hijri' | translate"
+                  [placeHolder]="'shared.place' | translate" [showLabel]="false" [minHijri]="minDateH"
+                  [minGreg]="minDateG" [selectedDateType]="selectedDateType"
+                  (selectedDateChange)="selectedDateChange($event)" #expirationDatePicker>
+                </hijri-gregorian-datepicker>
+              </div>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'required',
+                            message: 'loginPage.thisFieldIsRequired' | translate,
+                            control: form.controls['startAuthorizationDate']
+                          }"></ng-container>
+            </div>
+            <!-- End Date-->
+            <div class="col-md-6 mb-4">
+              <label>
+                {{ "emplyeeEditAdd.licenceEndDate" | translate }}
+              </label>
+              <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+              <div class="iput-sec">
+                <hijri-gregorian-datepicker style="direction: ltr" [label]="'EndDate'" [(selectedDate)]="EndDate"
+                  [readonly]="true" [isRequired]="true" [GregLabel]="'shared.Greg' | translate"
+                  [hijriLabel]="'shared.Hijri' | translate" [placeHolder]="'shared.place' | translate"
+                  [showLabel]="false" [minHijri]="minDateH" [minGreg]="minDateG"
+                  [selectedDateType]="selectedEndDateType" (selectedDateChange)="selectedDateChangeEnd($event)"
+                  #EndDatePicker>
+                </hijri-gregorian-datepicker>
+              </div>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                            validation: 'required',
+                            message: 'loginPage.thisFieldIsRequired' | translate,
+                            control: form.controls['endAuthorizationDate']
+                          }"></ng-container>
+              <div *ngIf="!endAfterStart" class="fv-plugins-message-container ng-star-inserted">
+                <div class="fv-help-block">
+                  <span role="alert">
+                    {{ "AddEditcontract.endAfterStart" | translate }}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- customer type-->
+            <div class="col-md-4 ">
+              <label>{{ "emplyeeEditAdd.UserRole" | translate }} </label>
+              <span class="text-danger mx-2 fs-2">*</span>
+              <select formControlName="type" class="form-select mt-3" aria-label="Default select example">
+                <option disabled selected value="null">
+                  {{ "package.select" | translate }}
+                </option>
+                <option [value]="CustomerType.Employee">
+                  {{ "emplyeeEditAdd.Employee" | translate }}
+                </option>
+                <option [value]="CustomerType.SystemAdministrator">
+                  {{ "emplyeeEditAdd.SystemAdministrator" | translate }}
+                </option>
+              </select>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                validation: 'required',
+                                message: 'Validation.thisFieldIsRequired' | translate,
+                                control: form.controls['branchs']
+                              }"></ng-container>
+            </div>
+          </div>
+
+
+          <!-- Attachment -->
+          <h3 class="mt-7">{{ "addClient.attachment" | translate }}</h3>
+          <form class="row" [formGroup]="filesForm" novalidate="novalidate" *ngIf="successLoad"
+            id="kt_login_signin_form2" (ngSubmit)="addAttachmentInfo()">
+            <div class="col-md-6 mb-4">
+              <label>{{ "addClient.classification" | translate }}</label>
+              <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+              <select formControlName="employeeClassificationAttachmentId" class="form-select"
+                (change)="checkRepeatClassification()">
+                <option disabled selected value="null">
+                  {{ "addClient.classification" | translate }}
+                </option>
+                <option *ngFor="let class of classes" [value]="class.id">
+                  {{ lang === "ar" ? class.nameAr : class.nameEn }}
+                </option>
+              </select>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+             validation: 'required',
+             message: 'loginPage.thisFieldIsRequired' | translate,
+             control:
+               filesForm.controls['employeeClassificationAttachmentId']
+           }"></ng-container>
+
+              <div *ngIf="classificationRepeated" class="fv-plugins-message-container ng-star-inserted m-t-15">
+                <div class="fv-help-block">
+                  <span role="alert">
+                    {{ "addClient.classificationRepeated" | translate }}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-sm-6 col-12 mb-4" *ngIf="!disableOther">
+              <label for="">{{ "branchEditAdd.another" | translate }}</label>
+              <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+              <input class="form-control bg-transparent" type="text" [placeholder]="'branchEditAdd.another' | translate"
+                name="typeNum" formControlName="classificationName" autocomplete="off" [ngClass]="{
+             'is-invalid':
+               filesForm.controls['classificationName'].invalid &&
+               filesForm.controls['classificationName'].touched,
+             'is-valid': filesForm.controls['classificationName'].valid
+           }" />
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+             validation: 'required',
+             message: 'loginPage.thisFieldIsRequired' | translate,
+             control: filesForm.controls['classificationName']
+           }">
+              </ng-container>
+            </div>
+            <div class="col-md-6 mb-4 new-upload">
+              <label for="">{{ "addIssue.Attachment" | translate }} </label>
+              <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+              <app-upload-file [acceptedExtensions]="['png', 'jpg', 'jpeg', 'pdf','mp3','mp4','mpeg']" [flag]="4"
+                [isMultiple]="false" (bindValue)="uploadImg($event)" [labelUploaded]="'addIssue.upload' | translate"
+                [fileName]="fileName" [delName]="true">
+              </app-upload-file>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+             validation: 'required',
+             message: 'loginPage.thisFieldIsRequired' | translate,
+             control: filesForm.controls['attachment']
+           }"></ng-container>
+              <div *ngIf="fieldRequired" class="fv-plugins-message-container ng-star-inserted m-t-15">
+                <div class="fv-help-block">
+                  <span role="alert">
+                    {{ "addClient.attachmentRequired" | translate }}
+                  </span>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 mb-4">
+              <div class="d-flex justify-content-end btn-add">
+                <button type="button" id="kt_sign_in_submit" class="genral-button add" (click)="addAttachmentInfo()"
+                  [disabled]="classificationRepeated">
+                  <span class="d-flex align-items-center justify-content-center">
+                    <img src="assets/imgs/qyd/Right-icon.svg" />
+                    <span class="indicator-label mx-2">
+                      {{ "addIssue.Add" | translate }}
+                    </span>
+                  </span>
+                </button>
+              </div>
+            </div>
+          </form>
+          <div *ngIf="attachmentFileInfoArray.length" class="col-md-12 table-grid table-striped table-responsive">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">
+                    {{ "addClient.classification" | translate }}
+                  </th>
+                  <th scope="col">{{ "addIssue.Attachment" | translate }}</th>
+
+                  <th scope="col"></th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of attachmentFileInfoArray">
+                  <td>
+                    {{
+                    item.classificationName
+                    ? item.classificationName
+                    : item.employeeClassificationAttachment
+                    }}
+                  </td>
+                  <td>{{ item.imageName }}</td>
+
+                  <td>
+                    <a arget="_blank" [href]="item?.imageURL ? item?.imageURL : item?.imageStorageFileURL" download>
+                      <i class="fa-solid fa-file-arrow-down"></i>
+                      {{ "addClient.download" | translate }}
+                    </a>
+                  </td>
+                  <td (click)="deleteRow(item)" role="button" class="deleteCol">
+                    <img src="assets/imgs/qyd/delete-icon.svg" />
+                    {{ "addIssue.delete" | translate }}
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="d-flex justify-content-end mt-20 gap-5">
+            <button (click)="Back()" id="kt_sign_in_submit" class="general-outline-button">
+              {{ "addIssue.Back" | translate }}
+            </button>
+
+            <button type="submit" (click)="submit()" id="kt_sign_in_submit"
+              [ngClass]="{ end: lang === 'en', 'end-arabic': lang === 'ar' }" class="genral-button">
+              {{ "customerManagement.save" | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert">{{ message }}</span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

@@ -1,0 +1,272 @@
+.get-changed {
+  position: relative;
+  padding: 90px;
+  height: 100vh;
+
+  .form-action {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+  }
+
+  @media (max-width: 767.98px) {
+    padding: 45px;
+  }
+}
+
+.page-content {
+  padding-top: 65px;
+  padding-bottom: 60px;
+  background-color: #fff;
+  border-radius: 10px;
+
+  .form {
+    margin: 3rem 0 !important;
+  }
+
+  .form-title {
+    text-align: center;
+    margin-bottom: 40px;
+
+    img {
+      margin-bottom: 40px;
+    }
+
+    h2 {
+      color: #333232;
+      font-size: 24px;
+      margin-bottom: 14px;
+      font-family: 'bold';
+    }
+
+    p {
+      color: #747474;
+      font-size: 16px;
+
+      &.resend {
+        margin-top: 3rem;
+      }
+
+      a {
+        color: var(--color);
+        text-decoration: underline;
+        cursor: pointer
+      }
+    }
+
+    .img-view {
+      margin-top: 3rem;
+    }
+  }
+
+  .form-control {
+    color: var(--kt-input-color);
+    border: 1px solid var(--kt-input-border-color);
+    box-shadow: none !important;
+    background: #fff !important;
+    padding: 0.775rem 1rem;
+    border-radius: 0.475rem !important;
+  }
+
+  label {
+    color: #5D5D5D;
+    margin-bottom: 7px;
+    font-size: 15px;
+  }
+
+  .pass-sec {
+    position: relative;
+
+    .input-group-text {
+      position: absolute;
+      top: 5px;
+      left: 6px;
+      border: none;
+      background: transparent;
+      z-index: 99;
+      cursor: pointer;
+
+      i {
+        color: var(--color);
+      }
+    }
+  }
+
+  .register-p {
+    text-align: center;
+    color: #5D5D5D;
+    font-size: 19px;
+  }
+}
+
+.body-size {
+  h1 {
+    color: #333333;
+    font-size: 25px;
+    margin-bottom: 30px;
+    font-family: "Semibold";
+  }
+
+  .small-tit {
+    margin-bottom: 30px;
+    font-family: "Light";
+    font-weight: 100;
+    color: #7D7D7D;
+    font-size: 18px;
+  }
+
+  .form-control {
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0;
+    background-color: transparent;
+    font-family: "Light";
+  }
+
+  a {
+    color: #962C80 !important;
+    font-size: 16px;
+    font-family: "Regular";
+    cursor: pointer;
+  }
+
+  button {
+    margin-top: 40px;
+    width: 100%;
+    background: #5F114F;
+    border-radius: 28px;
+    border: 1px solid #5F114F !important;
+    color: #fff;
+    padding: 13px;
+    font-size: 18px;
+    font-family: "Regular";
+    transition: all 0.3s;
+    line-height: 0;
+    min-height: 58px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: transparent !important;
+      color: #5F114F;
+    }
+  }
+}
+
+.form-check {
+  input[type=checkbox] {
+    position: static;
+    opacity: 1;
+  }
+
+  label {
+    margin-left: 41px;
+    color: #000000;
+    font-size: 16px;
+    font-family: "Regular";
+
+    a {
+      color: #962C80 !important;
+      font-size: 16px;
+      font-family: "Regular";
+      text-decoration: underline;
+    }
+  }
+}
+
+.che {
+  margin-top: 2rem;
+  margin-bottom: 4rem !important;
+}
+
+
+.input-group-text {
+  background-color: white;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
+  border-left: none;
+  border-top: none;
+  border-right: none;
+  border-radius: 0rem;
+}
+
+
+
+.form-action {
+  background: #FFFFFF;
+  box-shadow: 0px 4px 24px rgba(0, 0, 0, 0.25);
+  padding: 18px;
+  text-align: center;
+
+  button {
+    margin: 5px;
+    cursor: pointer !important;
+    color: #fff;
+    background: var(--color);
+    border-radius: 5px;
+    font-size: 16px;
+    border: none;
+    min-width: 210px;
+    line-height: 0;
+    padding: 10px;
+    min-height: 43px;
+
+    &:hover {
+      background-color: var(--color) !important;
+    }
+  }
+}
+
+
+
+.resends {
+  font-size: 16px;
+  margin: 0;
+  padding-bottom: 2rem;
+  padding-top: 2rem;
+
+  text-align: center;
+
+  a {
+    color: var(--color);
+    text-decoration: underline;
+  }
+}
+
+.genral-button {
+  background-color: #048081 !important;
+  border: none;
+  overflow: hidden;
+  font-family: Expo Arabic !important;
+
+  &:hover {
+    background-color: #043e53 !important;
+    box-shadow: 0 5px 10px 0 rgba(22, 105, 135, .6);
+    color: #fff;
+    text-decoration: none;
+    transition: all .5s;
+  }
+
+  &:hover::before {
+    left: 100%;
+    opacity: 0;
+  }
+
+
+  position: relative;
+
+  &::before {
+    background-color: hsla(0, 0%, 100%, .25);
+    border-right: 1px solid #fff;
+    content: "";
+    height: 100%;
+    left: 0;
+    opacity: 1;
+    position: absolute;
+    top: 0;
+    transform: translate(-105%);
+    transition: all .5s;
+    width: 100%;
+    z-index: 1;
+
+  }
+}

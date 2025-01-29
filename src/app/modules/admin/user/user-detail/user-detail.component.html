@@ -1,0 +1,157 @@
+<section class="user-management">
+  <!-- begin::Header -->
+  <div class="page-title">
+    <div class="">
+      <h3>
+        <span>{{ "userDetails.userDetails" | translate }} </span>
+      </h3>
+    </div>
+    <app-breadcrumb></app-breadcrumb>
+
+  </div>
+
+  <!-- begin::card -->
+  <div class="card members-page mt-4">
+    <!-- begin::Body -->
+    <div class="card-body py-3">
+      <div class="row border rounded p-6 info">
+        <div class="col-2 d-flex align-items-center justify-content-center rounded letter-bg">
+          <img width="100%" [src]="
+              playersDetailsData.logoImageStorageFileURL
+                ? playersDetailsData.logoImageStorageFileURL
+                : '/assets/imgs/qyd/logoAgent.svg'
+            " />
+        </div>
+        <div class="col-10">
+          <div class="fw-bold fs-2">
+            {{ playersDetailsData.name }}
+            <img *ngIf="playersDetailsData.isComplete" src="/assets/imgs/qyd/complete.svg" />
+          </div>
+          <div class="fs-6">{{ playersDetailsData.country }}</div>
+          <div class="fs-6">{{ playersDetailsData.email }}</div>
+          <div class="fs-6">{{ playersDetailsData.countryCode }}{{ playersDetailsData.mobileNumber }}</div>
+        </div>
+      </div>
+      <div class="row align-items-center justify-content-center">
+        <div class="col-lg-5 col-md-6 col-12 d-flex align-items-center justify-content-center  card-background">
+          <div class="col-lg-2 col-md-3 col-12 textAlign borderSm">
+            <div>{{ "userDetails.agentName" | translate }}</div>
+            <div>
+              {{
+              playersDetailsData.agentName
+              ? playersDetailsData.agentName
+              : "-"
+              }}
+            </div>
+          </div>
+          <div class="col-lg-1 line"></div>
+          <div class="col-lg-2 col-md-3 col-12 textAlign">
+            <div>{{ "userDetails.commercialNo" | translate }}</div>
+            <div>
+              {{
+              playersDetailsData.commercialRegistrationNo
+              ? playersDetailsData.commercialRegistrationNo
+              : "-"
+              }}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5 col-md-6 col-12 d-flex align-items-center justify-content-center  card-background">
+          <div class="col-lg-2 textAlign borderSm">
+            <div>{{ "userDetails.employeeNo" | translate }}</div>
+            <div>
+              {{
+              playersDetailsData.agentSize
+              ? playersDetailsData.agentSize
+              : "-"
+              }}
+            </div>
+          </div>
+          <div class="col-lg-1 line"></div>
+          <div class="col-lg-2 textAlign">
+            <div>{{ "userDetails.accountTyoe" | translate }}</div>
+            <div>
+              {{
+              playersDetailsData.accountType === accountType.LawyerOffice
+              ? ("register.LawyerOffice" | translate)
+              : playersDetailsData.accountType ===
+              accountType.RegularRepresentative
+              ? ("register.RegularRepresentative" | translate)
+              : playersDetailsData.accountType === accountType.Advisor
+              ? ("register.Advisor" | translate)
+              : playersDetailsData.accountType === accountType.Licensedlawyer
+              ? ("register.Licensedlawyer" | translate)
+              : playersDetailsData.accountType === accountType.Traininglawyer
+              ? ("register.Traininglawyer" | translate)
+              : playersDetailsData.accountType === accountType.LegalAdministration
+              ? ("register.LegalAdministration" | translate)
+              : "-"
+              }}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5 col-md-6 col-12 d-flex align-items-center justify-content-center  card-background">
+          <div class="col-lg-2 textAlign borderSm">
+            <div>{{ "userDetails.Establishmentsector" | translate }}</div>
+            <div *ngIf="playersDetailsData.organizationSectors.length === 0">
+              "-"
+            </div>
+            <div *ngIf="playersDetailsData.organizationSectors.length > 0">
+              <span *ngFor="let item of playersDetailsData.organizationSectors">
+                {{ lang === "en" ? item.nameEn : item.nameAr }}
+              </span>
+            </div>
+          </div>
+          <div class="col-lg-1 line"></div>
+          <div class="col-lg-2 textAlign">
+            <div>{{ "userDetails.currency" | translate }}</div>
+            <div>
+              {{
+              playersDetailsData.currency ? playersDetailsData.currency : "-"
+              }}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5 col-md-6 col-12 d-flex align-items-center justify-content-center  card-background">
+          <div class="col-lg-2 textAlign borderSm">
+            <div>{{ "userDetails.region" | translate }}</div>
+            <div>
+              {{ playersDetailsData.region ? playersDetailsData.region : "-" }}
+            </div>
+          </div>
+          <div class="col-lg-1 line"></div>
+          <div class="col-lg-2 textAlign">
+            <div>{{ "userDetails.city" | translate }}</div>
+            <div>
+              {{ playersDetailsData.city ? playersDetailsData.city : "-" }}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5 col-md-6 col-12 d-flex align-items-center justify-content-center  card-background">
+          <div class="col-lg-2 textAlign borderSm">
+            <div>{{ "userDetails.agentAddress" | translate }}</div>
+            <div>
+              {{
+              playersDetailsData.agentAddress
+              ? playersDetailsData.agentAddress
+              : "-"
+              }}
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-5 d-flex align-items-center justify-content-center  card-background">
+          <div class="col-lg-2 textAlign">
+            <div>{{ "userDetails.agentEmail" | translate }}</div>
+            <div>
+              {{
+              playersDetailsData.agentEmail
+              ? playersDetailsData.agentEmail
+              : "-"
+              }}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

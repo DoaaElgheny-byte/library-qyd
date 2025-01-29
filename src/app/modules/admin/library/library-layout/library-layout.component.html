@@ -1,0 +1,312 @@
+<div class="mx-5 my-5 mt-20">
+  <div class="header d-flex justify-content-between">
+    <h2 class="text-dark">مكتبة الملفات</h2>
+    <div class="mx-2">
+      <!--Add Folder button-->
+      <app-custom-button
+        class="mx-2"
+        [type]="'button'"
+        [size]="'sm'"
+        [title]="'انشاء مجلد +'"
+        (outputEvent)="openModal('modal2')"
+        [hoverStyle]="{
+          color: '#F0F0F3',
+          'background-color': '#18181B',
+          border: '#18181B'
+        }"
+        [normalStyle]="{
+          color: '#18181B',
+          'background-color': '#F0F0F3',
+          border: '1px solid #F0F0F3'
+        }"
+      ></app-custom-button>
+      <!-- upload file-->
+      <app-custom-button
+        [type]="'button'"
+        [size]="'sm'"
+        [title]="'رفع مستند'"
+        (outputEvent)="openModal('uploadModal')"
+        [hoverStyle]="{
+          color: '#212E51',
+          'background-color': '#FAFAFA',
+          border: '#FAFAFA'
+        }"
+        [normalStyle]="{
+          color: '#FAFAFA',
+          'background-color': '#212E51',
+          border: '1px solid #212E51'
+        }"
+      ></app-custom-button>
+    </div>
+  </div>
+  <!-- Search -->
+  <div class="d-flex justify-content-between align-items-center my-6">
+    <div class="d-flex">
+      <div class="p-2 bg-white">ملفات / مجلدات</div>
+      <div class="d-flex search align-items-center mx-2">
+        <p
+          class="mx-2"
+          *ngFor="let select of searchData; let i = index"
+          (click)="selectedIndex = i; search(select.id)"
+          [class.selected]="selectedIndex === i"
+        >
+          {{ select.name }}
+        </p>
+      </div>
+    </div>
+    <div class="d-flex">
+      <input
+        class="form-control"
+        type="search"
+        placeholder="بحث  عن مجلدات في المكتبة . . ."
+        aria-label="Search"
+        (input)="search($event.target.value)"
+      />
+    </div>
+    <div class="d-flex" *ngIf="rowClicked">
+      <app-custom-button
+        [type]="'button'"
+        [size]="'sm'"
+        [title]="'رفع ملف الى المجلد '"
+        [btnIcon]="'upload'"
+        (outputEvent)="search('')"
+        [hoverStyle]="{
+          color: '#F0F0F3',
+          'background-color': '#18181B',
+          border: '#18181B'
+        }"
+        [normalStyle]="{
+          color: '#18181B',
+          'background-color': '#F0F0F3',
+          border: '1px solid #F0F0F3'
+        }"
+      ></app-custom-button>
+      <app-custom-button
+        class="mx-1"
+        [type]="'button'"
+        [size]="'sm'"
+        [title]="'تنزيل المجلد'"
+        [btnIcon]="'download'"
+        (outputEvent)="search('')"
+        [hoverStyle]="{
+          color: '#F0F0F3',
+          'background-color': '#18181B',
+          border: '#18181B'
+        }"
+        [normalStyle]="{
+          color: '#18181B',
+          'background-color': '#F0F0F3',
+          border: '1px solid #F0F0F3'
+        }"
+      ></app-custom-button>
+      <app-custom-button
+        [type]="'button'"
+        [size]="'sm'"
+        [title]="'حذف المجلد'"
+        [btnIcon]="'delete'"
+        (outputEvent)="search('')"
+        [hoverStyle]="{
+          color: '#F0F0F3',
+          'background-color': '#18181B',
+          border: '#18181B'
+        }"
+        [normalStyle]="{
+          color: '#EF4444',
+          'background-color': '#F0F0F3',
+          border: '1px solid #F0F0F3'
+        }"
+      ></app-custom-button>
+    </div>
+  </div>
+  <div *ngIf="this.showTable">
+    <div class="h-100 d-flex align-items-center justify-content-center">
+      <div style="background-color: white">
+        <span
+          style="
+            font-size: 30px;
+            cursor: pointer;
+            font-weight: bolder;
+            color: black;
+          "
+          class="ms-5 me-5"
+          (click)="goToRoot()"
+          >{{ "." }}</span
+        >
+        <span
+          style="
+            font-size: 30px;
+            cursor: pointer;
+            font-weight: bolder;
+            color: black;
+          "
+          class="ms-5 me-5"
+          (click)="goUp()"
+          >{{ ".." }}</span
+        >
+      </div>
+    </div>
+    <!--Table -->
+    <app-custom-table
+      [tableData]="tableData"
+      [striped]="false"
+      [dark]="false"
+      [border]="true"
+      [tableHeaders]="tableHeaders"
+      [tableAction]="tableAction"
+      (functionSubmit)="functionAction($event)"
+      (rowClick)="onRowClick($event)"
+      (rowDoubleClick)="onRowDoubleClick($event)"
+      [customTemplates]="{
+        name: nameTemplate,
+        creationDate: uploadDateTemplate,
+        userName: uploadedByTemplate
+      }"
+      [normalStyle]="{
+        color: '#272833',
+        'background-color': 'white',
+        border: 'none'
+      }"
+      [headerStyle]="{
+        color: '#6B6C7E',
+        'background-color': '#f9fafb',
+        'font-weight': 'bold'
+      }"
+    >
+    </app-custom-table>
+  </div>
+  <!-- name template -->
+  <ng-template #nameTemplate let-row="row">
+    <div class="d-flex flex-row align-items-center">
+      <img
+        *ngIf="row.isFolder; else fileIcon"
+        src="assets/imgs/library/folder.svg"
+        alt="icon"
+      />
+      <ng-template #fileIcon>
+        <img src="assets/imgs/library/file.svg" alt="icon" />
+      </ng-template>
+      <div class="mx-2">{{ row.name }}</div>
+    </div>
+  </ng-template>
+
+  <!--date template-->
+  <ng-template #uploadDateTemplate let-row="row">
+    <div class="d-flex flex-row align-items-center">
+      <div class="mx-2 mt-4">{{ row.creationDate | date }}</div>
+    </div>
+  </ng-template>
+
+  <!--username template-->
+  <ng-template #uploadedByTemplate let-row="row">
+    <div class="d-flex flex-row align-items-center mt-4">
+      <img
+        src="assets/imgs/library/user.svg"
+        alt="icon"
+        class="mx-2 border rounded-circle p-2"
+      />
+      <div class="mx-2">{{ row.userName }}</div>
+    </div>
+  </ng-template>
+</div>
+<!-- form of add folder -->
+<app-custom-form
+  [form]="form2"
+  [title]="'إنشاء مجلد جديد'"
+  [btnTitle]="'حفظ'"
+  [modalId]="'modal2'"
+  (formSubmit)="handleFormSubmit($event)"
+>
+  <div class="my-2" [formGroup]="form2">
+    <label for="name">اسم المجلد</label>
+    <input
+      id="name"
+      class="form-control mt-2"
+      formControlName="name"
+      type="text"
+      placeholder="اسم المجلد ..."
+    />
+    <div
+      *ngIf="form2.get('name')?.invalid && form2.get('name')?.touched"
+      class="text-danger"
+    >
+      <div *ngIf="form2.get('name')?.hasError('required')">
+        Name is required.
+      </div>
+    </div>
+    <label for="email">صلاحيات مشاركة المجلد</label>
+    <div class="my-2 d-flex flex-row justify-content-between">
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="permission"
+          id="permission1"
+          (change)="onItemChange($event.target.value)"
+          value="public"
+          checked
+          formControlName="permission"
+        />
+        <label class="form-check-label" for="flexRadioDefault1"> عام </label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="permission"
+          id="permission2"
+          (change)="onItemChange($event.target.value)"
+          value="shared"
+          formControlName="permission"
+        />
+        <label class="form-check-label" for="flexRadioDefault2">
+          مشاركة مع اشخاص محددين
+        </label>
+      </div>
+      <div class="form-check">
+        <input
+          class="form-check-input"
+          type="radio"
+          name="permission"
+          id="permission3"
+          (change)="onItemChange($event.target.value)"
+          value="me"
+          formControlName="permission"
+        />
+        <label class="form-check-label" for="flexRadioDefault3">
+          أنا فقط
+        </label>
+      </div>
+    </div>
+    <div *ngIf="form2.get('permission')?.value === 'shared'">
+      <label for="userId">صلاحيات مشاركة مع</label>
+      <select
+        class="form-select form-select-sm"
+        aria-label="Small select example"
+        formControlName="userId"
+      >
+        <option selected [value]="null">اسم المستخدم</option>
+        <option *ngFor="let item of currentAgentUsers" [value]="item.appUserId">
+          {{ item.name ?? item.email }}
+        </option>
+      </select>
+    </div>
+  </div>
+</app-custom-form>
+
+<app-custom-form
+  [form]="emptyForm"
+  [title]="'رفع مستند'"
+  [modalId]="'uploadModal'"
+  [hideSubmit]="true"
+>
+  <div class="my-2" [formGroup]="emptyForm">
+    <app-upload-file-alone
+      [flag]="4"
+      [isMultiple]="false"
+      (uploadEvent)="uploadFile($event)"
+      [labelUploaded]="'رفع مستند'"
+      [delName]="true"
+    >
+    </app-upload-file-alone>
+  </div>
+</app-custom-form>

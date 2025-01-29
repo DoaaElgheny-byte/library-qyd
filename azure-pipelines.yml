@@ -1,0 +1,35 @@
+trigger:
+ - Dev
+
+pr: none
+
+pool: "ubuntu-test-135.181.130.165"
+
+steps:
+  - task: NodeTool@0
+    inputs:
+      versionSpec: '18.x'
+    displayName: 'Install Node.js'
+
+  - script: |
+      npm install -g @angular/cli@latest
+      npm install --force
+      npm outdated
+      npm run build --prod
+    displayName: 'npm install and build'
+
+
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(Build.SourcesDirectory)/dist' 
+      Contents: '**' # string. Required. Contents. Default: **.
+      TargetFolder: '../../frontend'
+      CleanTargetFolder: true # boolean. Clean Target Folder. Default: false.
+      
+  # - script: |
+  #    echo  '$(Build.SourcesDirectory)/dist'
+  #    mv ../../frontend/Qyd/   ./../../frontend/app/
+  #   workingDirectory: '$(Build.SourcesDirectory)'
+  #   displayName: 'deploy to app folder under Qyd folder regard to nginx locations'
+     
+  

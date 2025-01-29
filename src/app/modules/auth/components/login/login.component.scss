@@ -1,0 +1,273 @@
+.login-page {
+  font-family: Expo Arabic !important;
+
+
+
+  a,
+  p {
+    font-family: Expo Arabic !important;
+    color: #55555b;
+  }
+
+  .login-content {
+    background-color: #fff;
+    // margin: 40px auto;
+    padding: 40px 30px;
+
+    border-radius: 10px;
+
+
+    .form-title {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    h2 {
+      margin-top: 60px;
+      margin-bottom: 40px;
+      font-family: Expo Arabic !important;
+
+    }
+  }
+
+  label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #0D0D0D;
+    margin-bottom: 10px;
+    font-family: Expo Arabic !important;
+
+  }
+
+  .form-action {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    font-family: Expo Arabic !important;
+
+  }
+
+  a.link-primary {
+    color: #0D0D0D !important;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    font-family: Expo Arabic !important;
+
+  }
+
+  .genral-button {
+    background-color: #048081 !important;
+    border: none;
+    overflow: hidden;
+    font-family: Expo Arabic !important;
+
+    &:hover {
+      background-color: #043e53 !important;
+      box-shadow: 0 5px 10px 0 rgba(22, 105, 135, .6);
+      color: #fff;
+      text-decoration: none;
+      transition: all .5s;
+    }
+
+    &:hover::before {
+      left: 100%;
+      opacity: 0;
+    }
+
+
+    position: relative;
+
+    &::before {
+      background-color: hsla(0, 0%, 100%, .25);
+      border-right: 1px solid #fff;
+      content: "";
+      height: 100%;
+      left: 0;
+      opacity: 1;
+      position: absolute;
+      top: 0;
+      transform: translate(-105%);
+      transition: all .5s;
+      width: 100%;
+      z-index: 1;
+
+    }
+  }
+
+  .back {
+    transition: 0.5s;
+
+    &:hover {
+      opacity: 1;
+    }
+
+    i {
+      color: #166987 !important;
+
+    }
+
+    align-items: center;
+    border: 1px solid #166987;
+    border-radius: 50%;
+    display: flex;
+    font-size: 14px;
+    font-weight: 400;
+    height: 30px;
+    justify-content: center;
+    opacity: .65;
+    width: 30px;
+    z-index: 2;
+  }
+
+}
+
+
+.input-group-text {
+  background-color: white;
+  border-bottom: 0.5px solid rgba(0, 0, 0, 0.2);
+  border-left: none;
+  border-top: none;
+  border-right: none;
+  border-radius: 0rem;
+  font-family: Expo Arabic !important;
+
+}
+
+.pass-sec {
+  position: relative;
+  font-family: Expo Arabic !important;
+
+  .input-group-text {
+    position: absolute;
+    top: 5px;
+    right: 20px;
+    border: none;
+    background: transparent;
+    font-family: Expo Arabic !important;
+
+  }
+}
+
+.switchToggle input[type=checkbox] {
+  height: 0;
+  width: 0;
+  visibility: hidden;
+  position: absolute;
+}
+
+.switchToggle label {
+  cursor: pointer;
+  text-indent: -9999px;
+  width: 70px;
+  max-width: 70px;
+  height: 30px;
+  background: #d1d1d1;
+  display: block;
+  border-radius: 100px;
+  position: relative;
+}
+
+.switchToggle label:after {
+  content: '';
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 26px;
+  height: 26px;
+  background: #fff;
+  border-radius: 90px;
+  transition: 0.3s;
+}
+
+.switchToggle input:checked+label,
+.switchToggle input:checked+input+label {
+  background: #048081;
+}
+
+.switchToggle input+label:before,
+.switchToggle input+input+label:before {
+  content: 'En';
+  position: absolute;
+  top: 5px;
+  left: 35px;
+  width: 26px;
+  height: 26px;
+  border-radius: 90px;
+  transition: 0.3s;
+  text-indent: 0;
+  color: #fff;
+}
+
+.switchToggle input:checked+label:before,
+.switchToggle input:checked+input+label:before {
+  content: 'Ar';
+  position: absolute;
+  top: 5px;
+  left: 10px;
+  width: 26px;
+  height: 26px;
+  border-radius: 90px;
+  transition: 0.3s;
+  text-indent: 0;
+  color: #fff;
+}
+
+.switchToggle input:checked+label:after,
+.switchToggle input:checked+input+label:after {
+  left: calc(100% - 2px);
+  transform: translateX(-100%);
+}
+
+.switchToggle label:active:after {
+  width: 60px;
+}
+
+.toggle-switchArea {
+  margin: 10px 0 10px 0;
+}
+
+// .frame {
+//   background-image: url(../../../../../assets/imgs/form/login-frame.svg), linear-gradient(339deg, #0D0D0D 41.8%, #0A2C46 109.48%);
+//   background-repeat: no-repeat;
+//   background-position: center center, bottom center;
+// }
+
+.agree {
+
+  animation: shadows infinite 1.2s;
+
+
+}
+
+
+@keyframes shadows {
+
+  0% {
+
+    box-shadow: 0 0 0 0 #048081;
+
+  }
+
+  100% {
+    box-shadow: 0 0 0 0.3em hsla(204, 8%, 76%, 0);
+  }
+}
+
+.frame img {
+  width: 99.1%;
+  height: 100vh !important;
+
+
+}
+
+@media (max-width:800px) {
+  .frame img {
+
+    height: auto !important;
+
+
+  }
+
+}

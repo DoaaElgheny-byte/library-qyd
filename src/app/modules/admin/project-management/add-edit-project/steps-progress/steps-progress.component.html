@@ -1,0 +1,85 @@
+<section class="project-management">
+
+    <div class="page-title">
+        <div class="d-flex justify-content-between align-items-center">
+            <h3>
+                <span *ngIf="!projectId">{{ "projectManagement.addNewProject" | translate }}</span>
+                <span *ngIf="projectId">{{ "addIssue.edit" | translate }}</span>
+            </h3>
+        </div>
+        <app-breadcrumb></app-breadcrumb>
+    </div>
+
+    <div class="content">
+        <article>
+            <!-- Progress Bar -->
+            <div class="container mt-4" [ngClass]="direction">
+                <div class="position-relative d-flex align-items-center justify-content-between progress-bar-custom">
+                    <div class="line">
+                        <div class="active-line" [style.width]="getActiveLineWidth()"></div>
+                    </div>
+
+                    <div class="step text-center position-absolute" [class.active]="step >= 2"
+                        [class.disabled]="isStepDisabled(1)" [style.right]="getStepPosition(1)">
+                        <div class="circle" [ngClass]="{'light-circle': step >= 1}">01</div>
+                        <div class="label position-absolute text-nowrap start-50 fw-bolder translate-middle-x my-3">
+                            {{ 'projectManagement.projectDetails' | translate }}
+                        </div>
+                    </div>
+
+                    <div class="step text-center position-absolute" [class.active]="step >= 3"
+                        [class.disabled]="isStepDisabled(2)" [style.right]="getStepPosition(2)">
+                        <div class="circle" [ngClass]="{'light-circle': step >= 2}">02</div>
+                        <div class="label position-absolute text-nowrap start-50 fw-bolder translate-middle-x my-3">
+                            {{ 'projectManagement.convertToOpportunity' | translate }}
+                        </div>
+                    </div>
+
+                    <div class="step text-center position-absolute" [class.active]="step >= 4"
+                        [class.disabled]="isStepDisabled(3)" [style.right]="getStepPosition(3)">
+                        <div class="circle" [ngClass]="{'light-circle': step >= 3}">03</div>
+                        <div class="label position-absolute text-nowrap start-50 fw-bolder translate-middle-x my-3">
+                            {{ 'projectManagement.priceOffer' | translate }}
+                        </div>
+                    </div>
+
+                    <div class="step text-center position-absolute" [class.disabled]="isStepDisabled(4)"
+                        [style.right]="getStepPosition(4)">
+                        <div class="circle" [ngClass]="{'light-circle': step >= 4}"><i class="fa fa-check"></i></div>
+                        <div class="label position-absolute text-nowrap start-50 fw-bolder translate-middle-x my-3">
+                            {{ 'projectManagement.reviewDetails' | translate }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Navigation Buttons -->
+            <!-- <div class=" mt-4">
+                <button class="btn btn-secondary" (click)="prevStep()" [disabled]="step === 1">Previous</button>
+                <button class="btn btn-primary" (click)="nextStep()" [disabled]="step === 4">Next</button>
+            </div> -->
+
+            <!-- Tabs Content -->
+            <div class="tabs-content mt-4">
+                <ng-container [ngSwitch]="step">
+                    <div *ngSwitchCase="1">
+                        <app-project-details-step1 (callNextStep)="nextStep($event)"
+                            (callPrevStep)="prevStep()"></app-project-details-step1>
+                    </div>
+                    <div *ngSwitchCase="2">
+                        <app-convert-to-opportunity-step2 (callNextStep)="nextStep($event)"
+                            (callPrevStep)="prevStep()"></app-convert-to-opportunity-step2>
+                    </div>
+                    <div *ngSwitchCase="3">
+                        <app-price-offer-step3 (callNextStep)="nextStep($event)"
+                            (callPrevStep)="prevStep()"></app-price-offer-step3>
+                    </div>
+                    <div *ngSwitchCase="4">
+                        <app-review-details-step4 (callNextStep)="nextStep($event)"
+                            (callPrevStep)="prevStep()"></app-review-details-step4>
+                    </div>
+                </ng-container>
+            </div>
+        </article>
+    </div>
+</section>

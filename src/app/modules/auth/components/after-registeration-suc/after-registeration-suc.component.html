@@ -1,0 +1,33 @@
+<div class="container">
+  <div class="row align-items-center justify-content-center vh-100">
+    <div class="col-lg-6">
+      <div class="body">
+        <section class="activate-account">
+          <div class="icon mt-7">
+            <img src="/assets/imgs/qyd/activ-suc.svg" alt="" />
+          </div>
+          <div class="form-title">
+            <h4 class="mb-4">
+              {{ "AgentRegisteration.YourAccountRegisteredSuccessfully" | translate }}
+            </h4>
+          </div>
+          <div class="form-title">
+            <h5>
+              <div>{{ "AgentRegisteration.ActivateEmailMessage" | translate }}</div>
+              <div>{{ "AgentRegisteration.ActivateEmailMessage2" | translate }}</div>
+            </h5>
+            <div class="">
+              <button class="genral-button col-12 mt-4" (click)="redirectTo()">
+                {{ "AgentRegisteration.back" | translate }}
+              </button>
+            </div>
+          </div>
+        </section>
+      </div>
+
+    </div>
+    <div class="col-lg-6 h-100">
+      <img src="../../../../../assets/imgs/form/signin.webp" class="w-100 h-100 object-fit-contain" alt="">
+    </div>
+  </div>
+</div>

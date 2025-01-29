@@ -1,0 +1,82 @@
+<i class="fa fa-solid fa-times fs-2x float-start m-7" (click)="close()"></i>
+
+<div class="container my-10 px-10">
+    <h5>{{ 'projectManagement.contract_list' | translate }}</h5>
+    <p>{{ 'projectManagement.total_contracts' | translate }}: 1</p>
+    <table class="table table-bordered text-center">
+        <thead class="table-light">
+            <tr>
+                <th>{{ 'projectManagement.contract_title' | translate }}</th>
+                <th>{{ 'projectManagement.contract_status' | translate }}</th>
+                <th>{{ 'projectManagement.branch_name' | translate }}</th>
+                <th>{{ 'projectManagement.creation_date' | translate }}</th>
+                <th>{{ 'projectManagement.end_date' | translate }}</th>
+                <th>{{ 'projectManagement.client_name' | translate }}</th>
+                <!-- <th>{{ 'projectManagement.activation_status' | translate }}</th> -->
+                <th>{{ 'projectManagement.details' | translate }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>{{ contractDetails?.address ?? '_' }}</td>
+                <td>
+                    <span *ngIf="contractDetails?.contarctStatus === contractStatus.Active"
+                        class="badge new-badge-light-green fs-7 fw-bold">
+                        {{ "contract.Active" | translate }}
+                    </span>
+
+                    <span *ngIf="contractDetails?.contarctStatus === contractStatus.Finished"
+                        class="badge new-badge-light-red fs-7 fw-bold">
+                        {{ "contract.Finished" | translate }}
+                    </span>
+                    <span *ngIf="contractDetails?.contarctStatus === contractStatus.Canceled"
+                        class="badge new-badge-light-grey fs-7 fw-bold">
+                        {{ "contract.Canceled" | translate }}
+                    </span>
+                    <span *ngIf="contractDetails?.contarctStatus === contractStatus.Pending"
+                        class="badge new-badge-light-dark-yellow fs-7 fw-bold">
+                        {{ "contract.Pending" | translate }}
+                    </span>
+                    <span *ngIf="!contractDetails?.contarctStatus"
+                        class="badge new-badge-light-dark-yellow fs-7 fw-bold">
+                        {{ "contract.notFound" | translate }}
+                    </span>
+                </td>
+                <td>{{ contractDetails?.branch ?? '_' }}</td>
+                <td>{{ contractDetails?.startDate ? (contractDetails.startDate | date: 'dd-MM-yyyy') : '_' }}</td>
+                <td>{{ contractDetails?.endDate ? (contractDetails.endDate | date: 'dd-MM-yyyy') : '_' }}</td>
+                <td>{{ contractDetails?.client ?? '_' }}</td>
+                <!-- <td>
+                    <div class="form-check form-switch d-flex justify-content-center">
+                        <input class="form-check-input" type="checkbox" [checked]="contract.activation" />
+                    </div>
+                </td> -->
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            {{ 'projectManagement.details' | translate }}
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" (click)="viewContract()">
+                                    <i class="fas fa-eye"></i> {{ 'projectManagement.view' | translate }}
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" (click)="editContractData()">
+                                    <i class="fas fa-edit"></i> {{ 'projectManagement.edit_data' | translate }}
+                                </a>
+                            </li>
+                            <!-- <li>
+                                <a class="dropdown-item">
+                                    <i class="fas fa-users"></i> {{ 'projectManagement.assigned_members' | translate }}
+                                </a>
+                            </li> -->
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

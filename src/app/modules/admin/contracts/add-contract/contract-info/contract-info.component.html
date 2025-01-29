@@ -1,0 +1,479 @@
+<div class="body-size position-relative">
+  <button class="genral-button mt-7" *ngIf="isAddNewContractFromProject=='true'"
+    (click)="backToProject()">{{'projectManagement.backToProjectDetails'|translate}}</button>
+  <form class="form w-100 my-5 row" [formGroup]="infoForm" *ngIf="successLoad" novalidate="novalidate"
+    id="kt_login_signin_form">
+    <!-- begin::Alert error-->
+    <ng-container *ngIf="hasError">
+      <div class="mb-lg-15 alert alert-danger">
+        <div class="alert-text font-weight-bold">
+          The login details are incorrect
+        </div>
+      </div>
+    </ng-container>
+    <!--Address-->
+    <div class="col-md-4 mb-9 position-relative">
+      <label for="">{{ "AddEditcontract.contractAddress" | translate }} </label>
+      <span class="text-danger mx-2 fs-2 position-absolute">*</span>
+      <input class="form-control bg-transparent" type="text" [placeholder]="'AddEditcontract.contractName' | translate"
+        name="address" formControlName="address" autocomplete="off">
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['address']
+        }"></ng-container>
+    </div>
+
+    <!--Status-->
+    <div class="col-md-4 mb-9">
+      <label>{{ "AddEditcontract.contractStatus" | translate }} </label>
+      <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+      <select formControlName="contarctStatus" class="form-select" aria-label="Default select example">
+        <option disabled value="null">
+          {{ "addIssue.chooseContractStatus" | translate }}
+        </option>
+        <option [value]="contractStatus.Active">
+          {{ "contract.Active" | translate }}
+        </option>
+        <!-- <option [value]="contractStatus.Deferred">
+          {{ "contract.Deferred" | translate }}
+        </option> -->
+        <option [value]="contractStatus.Finished">
+          {{ "contract.Finished" | translate }}
+        </option>
+        <option [value]="contractStatus.Canceled">
+          {{ "contract.Canceled" | translate }}
+        </option>
+        <option [value]="contractStatus.Pending">
+          {{ "contract.Pending" | translate }}
+        </option>
+      </select>
+    </div>
+
+    <!--Start Date-->
+    <div class="col-md-4 mb-9">
+      <label>{{ "AddEditcontract.startDate" | translate }} </label>
+      <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+      <div class="iput-sec">
+        <hijri-gregorian-datepicker style="direction: ltr" [label]="'expirationDate'" [(selectedDate)]="expirationDate"
+          [readonly]="true" [isRequired]="true" [GregLabel]="'shared.Greg' | translate"
+          [hijriLabel]="'shared.Hijri' | translate" [placeHolder]="'shared.place' | translate" [showLabel]="false"
+          [minHijri]="minDateH" [minGreg]="minDateG" [selectedDateType]="selectedDateType"
+          (selectedDateChange)="selectedDateChange($event)" #expirationDatePicker>
+        </hijri-gregorian-datepicker>
+        <!-- <input
+          onfocus="(this.type='date') "
+          class="form-control date"
+          ngbDatepicker
+          #d="ngbDatepicker"
+          aria-label=""
+          id="date1"
+          [(ngModel)]="dateText"
+          (change)="setValueOfDate()"
+          data-toggle="tooltip"
+          data-placement="bottom"
+          title=" enter the start date "
+          [placeholder]="'AddEditcontract.enterStartDate' | translate"
+          [ngModelOptions]="{ standalone: true }"
+        /> -->
+        <!-- <img src="assets/imgs/qyd/date.svg" /> -->
+      </div>
+      <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['startDate']
+        }"></ng-container> -->
+      <div *ngIf="!endAfterStart" _ngcontent-ebq-c229="" class="fv-plugins-message-container ng-star-inserted">
+        <div _ngcontent-ebq-c229="" class="fv-help-block">
+          <span _ngcontent-ebq-c229="" role="alert">
+            {{ "AddEditcontract.endAfterStart" | translate }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!--End Date-->
+    <div class="col-md-4 mb-9">
+      <label> {{ "AddEditcontract.endDate" | translate }} </label>
+      <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+      <div class="iput-sec">
+        <hijri-gregorian-datepicker style="direction: ltr" [label]="'EndDate'" [(selectedDate)]="EndDate"
+          [readonly]="true" [isRequired]="true" [GregLabel]="'shared.Greg' | translate"
+          [hijriLabel]="'shared.Hijri' | translate" [placeHolder]="'shared.place' | translate" [showLabel]="false"
+          [minHijri]="minDateH" [minGreg]="minDateG" [selectedDateType]="selectedEndDateType"
+          (selectedDateChange)="selectedDateChangeEnd($event)" #EndDatePicker>
+        </hijri-gregorian-datepicker>
+        <!-- <input
+          onfocus="(this.type='date') "
+          class="form-control date"
+          ngbDatepicker
+          #d="ngbDatepicker"
+          aria-label=""
+          id="date1"
+          [(ngModel)]="dateTextEnd"
+          (change)="setValueOfDateEnd()"
+          data-toggle="tooltip"
+          data-placement="bottom"
+          title=" enter the start date "
+          [placeholder]="'AddEditcontract.enterEndDate' | translate"
+          [ngModelOptions]="{ standalone: true }"
+        /> -->
+        <!-- <img src="assets/imgs/qyd/date.svg" /> -->
+      </div>
+      <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['endDate']
+        }"></ng-container> -->
+      <div *ngIf="!endAfterStart" _ngcontent-ebq-c229="" class="fv-plugins-message-container ng-star-inserted">
+        <div _ngcontent-ebq-c229="" class="fv-help-block">
+          <span _ngcontent-ebq-c229="" role="alert">
+            {{ "AddEditcontract.endAfterStart" | translate }}
+          </span>
+        </div>
+      </div>
+    </div>
+    <!--  -->
+    <!--Branch-->
+    <div class="col-md-4 mb-9">
+      <label>{{"branches.name" | translate}}</label>
+      <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+      <div class="input-img">
+
+        <select class="form-select" formControlName="branchId" aria-label="Default select example"
+          (change)="changeBranch($any($event).target.value)" *ngIf="!isEmployee">
+          <option disabled selected value="null">
+            {{ "addIssue.choose" | translate }}
+          </option>
+          <option *ngFor="let branch of branches" [value]="branch.id">
+            {{ branch.name}}
+          </option>
+
+        </select>
+        <input class="form-control bg-transparent" *ngIf="isEmployee" readonly type="text" formControlName="branch"
+          style="background-color: #e4e6ef  !important; ">
+
+      </div>
+    </div>
+
+    <!--Client-->
+    <div class="col-md-4 mb-9">
+      <label> {{ "addIssue.Client" | translate }} </label>
+      <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+      <select class="form-select" formControlName="clientId" aria-label="Default select example">
+        <option disabled value="null">
+          {{ "addIssue.chooseClient" | translate }}
+        </option>
+        <option *ngFor="let item of clientList" [value]="item?.id">
+          {{ item?.name }}
+        </option>
+      </select>
+    </div>
+
+    <!--Subject-->
+    <div class="col-md-12 mb-9">
+      <label> {{ "AddEditcontract.contractSubject" | translate }} </label>
+      <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+      <textarea [placeholder]="'AddEditcontract.enterDetails' | translate" formControlName="details"
+        class="form-control bg-transparent">
+      </textarea>
+      <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['details']
+        }"></ng-container> -->
+    </div>
+    <hr>
+    <!--هل يوجد اتعاب ؟-->
+    <div class="card my-10">
+      <h2>{{"AddEditcontract.contractDetails"|translate}}</h2>
+      <p>{{"AddEditcontract.anyFees"|translate}}</p>
+      <div class="d-flex gap-3">
+        <div class="fees p-4 rounded-3">
+          <input formControlName="isRequiredFees" (change)="showHFee()" [value]="true" name="isRequiredFees"
+            type="radio" id="yes" />
+          <label for="yes" class="mx-3">{{ "AddEditcontract.yes" | translate }}</label>
+        </div>
+        <div class="fees p-4 rounded-3">
+          <input formControlName="isRequiredFees" (change)="showHFee()" [value]="false" name="isRequiredFees"
+            type="radio" id="no" />
+          <label for="no" class="mx-3">{{ "AddEditcontract.no" | translate }}</label>
+        </div>
+      </div>
+
+      <!-- يوجد اتعاب؟-->
+      <div *ngIf="isRequiredFee" class="row my-5">
+        <div class="col-md-4">
+          <div>
+            <label for="contractValue" class="my-3">{{"AddEditcontract.ContractValue"|translate}}</label>
+            <div class="d-flex">
+              <input formControlName="contractValue" type="text" class="form-control" id="ContractValue"
+                placeholder="{{ 'AddEditcontract.ContractValuePlaceholder' | translate }}"
+                aria-describedby="basic-addon1">
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                                                    validation: 'pattern',
+                                                    message: 'Validation.numberonly' | translate,
+                                                    control: infoForm.controls['contractValue']
+                                                  }"></ng-container>
+              <span class="input-group-text fw-bolder text-dark" id="basic-addon1">
+                {{ 'AddEditcontract.Currency' | translate }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-md-4">
+          <div>
+            <label for="advancevalue" class="my-3">{{ "AddEditcontract.deposit" | translate }}</label>
+            <div class="d-flex ">
+              <input formControlName="advancevalue" type="text" class="form-control" id="advancevalue"
+                placeholder="{{ 'AddEditcontract.depositPlaceholder' | translate }}" aria-describedby="basic-addon3" />
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'pattern',
+                  message: 'Validation.numberonly' | translate,
+                  control: infoForm.controls['advancevalue']
+                }"></ng-container>
+              <select class="form-select" style="width: 140px; background-color: #F5F5F5;" id="basic-addon3">
+                <option value="1" selected>{{ "AddEditcontract.amountOption" | translate }}</option>
+                <!-- <option value="2">{{ "AddEditcontract.percentageOption" | translate }}</option> -->
+              </select>
+            </div>
+          </div>
+
+        </div>
+
+        <div class="col-md-4">
+          <div>
+            <label for="backvalue" class="my-3">{{ "AddEditcontract.FinalAmount" | translate }}</label>
+            <div class="d-flex ">
+              <input formControlName="backvalue" type="text" class="form-control" id="backvalue"
+                placeholder="{{ 'AddEditcontract.FinalAmountPlaceholder' | translate }}"
+                aria-describedby="basic-addon2" />
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'pattern',
+                  message: 'Validation.numberonly' | translate,
+                  control: infoForm.controls['backvalue']
+                }"></ng-container>
+              <select class="form-select" style="width: 140px; background-color: #F5F5F5;" id="basic-addon2">
+                <option value="1" selected>{{ "AddEditcontract.amountOption" | translate }}</option>
+                <!-- <option value="2">{{ "AddEditcontract.percentageOption" | translate }}</option> -->
+              </select>
+            </div>
+          </div>
+
+        </div>
+        <div class="col-md-12 my-6">
+          <h2>{{"AddEditcontract.installments"|translate}}</h2>
+        </div>
+
+        <form class="row align-items-center" [formGroup]="paymentForm" novalidate="novalidate" *ngIf="successLoad"
+          id="kt_login_signin_form2" (ngSubmit)="adadPaymentInfo()">
+
+          <div class="col-md-6">
+            <div>
+              <label for="ContractValue3" class="mb-3">{{ "AddEditcontract.installmentNumber" | translate }}</label>
+              <div class="d-flex ">
+                <input formControlName="paymentNumber" type="text" class="form-control" id="ContractValue3"
+                  placeholder="{{ 'AddEditcontract.installmentNumberPlaceholder' | translate }}" />
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'pattern',
+                    message: 'Validation.numberonly' | translate,
+                    control: paymentForm.controls['paymentNumber']
+                  }"></ng-container>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div>
+              <label for="ContractValue4" class="mb-3">{{ "AddEditcontract.installmentAmount" | translate }}</label>
+              <div class="d-flex ">
+                <input formControlName="value" type="text" class="form-control" id="ContractValue4"
+                  placeholder="{{ 'AddEditcontract.installmentAmountPlaceholder' | translate }}"
+                  aria-describedby="basic-addon1" />
+                <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                    validation: 'pattern',
+                    message: 'Validation.numberonly' | translate,
+                    control: paymentForm.controls['value']
+                  }"></ng-container>
+                <select class="form-select" style="width: 140px; background-color: #F5F5F5;" id="basic-addon1">
+                  <option value="1" selected>{{ "AddEditcontract.amountOption" | translate }}</option>
+                  <!-- <option value="2">{{ "AddEditcontract.percentageOption" | translate }}</option> -->
+                </select>
+              </div>
+            </div>
+
+          </div>
+          <div class="col-md-2 mt-4">
+            <button type="button" id="kt_sign_in_submit" class="genral-button add" (click)="adadPaymentInfo()">
+              <span class="d-flex align-items-center justify-content-center">
+                <img src="assets/imgs/qyd/Right-icon.svg" />
+                <span class="indicator-label mx-2">
+                  {{ "addIssue.Add" | translate }}
+                </span>
+              </span>
+            </button>
+          </div>
+        </form>
+      </div>
+      <!-- السبب -->
+      <div [hidden]="isRequiredFee" class="row">
+        <div class="col-md-12" id="reasonInput">
+          <div>
+            <label for="Reason" class="my-3">{{ "AddEditcontract.reason" | translate }}</label>
+            <div class="d-flex">
+              <textarea formControlName="reason" name="" class="form-control"
+                placeholder="{{ 'AddEditcontract.reasonPlaceholder' | translate }}"></textarea>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="row table-grid table-striped table-responsive" *ngIf="isRequiredFee && PaymentArray.length!=0">
+      <div class="col-md-12 my-6">
+        <h2>{{"AddEditcontract.installments"|translate}}</h2>
+      </div>
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">{{"AddEditcontract.installmentNumber"|translate}}</th>
+            <th scope="col">{{"AddEditcontract.installmentAmount"|translate}}</th>
+            <th scope="col">إجراء</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of PaymentArray">
+            <td>{{ item.paymentNumber }}</td>
+            <td>{{ item.value }}</td>
+            <td (click)="deletePaymentRow(item)" role="button" class="deleteCol">
+              <img src="assets/imgs/qyd/delete-icon.svg" />
+              {{ "addIssue.delete" | translate }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <hr>
+
+    <!-- Attachment -->
+    <h3>{{"addClient.attachment" | translate}}</h3>
+    <form class="row align-items-center" [formGroup]="filesForm" novalidate="novalidate" *ngIf="successLoad"
+      id="kt_login_signin_form2" (ngSubmit)="addAttachmentInfo()">
+
+      <div class="col-md-5 mb-4">
+        <label>{{ "addClient.classification" | translate }}</label>
+        <input class="form-control bg-transparent" type="text" [placeholder]="'addClient.classification' | translate"
+          name="typeNum" formControlName="name" autocomplete="off" [ngClass]="{
+                'is-invalid':
+                filesForm.controls['name'].invalid &&
+                filesForm.controls['name'].touched,
+                'is-valid': filesForm.controls['name'].valid
+            }" />
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'loginPage.thisFieldIsRequired' | translate,
+                control: filesForm.controls['name']
+                }"></ng-container>
+      </div>
+      <div class="col-md-5 mb-4 new-upload my-1">
+        <label for="">{{ "addIssue.Attachment" | translate }} </label>
+        <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+        <app-upload-file [acceptedExtensions]="['png', 'jpg', 'jpeg', 'pdf']" [flag]="4" [isMultiple]="false"
+          (bindValue)="uploadImg($event)" [labelUploaded]="'addIssue.upload' | translate" [fileName]="fileName"
+          [delName]="true">
+        </app-upload-file>
+        <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'loginPage.thisFieldIsRequired' | translate,
+                control: filesForm.controls['attachment']
+            }"></ng-container>
+        <div *ngIf="fieldRequired" _ngcontent-ebq-c229="" class="fv-plugins-message-container ng-star-inserted m-t-15">
+          <div _ngcontent-ebq-c229="" class="fv-help-block">
+            <span _ngcontent-ebq-c229="" role="alert">
+              {{ "addClient.attachmentRequired" | translate }}
+            </span>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-2 mt-4">
+        <button type="button" id="kt_sign_in_submit" class="genral-button add" (click)="addAttachmentInfo()">
+          <span class="d-flex align-items-center justify-content-center">
+            <img src="assets/imgs/qyd/Right-icon.svg" />
+            <span class="indicator-label mx-2">
+              {{ "addIssue.Add" | translate }}
+            </span>
+          </span>
+        </button>
+
+      </div>
+    </form>
+    <div class="row table-grid table-striped table-responsive">
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">{{ "addClient.classification" | translate }}</th>
+            <th scope="col">{{ "addIssue.Attachment" | translate }}</th>
+
+            <th scope="col"></th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let item of attachmentFileInfoArray">
+            <td>{{ item.classificationName }}</td>
+            <td>{{ item.imageName }}</td>
+
+            <td>
+              <a target="_blank" [href]="item?.imageStorageFileURL" download>
+                <i class="fa-solid fa-file-arrow-down"></i>
+                {{ "addClient.download" | translate }}
+
+              </a>
+            </td>
+            <td (click)="deleteRow(item)" role="button" class="deleteCol">
+              <img src="assets/imgs/qyd/delete-icon.svg" />
+              {{ "addIssue.delete" | translate }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="d-flex button-end">
+      <div class="form-action-btn">
+        <button (click)="Back()" id="kt_sign_in_submit" class="general-outline-button">
+          <ng-container>
+            <span class="indicator-label">
+              {{ "addIssue.Back" | translate }}
+            </span>
+          </ng-container>
+        </button>
+
+        <button type="submit" (click)="submit()" id="kt_sign_in_submit"
+          [ngClass]="{ end: lang === 'en', 'end-arabic': lang === 'ar' }" class="genral-button">
+          <ng-container class="d-flex">
+            <span class="indicator-label">
+              {{ "addIssue.SaveAndContinue" | translate }}
+            </span>
+          </ng-container>
+        </button>
+      </div>
+    </div>
+  </form>
+
+  <!--end::Form-->
+
+</div>
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert">
+          {{ message }}
+        </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

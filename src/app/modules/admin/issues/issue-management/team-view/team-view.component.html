@@ -1,0 +1,28 @@
+<div class="modal-header d-flex justify-content-end align-items-center pb-0">
+    
+    <button type="button" class="btn-close m-0" aria-label="Close"
+        (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+
+    </button>
+</div>
+<div class="modal-body pt-0">
+        <div class="d-flex justify-content-center align-items-center mb-5">
+            <h2 class="modal-title" >
+                {{"issue.issueTeam" | translate}}
+            </h2>
+        </div>
+       <div class="row px-6" *ngFor="let player of employees;let i = index">
+            <div class="col-2 d-flex align-items-center justify-content-center border rounded-circle"
+            [ngClass]="color[i % color.length]">
+                <div class="fs-1">{{getShortName(player.name)}}</div>
+            </div>
+            <div class="col-10">
+                <div class="fw-bold fs-2">{{player.name}}</div>
+                <div class="fs-6 grey">{{player.email}}</div>
+                
+            </div>
+            <hr *ngIf="i < employees.length - 1" />
+       </div>
+       
+</div>

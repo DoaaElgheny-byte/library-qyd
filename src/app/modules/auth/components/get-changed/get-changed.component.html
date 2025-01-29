@@ -1,0 +1,57 @@
+<section class="get-changed">
+  <div class="container">
+    <div class="row justify-content-center align-items-center h-100">
+      <div class="page-content col-lg-6 col-md-6 col-12 border shadow-sm">
+        <div class="form-title">
+          <img src="/assets/imgs/qyd/activ-suc.svg" alt="varify-img" srcset="" />
+          <h2>{{ "forgetPassword.PasswordResetLinkWillBeSent" | translate }}:</h2>
+          <p class="mb-5"> {{ email }}</p>
+          <!-- <p class="resend">
+            {{ "forgetPassword.DoNotReceiveEmail" | translate }}
+            <a class="link-class" (click)="submit()">{{
+              "forgetPassword.ResendEmail" | translate
+              }}</a>
+          </p> -->
+          <div class="form-action-btn">
+            <div class="container">
+              <button type="submit" id="kt_sign_in_submit" class="btn col-9 genral-button" (click)="redirectTo()">
+                <span class="indicator-progress">
+                  {{ "Shared.PleaseWait" | translate }}
+                  <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+
+                <span class="indicator-label">
+                  {{ "forgetPassword.back" | translate }}
+                </span>
+              </button>
+            </div>
+          </div>
+          <p class="resends">
+            <a (click)="submit()">{{ "forgetPassword.ResendEmail" | translate }}</a>
+
+            <!-- <a href="/auth/login">{{ "forgetPassword.back" | translate }}</a> -->
+          </p>
+        </div>
+        <!-- <p class="resends">
+          {{ "forgetPassword.DidYouHaveAnAccount" | translate }}
+          <a href="/auth/login">{{ "forgetPassword.SignIn" | translate }}</a>
+        </p>-->
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert">
+          {{ message }}
+        </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

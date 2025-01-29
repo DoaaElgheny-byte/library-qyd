@@ -1,0 +1,76 @@
+<div class="d-flex justify-content-end mb-3">
+
+    <button (click)="viewPaymentNotice()" class="addBillBtn border-0 me-2 d-flex align-items-center"> {{
+        'projectManagement.add_payment_notice' |
+        translate
+        }} <i class="fas fa-plus text-white mx-2"></i></button>
+</div>
+
+<div class="container my-4">
+    <table class="table table-bordered text-center">
+        <thead class="table-light">
+            <tr>
+                <th>#</th>
+                <!-- <th>{{ 'projectManagement.project_serial_number' | translate }}</th> -->
+                <th>{{ 'projectManagement.serial_number' | translate }}</th>
+                <th>{{ 'projectManagement.invoice_number2' | translate }}</th>
+                <th>{{ 'projectManagement.issue_date' | translate }}</th>
+                <th>{{ 'projectManagement.is_paid' | translate }}</th>
+                <th>{{ 'projectManagement.total_with_tax' | translate }}</th>
+                <!-- <th>{{ 'projectManagement.includes_invoice' | translate }}</th> -->
+                <th>{{ 'projectManagement.actions' | translate }}</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let item of paymentNotices; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ item.serialNumber }}</td>
+                <td>{{ item.paymentNumber }}</td>
+
+                <td>{{ item.startDate| date }}</td>
+                <!-- <td>{{ item.isHasPayment }}</td> -->
+                <td>
+                    <span [class]="'alert btn-status ' + (item.isHasPayment ? 'alert-success' : 'alert-danger')">
+                        <!-- <i [class]=" ' p-0 fas ' + (row.isPaid ? 'fa-check' : 'fa-times')"></i> -->
+                        {{ item.isHasPayment ? ('yes' | translate) : ('no' | translate) }}
+                    </span>
+                </td>
+                <td>{{ item.price }}</td>
+
+                <!-- <td>{{ item.includesInvoice ? ('yes' | translate) : ('no' | translate) }}</td> -->
+
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-light dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            <!-- <i class="fas fa-bars"></i> -->
+                        </button>
+                        <ul class="dropdown-menu ">
+                            <li>
+                                <a class="dropdown-item" (click)="viewPaymentNoticePdf(item)">
+                                    <i class="fas fa-eye"></i> {{ 'projectManagement.view_notice' | translate }}
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" (click)="editData(item.id)">
+                                    <i class="fas fa-edit"></i> {{ 'projectManagement.edit_data' | translate }}
+                                </a>
+                            </li>
+                            <li>
+                                <a class="dropdown-item" (click)="viewSimplifiedInvoicePdf(item)">
+                                    <i class="fas fa-file-invoice"></i> {{ 'projectManagement.add_payment_invoice' |
+                                    translate }}
+                                </a>
+                            </li>
+                            <!-- <li>
+                                <a class="dropdown-item" (click)="downloadQuote(item)">
+                                    <i class="fas fa-download"></i> {{ 'projectManagement.download_quote' | translate }}
+                                </a>
+                            </li> -->
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

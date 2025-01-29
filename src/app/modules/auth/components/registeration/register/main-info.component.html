@@ -1,0 +1,240 @@
+<div class="container ">
+  <div class="row justify-content-center align-items-center">
+
+    <div class="col-lg-6">
+      <div class="login rounded-3">
+        <div class="d-flex justify-content-between ">
+
+          <!-- <a class="fw-bold back" [routerLink]="['/auth/login']">
+ 
+          <i class="fa-solid " [ngClass]="lang === 'ar' ? 'fa-arrow-right' :'fa-arrow-left' "></i>
+          </a> -->
+          <div class="switchToggle">
+            <input type="checkbox" id="switch" [(ngModel)]="selectedLanguage" (change)="selectLanguage()">
+            <label for="switch">Toggle</label>
+          </div>
+        </div>
+        <div class=" text-center  form-title">
+          <h2 class="fw-bold ">
+            {{ "register.completeInfo" | translate }}
+
+          </h2>
+
+
+        </div>
+
+        <div class="body-size ">
+          <form class="form w-100 my-5" [formGroup]="loginForm" novalidate="novalidate" id="kt_login_signin_form"
+            (ngSubmit)="submit()">
+            <!-- begin::Alert error-->
+            <ng-container *ngIf="hasError">
+              <div class="mb-lg-15 alert alert-danger">
+                <div class="alert-text font-weight-bold">
+                  The login details are incorrect
+                </div>
+              </div>
+            </ng-container>
+            <!-- end::Alert error-->
+
+            <!--begin::Form group-->
+            <div class="fv-col-6 mb-4">
+              <label for="">{{ "register.userName" | translate }}</label>
+              <span class="text-danger mx-2 fs-2">*</span>
+
+              <input class="form-control bg-transparent" type="text"
+                [placeholder]="'register.enterUserName' | translate" name="name" formControlName="name"
+                autocomplete="off" [ngClass]="{
+              'is-invalid': loginForm.controls['name'].invalid && loginForm.controls['name'].touched,
+              'is-valid': loginForm.controls['name'].valid
+            }" />
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'Validation.UsernameIsInValid' | translate,
+              control: loginForm.controls['name']
+            }"></ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'Validation.UsernameIsInValid' | translate,
+              control: loginForm.controls['name']
+            }"></ng-container>
+            </div>
+
+            <!--end::Form group-->
+            <div class="fv-col-6 mb-4">
+              <label>{{ "register.accountType" | translate }}</label>
+              <span class="text-danger mx-2 fs-2">*</span>
+              <select formControlName="accountType" class="form-select" aria-label="Default select example">
+                <option [value]="null" aria-selected="true" disabled>
+                  {{'register.accountType' | translate}}
+                </option>
+
+                <option [value]="accountTypes.Advisor">
+                  {{ "register.Advisor" | translate }}
+                </option>
+
+                <option [value]="accountTypes.LegalAdministration">
+                  {{ "register.LegalAdministration" | translate }}
+                </option>
+                <option [value]="accountTypes.Traininglawyer">
+                  {{ "register.Traininglawyer" | translate }}
+                </option>
+                <option [value]="accountTypes.Licensedlawyer">
+                  {{ "register.Licensedlawyer" | translate }}
+                </option>
+                <option [value]="accountTypes.LawyerOffice">
+                  {{ "register.LawyerOffice" | translate }}
+                </option>
+
+                <option [value]="accountTypes.LegalDepartment">
+                  {{ "register.LegalDepartment" | translate }}
+                </option>
+
+                <option [value]="accountTypes.RegularRepresentative">
+                  {{ "register.RegularRepresentative" | translate }}
+                </option>
+              </select>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'register.accountTypeRequired' | translate,
+            control: loginForm.controls['accountType']
+          }"></ng-container>
+            </div>
+
+            <!--begin::Form group-->
+            <div *ngIf="isShowEmail" class="fv-col-6 mb-4">
+              <label for="">{{ "register.email" | translate }}</label>
+              <span class="text-danger mx-2 fs-2">*</span>
+
+              <input class="form-control bg-transparent" type="email" [placeholder]="'register.email' | translate"
+                name="email" formControlName="email" autocomplete="off" [ngClass]="{
+              'is-invalid': loginForm.controls['email'].invalid && loginForm.controls['email'].touched,
+              'is-valid': loginForm.controls['email'].valid
+            }" />
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'required',
+              message: 'loginPage.thisFieldIsRequired' | translate,
+              control: loginForm.controls['email']
+            }"></ng-container>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+              validation: 'pattern',
+              message: 'loginPage.thisFieldIsRequired' | translate,
+              control: loginForm.controls['email']
+            }"></ng-container>
+            </div>
+            <!-- end::Form group-->
+            <!--begin::Form group-->
+            <div *ngIf="!isShowEmail" class="fv-col-6 mb-4 ">
+              <label for="">{{ "register.phoneNumber" | translate }}</label>
+              <span class="text-danger mx-2 fs-2">*</span>
+              <div class="phone form-control" style="
+          direction: ltr;
+          height: 41px;
+          display: flex;
+  
+          background-color: transparent !important;
+          padding: 0px;
+        ">
+                <intl-telephone-input [preferredCountries]="[
+            CountryISO.SaudiArabia]" [enablePlaceholder]="true" [searchCountryFlag]="true" [separateDialCode]="false"
+                  [enableAutoCountrySelect]="true" [searchCountryField]="SearchCountryField.All"
+                  [phoneValidation]="true" [numberFormat]="PhoneNumberFormat.International" [inputId]="'phoneNumber'"
+                  [customPlaceholder]="mobileNumber" [selectedCountryISO]="CountryISO[selectedCountryIso]"
+                  (onChange)="onInputChange($event)">
+                </intl-telephone-input>
+              </div>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: loginForm.controls['mobileNumber']
+        }"></ng-container>
+
+              <ng-container
+                *ngIf="loginForm.controls['mobileNumber'].hasError('maxlength') && loginForm.controls['mobileNumber'].touched"
+                [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                  validation: 'maxLength',
+                  message: 'loginPage.thisFieldShouldHaveMaximumLength' | translate,
+                  control: loginForm.controls['mobileNumber']
+                }">
+              </ng-container>
+
+            </div>
+            <div class="my-7 form-check mx-sm-5">
+              <input type="checkbox" class="form-check-input agree " formControlName="agree" />
+
+              <label class="form-check-label">
+                <span class=" fw-bold mx-3"> {{ "register.agree" | translate }}</span>
+                <a class="link-primary fw-bold" style="cursor: pointer; color: rgb(16, 65, 81) !important;"
+                  (click)="view()">{{'register.terms' |
+                  translate}}</a>
+              </label>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+            validation: 'required',
+            message: 'Validation.agreeIsRequired' | translate,
+            control: loginForm.controls['agree']
+          }"></ng-container>
+            </div>
+            <!--end::Form group-->
+            <!--end::Link-->
+            <!--end::Wrapper -->
+            <div class="recaptcha2">
+              <label for="">{{'loginPage.CAPTCHA_TITLE' |translate}}</label>
+
+              <ngx-recaptcha2 #captchaElem [siteKey]="siteKey" [hl]="lang" formControlName="recaptcha">
+              </ngx-recaptcha2>
+              <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+                validation: 'required',
+                message: 'Validation.thisFieldIsRequired' | translate,
+                control: loginForm.controls['recaptcha']
+              }"></ng-container>
+            </div>
+          </form>
+          <!--end::Form-->
+          <div class="form-action-btn">
+            <button type="submit" id="kt_sign_in_submit" class="col-12 genral-button" (click)="submit()">
+              <ng-container *ngIf="isLoading$ | async">
+                <span class="indicator-progress" [style.display]="'block'">
+                  {{ "Shared.PleaseWait" | translate }}
+                  <span class="spinner-border spinner-border-sm align-middle ms-2"></span>
+                </span>
+              </ng-container>
+              <ng-container *ngIf="(isLoading$ | async) === false">
+                <span class="indicator-label">{{ "register.register" | translate }}
+                </span>
+              </ng-container>
+            </button>
+          </div>
+          <div class="register mt-3 text-center">
+            <p>
+              <span class="mx-3 fw-bold">{{"register.hasAccount" | translate}}</span>
+              <a [routerLink]="['/auth/login']" routerLinkActive="router-link-active" class="fw-bolder ">
+                {{"register.signIn" | translate}}
+
+
+              </a>
+            </p>
+          </div>
+        </div>
+        <ng-template #formError let-control="control" let-message="message" let-validation="validation">
+          <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+            <div class="fv-plugins-message-container">
+              <div class="fv-help-block">
+                <span role="alert">
+                  {{ message }}
+                </span>
+              </div>
+            </div>
+          </ng-container>
+        </ng-template>
+      </div>
+    </div>
+    <div class="col-lg-6 order-first order-md-last">
+      <div class="frame ">
+        <img src="../../../../../../assets/imgs/form/signup.webp"
+          srcset="../../../../../../assets/imgs/form/signup.webp" class=" d-none d-md-block h-100" alt="Qyd Register">
+        <img src="../../../../../../assets/imgs/form/signup-mobile.webp"
+          srcset="../../../../../../assets/imgs/form/signup-mobile.webp" class=" d-block d-md-none" alt="Qyd Register">
+      </div>
+    </div>
+
+  </div>
+</div>

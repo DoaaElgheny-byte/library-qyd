@@ -1,0 +1,29 @@
+<div class="container my-20">
+    <div class="d-flex justify-content-between align-items-center">
+        <h3>{{ 'projectManagement.financial_section' | translate }}</h3>
+    </div>
+    <app-breadcrumb></app-breadcrumb>
+
+    <div class="btns my-10">
+        <button [ngClass]="{'active': isTabActive(1)}" (click)="setActiveTab(1)">{{ 'projectManagement.price_quote' |
+            translate
+            }}</button>
+        <button [ngClass]="{'active': isTabActive(2)}" (click)="setActiveTab(2)">{{ 'projectManagement.payment_notice' |
+            translate
+            }}</button>
+        <button [ngClass]="{'active': isTabActive(3)}" (click)="setActiveTab(3)">{{ 'projectManagement.bills' |
+            translate }}</button>
+    </div>
+
+
+    <ng-container *ngIf="isTabActive(1)">
+        <app-price-quote></app-price-quote>
+    </ng-container>
+
+    <ng-container *ngIf="isTabActive(2)">
+        <app-payment-notice></app-payment-notice>
+    </ng-container>
+    <ng-container *ngIf="isTabActive(3)">
+        <app-bills></app-bills>
+    </ng-container>
+</div>

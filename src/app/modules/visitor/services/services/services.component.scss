@@ -1,0 +1,52 @@
+.main {
+  margin-bottom: 150px;
+
+  .mainTitle {
+    color: #1B1B1B;
+    font-size: 45px;
+    font-weight: 700;
+    line-height: 153.1%;
+
+    @media (max-width:600px) {
+      padding: 0 20px;
+      font-size: 35px;
+
+    }
+  }
+
+  .card.bg {
+    background-color: #25577F;
+
+  }
+
+  .card {
+    height: 100%;
+    transition: 0.5s;
+
+    &:hover {
+      transform: scale(1.05);
+      cursor: pointer;
+    }
+
+    border-radius: 8px;
+    background: #FFF;
+    padding: 24px;
+
+    h3 {
+      color: #181818;
+      font-size: 18px;
+      font-weight: 600;
+      line-height: 24px;
+
+
+    }
+
+    p {
+      color: #4C4C4C;
+      font-size: 15px;
+      font-weight: 400;
+      line-height: 20px;
+    }
+  }
+
+}

@@ -1,0 +1,70 @@
+<section *ngIf="dynamicSlides" class="my-10">
+    <div class="package-head text-center">
+        <h1 class="text-center"> {{'auth.selectPackage'|translate}} </h1>
+    </div>
+
+    <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        <div class="btns">
+            <span class="monthly" (click)="onChangeMonthlyPackages()" data-bs-target="#monthly" role="tab"
+                data-bs-toggle="tab" aria-selected="true" aria-controls="nav-monthly">
+                دفع شهري
+            </span>
+            <span class="yearly active text-nowrap" (click)="onChangeYearlyPackages()" data-bs-target="#yearly"
+                role="tab" data-bs-toggle="tab" aria-selected="false" aria-controls="nav-yearly">
+                دفع سنوي
+                <span class="save-price mx-1 text-nowrap">وفر حتى 35%</span>
+            </span>
+        </div>
+    </ul>
+
+    <div class="tab-content" id="pills-tabContent">
+        <!-- Monthly -->
+        <div class="tab-pane " id="monthly" role="tabpanel" aria-labelledby="pills-home-tab" tabindex="0">
+            <div class="container-fluid overflow-hidden">
+                <div class="row gy-4">
+                    <div class="col-md-4" *ngFor="let slide of dynamicSlides; let i = index">
+                        <app-package-card [removeSubBtn]="true" [isActive]="i === activeDivIndex"
+                            (cardClicked)="setActiveDiv(slide,i)" [data]="slide" [isAuth]="
+                        role === allRoles.qydAgent && currentUser ? true : false
+                      " [attr.dir]="lang === 'ar' ? 'rtl' : 'ltr'">
+                        </app-package-card>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Yearly -->
+        <div class="tab-pane active show" id="yearly" role="tabpanel" aria-labelledby="pills-profile-tab" tabindex="0">
+
+            <div class="container-fluid overflow-hidden">
+                <div class="row gy-4">
+
+                    <div class="col-md-4" *ngFor="let slide of dynamicSlides; let i = index">
+                        <app-package-card [removeSubBtn]="true" [isActive]="i === activeDivIndex"
+                            (cardClicked)="setActiveDiv(slide,i)" [data]="slide" (countOfUsers)="countOfUser($event)"
+                            [isAuth]="
+                        role === allRoles.qydAgent && currentUser ? true : false
+                      " [attr.dir]="lang === 'ar' ? 'rtl' : 'ltr'">
+                        </app-package-card>
+                    </div>
+
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="text-center mt-7">
+        <div class="counter-container">
+            <!-- <div class="counter align-items-center">
+                <button (click)="decrease()" class="counter-btn">-</button>
+                <p class="mx-3 fw-bold  my-0">{{ 'auth.userCount' | translate }}</p>
+                <span>{{ userCount | number:'2.0-0' }}</span>
+                <button (click)="increase()" class="counter-btn">+</button>
+            </div> -->
+            <button (click)="selectPackage()" class="start-trial-btn">
+                {{ 'auth.startTrial' | translate }}
+            </button>
+        </div>
+    </div>
+</section>

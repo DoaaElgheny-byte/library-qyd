@@ -1,0 +1,78 @@
+<div class="modal-header d-flex justify-content-between align-items-center ">
+    <h4 class="h1 text-dark fw-bolder">{{"payments.paymentNotice"| translate}}</h4>
+
+    <svg (click)="activeModal.dismiss('Cross click')" width="30" height="30" viewBox="0 0 20 20" fill="none"
+        xmlns="http://www.w3.org/2000/svg">
+        <path
+            d="M10 20C4.47715 20 0 15.5228 0 10C0 4.47715 4.47715 0 10 0C15.5228 0 20 4.47715 20 10C20 15.5228 15.5228 20 10 20ZM10 18C14.4183 18 18 14.4183 18 10C18 5.58172 14.4183 2 10 2C5.58172 2 2 5.58172 2 10C2 14.4183 5.58172 18 10 18ZM10 8.5858L12.8284 5.75736L14.2426 7.17157L11.4142 10L14.2426 12.8284L12.8284 14.2426L10 11.4142L7.17157 14.2426L5.75736 12.8284L8.5858 10L5.75736 7.17157L7.17157 5.75736L10 8.5858Z"
+            fill="#000B16" />
+    </svg>
+</div>
+
+<div class="modal-body mt-3 pt-0">
+    <p>{{"payments.uploadPhoto"| translate}}</p>
+
+
+    <div class=" d-flex justify-content-center flex-column">
+
+
+        <div class="bg-light p-5 w-100 my-10">
+            <div class="border border-dark border-opacity-25 p-5">
+                <h5 class="iban fw-bolder">{{"payments.raydBank"| translate}}</h5>
+                <div class="d-flex align-items-center justify-content-between my-5">
+                    <p class="main-text">{{"payments.accountTransfer"| translate}}</p>
+
+                    <h4 class="number">
+                        <i class="bi bi-clipboard mx-3 text-dark " (click)="copyAccountNumber('2055767109940')"></i>
+                        2055767109940
+                    </h4>
+                </div>
+                <div
+                    class="d-flex align-items-center justify-content-between mt-5 pt-5 border-opacity-50 border-dark border-top ">
+                    <p class="main-text">{{"payments.ibanNo"| translate}}</p>
+                    <h4 class="number">
+                        <i class="bi bi-clipboard mx-3 text-dark "
+                            (click)="copyAccountNumber('SA0720000002055767109940')"></i>
+                        SA0720000002055767109940
+                    </h4>
+                </div>
+                <p *ngIf="copySuccess" class="text-center" style="color: green;">{{"payments.copy"| translate}}</p>
+
+            </div>
+        </div>
+
+
+        <h3 class="h1 text-dark fw-bolder my-5">{{"payments.uploadPhoto2" | translate}}</h3>
+
+        <div class="col-12  mb-5">
+            <label>{{ "payments.attachReceipt" | translate }}</label>
+            <div class="new-upload">
+                <app-upload-file [acceptedExtensions]="['png', 'gif', 'jpg', 'jpeg', 'pdf']" [flag]="4"
+                    [isMultiple]="false" (bindValue)="uploadImg($event)" [labelUploaded]="'addIssue.upload' | translate"
+                    [delName]="true">
+                </app-upload-file>
+
+            </div>
+            <div class="form-action-btn d-flex justify-content-between align-items-center mt-10 gap-4">
+
+                <button (click)="activeModal.dismiss('Cross click')" id="kt_sign_in_submit1"
+                    class="general-outline-button w-100 ">
+                    <ng-container>
+                        <span class="indicator-label">
+                            {{ "branchEditAdd.cancel" | translate }}
+                        </span>
+                    </ng-container>
+                </button>
+
+                <button type="submit" (click)="submit()" id="kt_sign_in_submit2" class="genral-button w-100 btn2">
+                    <ng-container class="d-flex">
+                        <span class="indicator-label">
+                            {{ "editProfile.send" | translate }}
+                        </span>
+                    </ng-container>
+                </button>
+            </div>
+        </div>
+    </div>
+
+</div>

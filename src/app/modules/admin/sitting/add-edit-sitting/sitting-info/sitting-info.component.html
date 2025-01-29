@@ -1,0 +1,253 @@
+<div class="body-size position-relative">
+  <form class="form w-100 my-5 row" [formGroup]="infoForm" novalidate="novalidate" id="kt_login_signin_form"
+    (ngSubmit)="submit()">
+    <!-- begin::Alert error-->
+    <ng-container *ngIf="hasError">
+      <div class="mb-lg-15 alert alert-danger">
+        <div class="alert-text font-weight-bold">
+          The login details are incorrect
+        </div>
+      </div>
+    </ng-container>
+
+    <!--CourtSessionName-->
+    <div class="col-md-4 mb-4">
+      <label>{{ "sitting.CourtSessionTitle" | translate }}</label>
+      <span class="text-danger mx-2 fs-2">*</span>
+      <input class="form-control bg-transparent" type="text" [placeholder]="'sitting.CourtSessionTitle' | translate"
+        name="typeNum" formControlName="name" autocomplete="off" />
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['name']
+        }"></ng-container>
+    </div>
+    <!-- Entity Type -->
+
+    <!-- Prisons -->
+    <div class="col-md-4 col-sm-6 col-12 mb-4" *ngIf="subDistrict">
+      <label for="">{{ EntityChoosen | translate }}</label>
+      <span class="text-danger mx-2 fs-2">*</span>
+      <input class="form-control bg-transparent" type="text" [placeholder]="EntityChoosen | translate" name="text"
+        formControlName="subDistrict" autocomplete="off" [ngClass]="{
+      'is-invalid':
+        infoForm.controls['subDistrict'].invalid &&
+        infoForm.controls['subDistrict'].touched,
+      'is-valid': infoForm.controls['subDistrict'].valid
+    }" />
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+      validation: 'required',
+      message: 'loginPage.thisFieldIsRequired' | translate,
+      control: infoForm.controls['subDistrict']
+    }"></ng-container>
+    </div>
+
+    <!-- communitte -->
+    <div class="col-md-4 col-sm-6 col-12 mb-4" *ngIf="committee">
+      <label>{{ "addIssue.Committee" | translate }}</label>
+      <span class="text-danger mx-2 fs-2">*</span>
+
+      <select formControlName="committeeId" class="form-select" aria-label="Default select example"
+        (change)="changeCommunitte($any($event).target.value)">
+        <option disabled selected value="null">
+          {{ "addIssue.Committee" | translate }}
+        </option>
+        <option *ngFor="let item of committeeList" [value]="item?.id">
+          {{ lang === "ar" ? item?.nameAr : item?.nameEn }}
+        </option>
+      </select>
+
+
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+      validation: 'required',
+      message: 'loginPage.thisFieldIsRequired' | translate,
+      control: infoForm.controls['committeeId']
+    }"></ng-container>
+    </div>
+
+    <!-- other committee -->
+    <div class="col-md-4 col-sm-6 col-12 mb-4" *ngIf="otherCommittee">
+      <label for="">{{ "addIssue.otherCommittee" | translate }}</label>
+      <span class="text-danger mx-2 fs-2">*</span>
+      <input class="form-control bg-transparent" type="text" [placeholder]="'addIssue.otherCommittee' | translate"
+        name="text" formControlName="otherCommittee" autocomplete="off" [ngClass]="{
+      'is-invalid':
+        infoForm.controls['otherCommittee'].invalid &&
+        infoForm.controls['otherCommittee'].touched,
+      'is-valid': infoForm.controls['otherCommittee'].valid
+    }" />
+      <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+      validation: 'required',
+      message: 'loginPage.thisFieldIsRequired' | translate,
+      control: infoForm.controls['otherCommittee']
+    }"></ng-container>
+    </div>
+
+    <!-- main court -->
+
+
+    <!--sittingType-->
+    <div class="col-md-4 mb-4">
+      <label>{{ "sitting.sittingType" | translate }} </label>
+
+      <select formControlName="sittingType" class="form-select mt-3" aria-label="Default select example"
+        (change)="changeType()">
+        <option disabled selected value="null">
+          {{ "addIssue.select" | translate }}
+        </option>
+        <option [value]="sittingType.Online">
+          {{ "sitting.Online" | translate }}
+        </option>
+        <option [value]="sittingType.Incourt">
+          {{ "sitting.Incourt" | translate }}
+        </option>
+        >
+      </select>
+    </div>
+    <!--sittingLink-->
+    <div class="col-md-4 mb-4" *ngIf="isOnline===true">
+      <label>{{ "sitting.sittingLink" | translate }}</label>
+
+      <input class="form-control bg-transparent mt-3" type="text" [placeholder]="'sitting.sittingLink' | translate"
+        name="typeNum" formControlName="sittingLink" autocomplete="off" />
+    </div>
+    <!--StartDate-->
+    <div class="col-md-4 mb-4">
+      <label>{{ "sitting.startDate" | translate }}</label>
+      <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+      <div class="iput-sec">
+        <hijri-gregorian-datepicker style="direction: ltr" [label]="'expirationDate'" [(selectedDate)]="expirationDate"
+          [readonly]="true" [isRequired]="true" [GregLabel]="'shared.Greg' | translate"
+          [hijriLabel]="'shared.Hijri' | translate" [placeHolder]="'shared.place' | translate" [showLabel]="false"
+          [minHijri]="minDateH" [minGreg]="minDateG" [selectedDateType]="selectedDateType"
+          (selectedDateChange)="selectedDateChange($event)" #expirationDatePicker>
+        </hijri-gregorian-datepicker>
+        <!-- <input
+          onfocus="(this.type='date') "
+          class="form-control date"
+          ngbDatepicker
+          #d="ngbDatepicker"
+          [minDate]="min"
+          aria-label=""
+          id="date1"
+          [(ngModel)]="dateText"
+          (change)="setValueOfDate()"
+          data-toggle="tooltip"
+          data-placement="bottom"
+          title=" enter the start date "
+          [placeholder]="'sitting.startDate' | translate"
+          [ngModelOptions]="{
+            standalone: true
+          }"
+        /> -->
+        <!-- <img src="assets/imgs/qyd/date.svg" /> -->
+      </div>
+      <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['startDate']
+        }"></ng-container> -->
+    </div>
+    <!--StartTime-->
+    <div class="col-md-4 mb-4">
+      <label>{{ "sitting.startTime" | translate }}</label>
+      <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+
+      <div class="input-sec">
+        <ng-template #popTemplate>
+          <ngb-timepicker class="form-control" [meridian]="true" formControlName="Time"
+            style="direction: ltr !important"
+            (ngModelChange)="tConvert(returnTime(infoForm.value.Time))"></ngb-timepicker>
+        </ng-template>
+        <button type="button" class="btn btn-outline-secondary btnClass" [ngbPopover]="popTemplate"
+          [autoClose]="'outside'" popoverClass="my-custom-class">
+          {{ startTime }}
+        </button>
+      </div>
+      <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['startTime']
+        }"></ng-container> -->
+    </div>
+    <!--Sitting Status-->
+
+    <div class="col-md-4 mb-4">
+      <label>{{ "sitting.sittingStatus" | translate }} </label>
+      <!-- <span class="text-danger mx-2 fs-2">*</span> -->
+      <select formControlName="sittingStatus" class="form-select" aria-label="Default select example">
+        <option disabled selected value="null">
+          {{ "addIssue.select" | translate }}
+        </option>
+        <option [value]="sittingStatus.Active">
+          {{ "sitting.Active" | translate }}
+        </option>
+        <option [value]="sittingStatus.Finished">
+          {{ "sitting.Finished" | translate }}
+        </option>
+        <option [value]="sittingStatus.Scheduled">
+          {{ "sitting.Scheduled" | translate }}
+        </option>
+        <option [value]="sittingStatus.Postponed">
+          {{ "sitting.Postponed" | translate }}
+        </option>
+      </select>
+      <!-- <ng-container [ngTemplateOutlet]="formError" [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['sittingStatus']
+        }"></ng-container> -->
+    </div>
+
+    <!-- 
+    <div class="col-md-4 mb-4">
+      <label> {{ "addIssue.Client" | translate }} </label>
+      <span class="text-danger mx-2 fs-2">*</span>
+      <select
+        class="form-select"
+        formControlName="clientId"
+        aria-label="Default select example"
+      >
+        <option disabled selected value="null">
+          {{ "addIssue.select" | translate }}
+        </option>
+        <option *ngFor="let item of clientList" [value]="item?.id">
+          {{ item?.name }}
+        </option>
+      </select>
+      <ng-container
+        [ngTemplateOutlet]="formError"
+        [ngTemplateOutletContext]="{
+          validation: 'required',
+          message: 'loginPage.thisFieldIsRequired' | translate,
+          control: infoForm.controls['clientId']
+        }"
+      ></ng-container>
+    </div> -->
+  </form>
+
+  <!--end::Form-->
+  <div class="d-flex button-end">
+    <div class="form-action-btn" [ngClass]="{ end: lang === 'en', 'end-arabic': lang === 'ar' }">
+      <button type="submit" (click)="submit()" id="kt_sign_in_submit" class="genral-button">
+        <ng-container class="d-flex">
+          <span class="indicator-label">
+            {{ "addIssue.SaveAndContinue" | translate }}
+          </span>
+          <img src="assets/imgs/qyd/Left-icon.svg" />
+        </ng-container>
+      </button>
+    </div>
+  </div>
+</div>
+<ng-template #formError let-control="control" let-message="message" let-validation="validation">
+  <ng-container *ngIf="control.hasError(validation) && (control.dirty || control.touched)">
+    <div class="fv-plugins-message-container">
+      <div class="fv-help-block">
+        <span role="alert">
+          {{ message }}
+        </span>
+      </div>
+    </div>
+  </ng-container>
+</ng-template>

@@ -1,0 +1,261 @@
+<section class="main">
+    <!-- Page Header -->
+    <div class="d-md-flex d-sm-block justify-content-between align-items-center">
+        <h3>
+            <span>{{ "projectManagement.title" | translate }}</span>
+        </h3>
+    </div>
+    <app-breadcrumb></app-breadcrumb>
+
+    <!-- Not Authorized Message -->
+    <div *ngIf="!isAuth" class="text-center">
+        <img class="no-results-img" src="assets/imgs/qyd/no-results.svg" alt="No Results" />
+        <h1 class="mt-3">{{ "contract.NotAuth" | translate }}</h1>
+    </div>
+
+    <!-- Authorized Section -->
+    <div *ngIf="isAuth">
+        <!-- Search Section -->
+        <div class="search">
+            <h3>{{ "contract.search" | translate }}</h3>
+            <div class="card-header search-top border-0 my-7">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 mb-3">
+                        <label>{{ "projectManagement.projectType" | translate }}</label>
+                        <div class="input-img my-3">
+                            <select [(ngModel)]="ProjectType" (change)="getAllProjectsData()" class="form-select">
+                                <option selected disabled value="">
+                                    {{ "projectManagement.selectPlaceholder" | translate }}
+                                </option>
+                                <option value="">الكل</option>
+                                <option *ngFor="let class of projectTypes" [value]="class.id">
+                                    {{ class.name | translate }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-4 col-md-4 mb-3">
+                        <label>{{ "projectManagement.clientName" | translate }}</label>
+                        <div class="input-img my-3">
+                            <select [(ngModel)]="employeeeId" (change)="getAllProjectsData()" class="form-select">
+                                <option selected disabled value="">
+                                    {{ "projectManagement.selectPlaceholder" | translate }}
+                                </option>
+                                <option value="">الكل</option>
+
+                                <option *ngFor="let class of employees" [value]="class.id">
+                                    {{ class.name | translate }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-lg-4 col-md-4 mb-3">
+                        <label>{{ "projectManagement.projectStatus" | translate }}</label>
+                        <div class="input-img my-3">
+                            <select [(ngModel)]="projectStatusType" (change)="getAllProjectsData()" class="form-select">
+                                <option selected disabled value="">
+                                    {{ "projectManagement.selectPlaceholder" | translate }}
+                                </option>
+                                <option value="">الكل</option>
+
+                                <option *ngFor="let class of projectStatus" [value]="class.id">
+                                    {{ class.name | translate }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Branch List Header -->
+        <div class="d-flex justify-content-between align-items-center title w-100 mt-10">
+            <h3>{{ "projectManagement.projectList" | translate }}</h3>
+            <button (click)="resetSteps()" *ngIf="allProjects.length !== 0" [routerLink]="['add-edit-project']"
+                class="general-outline-button d-flex align-items-center justify-content-center">
+                {{ "projectManagement.addProject" | translate }}
+                <i class="fa-solid fa-plus px-2 fw-bold text-dark"></i>
+            </button>
+        </div>
+
+        <p>{{ "projectManagement.totalProjects" | translate }} {{totalCount}}</p>
+
+        <!-- Branches List -->
+        <div class="card members-page mt-4">
+            <div class="card-body py-3">
+                <!-- No Results Message -->
+                <div class="text-center" *ngIf="allProjects.length ===0">
+                    <img class="no-results-img" src="assets/imgs/qyd/data-not-found.svg" alt="No Results" />
+                    <h1 class="my-5 fw-bold">{{ "projectManagement.dataNotFound" | translate }}</h1>
+                    <button (click)="resetSteps()" [routerLink]="['add-edit-project']"
+                        class="btn add-project fw-bold d-flex align-items-center m-auto">
+                        {{ "projectManagement.addProject" | translate }}
+                        <i class="fa-solid fa-plus px-2 fw-bold text-dark"></i>
+                    </button>
+                </div>
+
+                <!-- Branches Table -->
+                <div class="table-responsive">
+                    <table class="table align-middle gs-0 gy-4" *ngIf="allProjects.length !== 0">
+                        <thead class="bg-white">
+                            <tr class="text-center bg-white">
+                                <th>{{ "projectManagement.projectSerialNumber" | translate }}</th>
+                                <th>{{ "projectManagement.projectName" | translate }}</th>
+                                <th>{{ "projectManagement.projectManager" | translate }}</th>
+                                <th>{{ "projectManagement.projectType" | translate }}</th>
+                                <th>{{ "projectManagement.customerName" | translate }}</th>
+                                <th>{{ "projectManagement.projectStatus" | translate }}</th>
+                                <th>{{ "projectManagement.tasksCount" | translate }}</th>
+                                <th>
+                                    <span class="fs-7 fw-bold">
+                                        {{ "projectManagement.actions" | translate }}
+                                    </span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let project of allProjects" class="text-center">
+                                <td>{{ project.serialNumber }}</td>
+                                <td *ngIf="project?.projectName !== null && project?.projectName !== 0">
+                                    <span *ngIf="project?.projectName === 2" class="fs-7 fw-bold">
+                                        {{ "projectManagement.ExecutionRequests" | translate }}
+                                    </span>
+                                    <span *ngIf="project?.projectName === 3" class="fs-7 fw-bold">
+                                        {{ "projectManagement.PerformanceOrders" | translate }}
+                                    </span>
+                                    <span *ngIf="project?.projectName === 4" class="fs-7 fw-bold">
+                                        {{ "projectManagement.AmicableSettlement" | translate }}
+                                    </span>
+                                    <span *ngIf="project?.projectName === 5" class="fs-7 fw-bold">
+                                        {{ "projectManagement.Reports" | translate }}
+                                    </span>
+                                    <span *ngIf="project?.projectName === 6" class="fs-7 fw-bold">
+                                        {{ "projectManagement.Arbitration" | translate }}
+                                    </span>
+                                    <span *ngIf="project?.projectName === 7" class="fs-7 fw-bold">
+                                        {{ "projectManagement.Collection" | translate }}
+                                    </span>
+                                    <span *ngIf="project?.projectName === 8" class="fs-7 fw-bold">
+                                        {{ "projectManagement.CreateContract" | translate }}
+                                    </span>
+                                    <span *ngIf="project?.projectName === 9" class="fs-7 fw-bold">
+                                        {{ "projectManagement.DraftingContract" | translate }}
+                                    </span>
+                                    <span *ngIf="project?.projectName === 10" class="fs-7 fw-bold">
+                                        {{ project?.otherProjectName }}
+                                    </span>
+                                </td>
+                                <td *ngIf="project?.legalAdvice !== null && project?.legalAdvice !== 0">
+                                    <span *ngIf="project?.legalAdvice === 2" class="fs-7 fw-bold">
+                                        {{ "projectManagement.LaborConsultation" | translate }}
+                                    </span>
+                                    <span *ngIf="project?.legalAdvice === 3" class="fs-7 fw-bold">
+                                        {{ "projectManagement.PersonalStatusConsultation" | translate }}
+                                    </span>
+                                    <span *ngIf="project?.legalAdvice === 4" class="fs-7 fw-bold">
+                                        {{ "projectManagement.RealEstateConsultation" | translate }}
+                                    </span>
+                                    <span *ngIf="project?.legalAdvice === 5" class="fs-7 fw-bold">
+                                        {{ "projectManagement.BusinessConsulting" | translate }}
+                                    </span>
+                                    <span *ngIf="project?.legalAdvice === 6" class="fs-7 fw-bold">
+                                        {{ "projectManagement.GeneralConsultation" | translate }}
+                                    </span>
+                                    <span *ngIf="project?.legalAdvice === 7" class="fs-7 fw-bold">
+                                        {{ project?.otherlegaLAdvice }}
+                                    </span>
+                                </td>
+                                <td>{{ project.projectManagerName }}</td>
+                                <td>
+                                    <span *ngIf="project?.projectType === issueStatusEnum.Service" class="fs-7 fw-bold">
+                                        {{ "projectManagement.service" | translate }}
+                                    </span>
+                                    <span *ngIf="project?.projectType === issueStatusEnum.LegalAdvice"
+                                        class="fs-7 fw-bold">
+                                        {{ "projectManagement.consultation" | translate }}
+                                    </span>
+                                </td>
+                                <td>{{ project.clientName }}</td>
+                                <td>
+                                    <span *ngIf="project?.projectStatus === 2" class="fs-7 fw-bold">
+                                        {{ "projectManagement.New" | translate }}
+                                    </span>
+                                    <span *ngIf="project?.projectStatus === 3" class="fs-7 fw-bold">
+                                        {{ "projectManagement.InProgress" | translate }}
+                                    </span>
+                                    <span *ngIf="project?.projectStatus === 4" class="fs-7 fw-bold">
+                                        {{ "projectManagement.AcceptOffer" | translate }}
+                                    </span>
+                                    <span *ngIf="project?.projectStatus === 5" class="fs-7 fw-bold">
+                                        {{ "projectManagement.RemainingPayments" | translate }}
+                                    </span>
+                                    <span *ngIf="project?.projectStatus === 6" class="fs-7 fw-bold">
+                                        {{ "projectManagement.CompletedPayments" | translate }}
+                                    </span>
+
+                                </td>
+                                <td>{{ project.countOfDuty }}</td>
+
+                                <td class="overflow-hidden">
+                                    <div ngbDropdown container="body">
+                                        <button class="btn btn-outline-primary action btn-sm" ngbDropdownToggle>
+                                            <i class="fa-solid fa-ellipsis-vertical"></i>
+                                        </button>
+                                        <div ngbDropdownMenu>
+                                            <button ngbDropdownItem (click)="view(project.id)">
+                                                <i class="fa-regular fa-eye mx-1"></i>
+                                                {{ "client.Details" | translate
+                                                }}
+                                            </button>
+                                            <button ngbDropdownItem (click)="edit(project.id)">
+                                                <i class="fa-regular fa-pen-to-square mx-1"></i>
+                                                {{ "branches.edit" |
+                                                translate }}
+                                            </button>
+
+                                            <!--  -->
+                                            <button [hidden]="project.countOfDuty ===0" ngbDropdownItem
+                                                (click)="viewTaskList(project.id)">
+                                                <i class="fa fa-solid fa-bars mx-1"></i>
+                                                {{ "projectManagement.tasks" |
+                                                translate }}
+                                            </button>
+
+                                            <button [hidden]="project.projectStatus ===2" ngbDropdownItem
+                                                [routerLink]="['financial-department',project.id]">
+                                                <i class="fa fa-solid fa-money-bill-wave mx-1"></i>
+                                                {{ "projectManagement.financialDepartment" |
+                                                translate }}
+                                            </button>
+                                            <button [hidden]="!project.lawsuitId" ngbDropdownItem
+                                                (click)="viewCaseManagement(project.lawsuitId)">
+                                                <i class="fa fa-solid fa-briefcase mx-1"></i>
+                                                {{ "projectManagement.legalDepartment" |
+                                                translate }}
+                                            </button>
+                                            <button [hidden]="!project.contractId" ngbDropdownItem
+                                                (click)="viewContractList(project.contractId)">
+                                                <i class="fa fa-solid fa-folder mx-1"></i>
+                                                {{ "projectManagement.contractsDepartment" |
+                                                translate }}
+                                            </button>
+
+                                        </div>
+                                    </div>
+                                </td>
+
+
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <ngb-pagination [collectionSize]="totalCount" [(page)]="page" [pageSize]="pageSize"
+                    (pageChange)="getAllProjectsData()"
+                    class="pagination p-0 my-4 d-flex justify-content-center"></ngb-pagination>
+            </div>
+        </div>
+    </div>
+</section>

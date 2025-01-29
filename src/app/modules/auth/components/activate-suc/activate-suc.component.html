@@ -1,0 +1,37 @@
+<div class="page-content ">
+  <div class="contaner">
+    <div class="row justify-content-center align-items-center h-100">
+      <div class="content col-lg-5 col-md-6 col-12 text-center shadow">
+        <div class="icon" *ngIf="msg?.success;else errorImg">
+          <img src="/assets/imgs/qyd/activ-suc.svg" alt="success-img" />
+        </div>
+        <ng-template class="icon mb-6" #errorImg>
+          <svg width="50" height="50" viewBox="0 0 104 104" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              d="M44.458 7.02397L3.88261 88.2542C0.523779 94.0617 4.71472 101.327 11.4235 101.327H92.5744C99.2832 101.327 103.474 94.0617 100.116 88.2542L59.5402 7.02397C56.1856 1.22378 47.8126 1.22378 44.458 7.02397Z"
+              stroke="#FF6F59" stroke-width="5" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round" />
+            <path
+              d="M56.3648 62.2327L58.6896 35.9732C59.0046 32.0545 55.9053 28.7025 51.9739 28.71C48.0328 28.7174 44.943 32.0972 45.2881 36.0232L47.8281 62.2645C48.0236 64.4884 49.8943 66.1894 52.1269 66.1729C54.3472 66.1564 56.187 64.4461 56.3648 62.2327Z"
+              fill="#FF6F59" stroke="#FF6F59" stroke-width="2" stroke-miterlimit="22.9256" stroke-linecap="round"
+              stroke-linejoin="round" />
+            <path
+              d="M51.9873 89.4043C55.1904 89.4043 57.7871 86.8076 57.7871 83.6045C57.7871 80.4013 55.1904 77.8047 51.9873 77.8047C48.7842 77.8047 46.1875 80.4013 46.1875 83.6045C46.1875 86.8076 48.7842 89.4043 51.9873 89.4043Z"
+              fill="#FF6F59" stroke="#FF6F59" stroke-width="2" stroke-miterlimit="22.9256" stroke-linecap="round"
+              stroke-linejoin="round" />
+          </svg>
+        </ng-template>
+        <div class="title" *ngIf="msg?.success;else error">
+          <h4>{{ "confirmEmail.accoutActivate" | translate }}</h4>
+          <p class="fs-3">{{ "confirmEmail.accoutActivate2" | translate }}</p>
+        </div>
+        <ng-template class="title mt-6" #error>
+          <h4 class="title mt-6">{{ "confirmEmail.error" | translate }}</h4>
+          <p class="fs-3">{{msg.message}}</p>
+        </ng-template>
+        <button class="genral-button col-9" (click)="logIn()">
+          {{ "confirmEmail.mainPage" | translate }}
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

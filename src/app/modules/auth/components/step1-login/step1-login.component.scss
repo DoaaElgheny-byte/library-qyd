@@ -1,0 +1,139 @@
+.login-page {
+    font-family: "Expo Arabic", sans-serif !important;
+
+    a,
+    p {
+        color: #55555b;
+    }
+
+    .login-content {
+        background-color: #fff;
+        padding: 40px 30px;
+        border-radius: 10px;
+
+        .form-title {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        h2 {
+            margin-top: 60px;
+            margin-bottom: 40px;
+        }
+    }
+
+    label {
+        font-size: 14px;
+        font-weight: 600;
+        color: #0d0d0d;
+        margin-bottom: 10px;
+    }
+
+    input[type="radio"] {
+        width: 16px;
+        height: 16px;
+        accent-color: #000000;
+    }
+
+    .genral-button {
+        background-color: #048081 !important;
+        border: none;
+        font-family: "Expo Arabic", sans-serif !important;
+        position: relative;
+        transition: all 0.5s;
+
+        &:hover {
+            background-color: #043e53 !important;
+            box-shadow: 0 5px 10px 0 rgba(22, 105, 135, 0.6);
+            color: #fff;
+        }
+    }
+
+    .back {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 30px;
+        height: 30px;
+        font-size: 14px;
+        font-weight: 400;
+        border: 1px solid #166987;
+        border-radius: 50%;
+        opacity: 0.65;
+        transition: 0.5s;
+
+        i {
+            color: #166987 !important;
+        }
+
+        &:hover {
+            opacity: 1;
+        }
+    }
+}
+
+.switchToggle {
+    input[type="checkbox"] {
+        height: 0;
+        width: 0;
+        visibility: hidden;
+        position: absolute;
+    }
+
+    label {
+        cursor: pointer;
+        width: 70px;
+        height: 30px;
+        background: #d1d1d1;
+        display: block;
+        border-radius: 100px;
+        position: relative;
+        transition: background 0.3s;
+
+        &:after {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            width: 26px;
+            height: 26px;
+            background: #fff;
+            border-radius: 90px;
+            transition: 0.3s;
+        }
+    }
+
+    input:checked+label {
+        background: #048081;
+    }
+
+    input:checked+label:after {
+        left: calc(100% - 2px);
+        transform: translateX(-100%);
+    }
+
+    input+label:before {
+        content: 'En';
+        position: absolute;
+        top: 5px;
+        left: 35px;
+        color: #fff;
+        transition: 0.3s;
+    }
+
+    input:checked+label:before {
+        content: 'Ar';
+        left: 10px;
+        width: 26px;
+    }
+}
+
+.frame img {
+    width: 100%;
+    height: 100vh !important;
+
+    @media (max-width: 800px) {
+        height: auto !important;
+    }
+}
