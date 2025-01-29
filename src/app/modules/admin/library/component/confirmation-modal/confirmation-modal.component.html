@@ -1,0 +1,18 @@
+<div class="modal fade " [attr.id]="modalId" tabindex="-1" [attr.aria-labelledby]="modalId + 'Label'" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div>
+          <h1 class="modal-title" id="{{modalId}}Label">{{title}}</h1>
+          <p>{{subTitle}}</p>
+        </div>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="d-flex align-items-center my-2 mx-2" *ngIf="!hideSubmit">
+        <button type="button" class="btn" (click)="submit()" >{{btnTitle}}</button>
+        <button type="button" class="btn btn-close" data-bs-dismiss="modal" aria-label="Close">الغاء</button>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -174,6 +174,10 @@
     >
     </app-custom-table>
   </div>
+  <p>total: {{ totalCount }}</p>
+  <!-- <ngb-pagination [collectionSize]="totalCount" [(page)]="page" [pageSize]="pageSize"
+    (pageChange)="getListOfCurrentFolder()"
+    class="pagination p-0 my-4 d-flex justify-content-center"></ngb-pagination> -->
   <!-- name template -->
   <ng-template #nameTemplate let-row="row">
     <div class="d-flex flex-row align-items-center">
@@ -310,3 +314,11 @@
     </app-upload-file-alone>
   </div>
 </app-custom-form>
+
+<!-- delete Modal-->
+ <app-confirmation-modal   [title]="'هل انت متاكد من انك تريد حذف الملف'"
+ [subTitle]="'لايمكن استعادة الملف بعد حذفه'"
+ [modalId]="'deleteModal'"
+ [btnTitle]="'حذف الملف'"
+ (submitEvent)="deleteFile($event)"
+ ></app-confirmation-modal>

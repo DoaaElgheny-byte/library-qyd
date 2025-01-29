@@ -30,6 +30,8 @@ import { TranslateService } from '@ngx-translate/core';
 import { ToastrService } from 'ngx-toastr';
 import { UploadFileComponentAlone } from '../component/upload-file/upload-file.component';
 import { UserManagementService } from 'src/app/services/api/user-management.service';
+import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
+import { ConfirmationModalComponent } from '../component/confirmation-modal/confirmation-modal.component';
 
 @Component({
   selector: 'app-library-layout',
@@ -44,6 +46,8 @@ import { UserManagementService } from 'src/app/services/api/user-management.serv
     FormsModule,
     ReactiveFormsModule,
     UploadFileComponentAlone,
+    NgbPaginationModule,
+    ConfirmationModalComponent
   ],
 })
 export class LibraryLayoutComponent implements OnInit {
@@ -79,7 +83,12 @@ export class LibraryLayoutComponent implements OnInit {
   showTable: boolean = true;
   searchData: any;
   currentAgentUsers:any;
+  totalCount: number;
 
+  page: number = 1;
+
+  pageSize: number = 10;
+  filterObj = this.initFilterObj();
   constructor(
     private fb: FormBuilder,
     private authService: AuthService,
@@ -98,9 +107,17 @@ export class LibraryLayoutComponent implements OnInit {
       permission: ['public'],
     });
   }
+  initFilterObj() {
+    return {
+      currentPath:this.currentPath,
+      Sorting: 'id',
+      SkipCount: 0,
+      MaxResultCount: this.pageSize,
+    };
+  }
   ngOnInit(): void {
     this.getListOfCurrentFolder();
-    this.userManagementService.getAllUsers({limitToCurrentUser:true}) 
+    this.userManagementService.getAllUsers({limitToCurrentUser:true})
           .subscribe((res) => {
             this.currentAgentUsers = res.data?.items;
             console.log(this.currentAgentUsers);
@@ -110,12 +127,16 @@ export class LibraryLayoutComponent implements OnInit {
   search(event: any) {
     console.log(event);
   }
-  private getListOfCurrentFolder() {
+   getListOfCurrentFolder() {
     this.currentSelectedRow = null;
     this.rowClicked = false;
     this.spinner.show();
     this.showTable = false;
     let showTableGetValue = false;
+    const startIndex = (this.page - 1) * this.pageSize;
+    this.filterObj.SkipCount = startIndex;
+    this.filterObj.MaxResultCount = this.pageSize;
+
     this.libraryService
       .listContent(new ListRequest(this.currentPath))
       .subscribe(
@@ -123,6 +144,7 @@ export class LibraryLayoutComponent implements OnInit {
           this.spinner.hide();
           this.tableData = data.data.contents;
           showTableGetValue = true;
+          // this.totalCount = data.data?.totalCount ?? 0;
           this.cdr.detectChanges();
         },
         (err) => {
@@ -245,6 +267,12 @@ export class LibraryLayoutComponent implements OnInit {
     } else if (functionName === 'move') {
       alert('move');
     } else if (functionName === 'delete') {
+      this.openModal('deleteModal')
+
+    }
+  }
+  deleteFile(isConfirm:boolean){
+    if(isConfirm){
       if (this.currentSelectedRow) {
         if (this.currentSelectedRow.isFolder) {
           this.spinner.show();
@@ -280,7 +308,6 @@ export class LibraryLayoutComponent implements OnInit {
       }
     }
   }
-
   actionButton(event: boolean) {
     if (true) {
       alert('button clicked !');
