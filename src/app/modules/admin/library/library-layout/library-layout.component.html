@@ -322,3 +322,47 @@
  [btnTitle]="'حذف الملف'"
  (submitEvent)="deleteFile($event)"
  ></app-confirmation-modal>
+
+
+ <!-- form of move folder -->
+<app-custom-form
+[form]="form"
+[title]="'نقل الى مجلد اخر'"
+[modalId]="'moveFile'"
+[hideSubmit]="true"
+>
+<div class="my-2" [formGroup]="form">
+
+  <div>
+    <ng-select
+        [items]="currentAgentUsers"
+        bindLabel="fullName"
+        bindValue="appUserId"
+        placeholder="بحث عن مجلد"
+        [searchable]="true"
+        formControlName="file"
+      >
+      </ng-select>
+
+      <p class="hint">ستظهر لك فقط المجلدات التي لديك صلاحية الوصول اليها, ان لم تجد ما تبحث عنه تحقق من الاسم او اطلب من المسؤول ان يعطيك صلاحية الوصول اليه</p>
+      <p class="project">تقدم المشروع</p>
+      <div class="d-flex align-items-center justify-content-between">
+        <p class="fw-bold fs-5">نسبة التقدم</p>
+        <p class="fw-bold">00:00:00</p>
+      </div>
+      <div class="progress h-6px w-100">
+        <div
+          class="progress-bar "
+          role="progressbar"
+          [style.width]="'50%'"
+        ></div>
+      </div>
+
+      <div class="d-flex align-items-center justify-content-end mt-2">
+        <button type="button" class="btn btn-outline mx-2" (click)="copyFile()">نسخ الملف  </button>
+        <button type="submit" class="btn btn-move" (click)="moveFile()">نقل الملف</button>
+
+      </div>
+    </div>
+</div>
+</app-custom-form>

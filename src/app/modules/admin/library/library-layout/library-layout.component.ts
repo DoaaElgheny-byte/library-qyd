@@ -32,6 +32,7 @@ import { UploadFileComponentAlone } from '../component/upload-file/upload-file.c
 import { UserManagementService } from 'src/app/services/api/user-management.service';
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from '../component/confirmation-modal/confirmation-modal.component';
+import { NgSelectModule } from '@ng-select/ng-select';
 
 @Component({
   selector: 'app-library-layout',
@@ -47,12 +48,16 @@ import { ConfirmationModalComponent } from '../component/confirmation-modal/conf
     ReactiveFormsModule,
     UploadFileComponentAlone,
     NgbPaginationModule,
-    ConfirmationModalComponent
+    ConfirmationModalComponent,
+    NgSelectModule,
+
   ],
 })
 export class LibraryLayoutComponent implements OnInit {
   emptyForm: FormGroup;
   form2: FormGroup;
+  form: FormGroup;
+
   tableData: CreateFolderFileResponse[] = [];
   tableHeaders = [
     { text: 'الاسم', columnKey: 'name', width: '60%' },
@@ -105,6 +110,9 @@ export class LibraryLayoutComponent implements OnInit {
       name: ['', Validators.required],
       userId: [''],
       permission: ['public'],
+    });
+    this.form = this.fb.group({
+      file: [null, Validators.required],
     });
   }
   initFilterObj() {
@@ -265,7 +273,7 @@ export class LibraryLayoutComponent implements OnInit {
           });
       }
     } else if (functionName === 'move') {
-      alert('move');
+      this.openModal('moveFile')
     } else if (functionName === 'delete') {
       this.openModal('deleteModal')
 
@@ -346,4 +354,8 @@ export class LibraryLayoutComponent implements OnInit {
       this.getListOfCurrentFolder();
     }
   }
+  moveFile(){
+
+  }
+  copyFile(){}
 }
