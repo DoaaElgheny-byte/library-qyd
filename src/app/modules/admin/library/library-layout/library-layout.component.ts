@@ -35,6 +35,7 @@ import { ConfirmationModalComponent } from '../component/confirmation-modal/conf
 import { NgSelectModule } from '@ng-select/ng-select';
 import { ToasterService } from '../component/custom-toaster/toaster.service';
 import { CustomToasterComponent } from '../component/custom-toaster/custom-toaster.component';
+import { CustomStorageComponent } from '../component/custom-storage/custom-storage.component';
 
 @Component({
   selector: 'app-library-layout',
@@ -52,7 +53,8 @@ import { CustomToasterComponent } from '../component/custom-toaster/custom-toast
     NgbPaginationModule,
     ConfirmationModalComponent,
     NgSelectModule,
-    CustomToasterComponent
+    CustomToasterComponent,
+    CustomStorageComponent
   ],
 })
 export class LibraryLayoutComponent implements OnInit {

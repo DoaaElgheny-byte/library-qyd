@@ -1,0 +1,12 @@
+.toast-container {
+  z-index: 1050;
+  width: 195px;
+
+}
+p{
+  color:#6C7074;
+}
+.dynamic-tooltip .tooltip-inner {
+  background-color: var(--bs-tooltip-bg,red) !important;
+  color: white !important;
+}
