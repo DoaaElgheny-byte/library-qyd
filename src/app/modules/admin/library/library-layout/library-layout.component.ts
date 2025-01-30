@@ -33,6 +33,8 @@ import { UserManagementService } from 'src/app/services/api/user-management.serv
 import { NgbPaginationModule } from '@ng-bootstrap/ng-bootstrap';
 import { ConfirmationModalComponent } from '../component/confirmation-modal/confirmation-modal.component';
 import { NgSelectModule } from '@ng-select/ng-select';
+import { ToasterService } from '../component/custom-toaster/toaster.service';
+import { CustomToasterComponent } from '../component/custom-toaster/custom-toaster.component';
 
 @Component({
   selector: 'app-library-layout',
@@ -50,7 +52,7 @@ import { NgSelectModule } from '@ng-select/ng-select';
     NgbPaginationModule,
     ConfirmationModalComponent,
     NgSelectModule,
-
+    CustomToasterComponent
   ],
 })
 export class LibraryLayoutComponent implements OnInit {
@@ -103,6 +105,7 @@ export class LibraryLayoutComponent implements OnInit {
     private cdr: ChangeDetectorRef,
     private translate: TranslateService,
     private userManagementService:UserManagementService,
+    private toastService: ToasterService
   ) {
     this.emptyForm = this.fb.group({});
 
@@ -355,6 +358,11 @@ export class LibraryLayoutComponent implements OnInit {
     }
   }
   moveFile(){
+    console.log('22')
+    this.toastService.showSuccess(
+      'تم رفع [اسم الملف] 1.6 م.ب الى مكتبة الملفات','تم رفع الملف بنجاح',
+      'assets/imgs/library/toaste.svg','#e9eff9','#3B82F6','#2F3032'
+    );
 
   }
   copyFile(){}

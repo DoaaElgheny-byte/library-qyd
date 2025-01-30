@@ -1,0 +1,17 @@
+<div *ngIf="show" class="toast-container position-fixed top-0 end-0 p-3">
+  <div class="toast show align-items-center text-white  border-0" role="alert"
+  [ngStyle]="{'background-color': bgColor}">
+    <div class="d-flex" [ngStyle]="{'border-right': color}" >
+      <div class="toast-body">
+        <div class="d-flex align-items-start">
+          <img [src]="icon" alt="icon" class="mx-2">
+          <div [ngStyle]="{'color': textColor}" >
+            <p class="fs-5 mb-1">{{title}}</p>
+            <p cass="fs-4">{{ message }}</p>
+          </div>
+        </div>
+      </div>
+      <button type="button" class="btn-close btn-close-white me-2 m-auto" (click)="show = false"></button>
+    </div>
+  </div>
+</div>
